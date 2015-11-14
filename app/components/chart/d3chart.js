@@ -25,7 +25,7 @@ const d3Chart = {
     const scales     = this._scales(el, state.domain)
     const prevScales = this._scales(el, state.prevDomain)
 
-    this._drawPoints(el, scales, state.data, prevScales, dispatcher)
+    this._drawPoints(el, scales, state.body, prevScales, dispatcher)
     this._drawTooltips(el, scales, state.tooltips, prevScales)
   },
 
@@ -56,7 +56,7 @@ const d3Chart = {
     const g = d3.select(el).selectAll('.d3-points')
 
     const point = g.selectAll('.d3-point')
-      .data(data, (d) => d.id)
+      .body(data, (d) => d.id)
 
     point.enter().append('circle')
       .attr('class', 'd3-point')
@@ -92,7 +92,7 @@ const d3Chart = {
     const g = d3.select(el).selectAll('.d3-tooltips')
 
     const tooltipRect = g.selectAll('.d3-tooltip-rect')
-      .data(tooltips, (d) => d.id)
+      .body(tooltips, (d) => d.id)
 
     tooltipRect.enter().append('rect')
       .attr('class', 'd3-tooltip-rect')
@@ -123,7 +123,7 @@ const d3Chart = {
     }
 
     const tooltipText = g.selectAll('.d3-tooltip-text')
-      .data(tooltips, (d) => d.id)
+      .body(tooltips, (d) => d.id)
 
     tooltipText.enter()
       .append('text')

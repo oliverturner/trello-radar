@@ -33,7 +33,7 @@ class Chart extends Component {
 
     let tooltips = []
     if (appState.showingAllTooltips) {
-      tooltips = appState.data
+      tooltips = appState.body
     }
     else if (appState.tooltip) {
       tooltips = [appState.tooltip]
@@ -96,7 +96,7 @@ Chart.propTypes = {
   height:      PropTypes.string.isRequired,
   setAppState: PropTypes.func.isRequired,
   appState:    PropTypes.shape({
-    data:               PropTypes.array.isRequired,
+    body:               PropTypes.array.isRequired,
     showingAllTooltips: PropTypes.bool.isRequired
   })
 }

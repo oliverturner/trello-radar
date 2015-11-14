@@ -2,15 +2,11 @@
 // to get around CSS order randomness in webpack.
 import './styles/base.scss'
 
-// Some ES6+ features require the babel polyfill
-// More info here: https://babeljs.io/docs/usage/polyfill/
-// Uncomment the following line to enable the polyfill
-// require("babel/polyfill")
-
 import React from 'react'
 import {render} from 'react-dom'
 
 import Application from './components/application'
+import wrapper from './trello-client'
 
 const results = {}
 
@@ -24,11 +20,11 @@ function onCardSuccess (data) {
   const last = results.cards.pop().idList
   console.log(last)
   console.log(results.lists.filter((list) => list.id === last))
-  //console.log(results.lists[])
+  // console.log(results.lists[])
 }
 
 function onDataError () {
-  console.log(arguments)
+  // console.log(arguments)
 }
 
 function onAuthSuccess () {
@@ -38,9 +34,11 @@ function onAuthSuccess () {
   window.Trello.get('/boards/uD51usV2/cards', onCardSuccess, onDataError)
 }
 
-function onAuthFailure () {
-  console.log('Failed authentication')
+function onAuthFailure (err) {
+  console.log('Failed authentication', err)
 }
+
+wrapper(window, {key: '27674ab7f9665fde168a16611001e771'})
 
 window.Trello.authorize({
   type:       'popup',

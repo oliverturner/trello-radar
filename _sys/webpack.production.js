@@ -1,12 +1,12 @@
-var Webpack           = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+var Webpack           = require('webpack')
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var HtmlWebpackPlugin = require('html-webpack-plugin')
 
-var cssLoaders  = 'style!css?localIdentName=[hash:base64]!autoprefixer?browsers=last 2 versions';
-var scssLoaders = cssLoaders + '!sass';
+var cssLoaders  = 'style!css?localIdentName=[hash:base64]!autoprefixer?browsers=last 2 versions'
+var scssLoaders = cssLoaders + '!sass'
 
 function extractForProduction (loaders) {
-  return ExtractTextPlugin.extract('style', loaders.substr(loaders.indexOf('!')));
+  return ExtractTextPlugin.extract('style', loaders.substr(loaders.indexOf('!')))
 }
 
 module.exports = {
@@ -82,6 +82,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template:   './_sys/tmpl.html',
       production: true
+    }),
+    new Webpack.ProvidePlugin({
+      'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
     })
   ]
-};
+}

@@ -1,8 +1,8 @@
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+var webpack           = require('webpack')
+var HtmlWebpackPlugin = require('html-webpack-plugin')
 
-var cssLoaders  = 'style!css?localIdentName=[path]-[local]-[hash:base64:5]!autoprefixer?browsers=last 2 versions';
-var scssLoaders = cssLoaders + '!sass';
+var cssLoaders  = 'style!css?localIdentName=[path]-[local]-[hash:base64:5]!autoprefixer?browsers=last 2 versions'
+var scssLoaders = cssLoaders + '!sass'
 
 module.exports = {
   entry:   './app/index.jsx',
@@ -57,6 +57,9 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './_sys/tmpl.html'
+    }),
+    new webpack.ProvidePlugin({
+      'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
     })
   ]
 };

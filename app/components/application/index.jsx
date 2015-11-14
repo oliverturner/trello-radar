@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 
-import Chart from '../chart';
+import Chart from '../chart'
 
-import styles from './style.scss';
+import styles from './style.scss'
 
 class Application extends React.Component {
   render () {
@@ -12,8 +12,8 @@ class Application extends React.Component {
           <Chart />
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default Application;
+export default Application
