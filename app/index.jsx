@@ -7,7 +7,7 @@ import {render} from 'react-dom'
 
 import Application from './components/application'
 import wrapper from './trello-client'
-import radar from './radar'
+import Radar from './radar'
 
 const results = {}
 
@@ -46,11 +46,9 @@ function onCardSuccess (data) {
   }, []).sort())
   console.log('-- lists', results.lists)
 
-  const chart = radar('#app', {
+  const chart = new Radar('#app', {
     horizons:  ['discover', 'assess', 'learn', 'use'],
-    quadrants: ['languages', 'frameworks', 'tools', 'big data', 'statistics'],
-    //width:     window.innerWidth - 16,
-    //height:    window.innerHeight - 16
+    quadrants: ['languages', 'frameworks', 'tools', 'big data', 'statistics']
   })
 
   chart.draw([

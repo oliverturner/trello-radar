@@ -10,14 +10,6 @@ function identity (i) {
   return i
 }
 
-/**
- * Figure out the current quadrantDelta
- *
- * @param {Array} quadrants
- * @param {number} quadAngle
- * @param {string} historyQuad
- * @returns {number}
- */
 function getQuadrantDelta (quadrants, quadAngle, historyQuad) {
   let quadrantDelta = 0
 
@@ -31,67 +23,141 @@ function getQuadrantDelta (quadrants, quadAngle, historyQuad) {
   return quadrantDelta
 }
 
-/**
- * Uses d3 to plot the radar
- *
- * @param {string} id
- * @param {Object} data
- * @param {number} data.width
- * @param {number} data.height
- * @param {Array}  data.data
- * @param {Array}  data.quadrants
- * @param {Array}  data.horizons
- */
-function radar (id, data) {
-  const width        = data.width || 800
-  const height       = data.height || 600
-  const cx           = width / 2
-  const cy           = height / 2
-  const horizonWidth = 0.95 * (width > height ? height : width) / 2
-  const quadAngle    = 2 * Math.PI / data.quadrants.length
-  const horizonUnit  = horizonWidth / data.horizons.length
-  const colorScale   = d3.scale.category10()
+class Radar {
+  static width  = 800
+  static height = 600
 
-  const svg = d3.select(id).append('svg')
-    .attr('viewBox', `0 0 ${width} ${height}`)
+  static _calcMetrics (data) {
+    const quadNum      = data.quadrants.length
+    const horizonNum   = data.horizons.length
+    const horizonWidth = 0.95 * (Radar.width > Radar.height ? Radar.height : Radar.width) / 2
+    const quadAngle    = 2 * Math.PI / quadNum
+    const horizonUnit  = horizonWidth / horizonNum
+    const colorScale   = d3.scale.category10()
 
-  svg.append('marker')
-    .attr('id', 'arrow')
-    .attr('orient', 'auto')
-    .attr('markerWidth', '2')
-    .attr('markerHeight', '4')
-    .attr('refX', 0.1)
-    .attr('refY', 2)
-    .append('path').attr('d', 'M0,0 V4 L2,2 Z')
+    return {
+      quadNum,
+      quadAngle,
+      horizonNum,
+      horizonUnit,
+      horizonWidth,
+      colorScale
+    }
+  }
 
-  // add the horizons
-  const base = svg.append('g')
-    .attr('transform', 'translate(' + cx + ',' + cy + ')')
+  constructor (id, data) {
+    this.id   = id
+    this.data = data
+    this.svg  = this._initSVG()
+    this.base = this._initBase()
 
-  addHorizons(base)
-  addQuadrants(base)
+    this.metrics = Radar._calcMetrics(data)
 
-  /**
-   *
-   * @param {Array}  blipData
-   * @param {Array}  blipData.history
-   * @param {number} blipData.history.positionAngle
-   * @param {number} blipData.history.directionAngle
-   * @param {number} blipData.history.direction
-   * @param {string} blipData.history.quadrant
-   * @param currentTime
-   *
-   * @returns {Array}
-   */
-  function processRadarData (blipData, currentTime = new Date()) {
+    this._addHorizons()
+    this._addQuadrants()
+    this._drawArrow()
+  }
+
+  _initSVG () {
+    return d3.select(this.id).append('svg')
+      .attr('viewBox', `0 0 ${Radar.width} ${Radar.height}`)
+  }
+
+  _initBase () {
+    const cx = Radar.width / 2
+    const cy = Radar.height / 2
+
+    return this.svg.append('g')
+      .attr('transform', `translate(${cx}, ${cy})`)
+  }
+
+  _drawArrow () {
+    this.svg.append('marker')
+      .attr('id', 'arrow')
+      .attr('orient', 'auto')
+      .attr('markerWidth', '2')
+      .attr('markerHeight', '4')
+      .attr('refX', 0.1)
+      .attr('refY', 2)
+      .append('path').attr('d', 'M0,0 V4 L2,2 Z')
+  }
+
+  _addHorizons () {
+    const horizons = this.base
+      .append('g')
+      .attr('class', 'horizons')
+
+    horizons.selectAll('.horizon')
+      .data(this.data.horizons, identity)
+      .enter()
+      .append('circle')
+      .attr('r', (d, i) => (i + 1) * this.metrics.horizonUnit)
+      .attr('cx', 0)
+      .attr('cy', 0)
+      .attr('class', 'horizon')
+  }
+
+  _addQuadrants () {
+    const svgQuadrants = this.base
+      .append('g')
+      .attr('class', 'quadrants')
+
+    function quadrantClass (d) {
+      return 'quadrant quadrant--' + d.name.toLowerCase().replace(/ /, '-')
+    }
+
+    const arcFunction = d3.svg.arc()
+      .outerRadius((d) => d.outerRadius * this.metrics.horizonWidth)
+      .innerRadius((d) => d.innerRadius * this.metrics.horizonWidth)
+      .startAngle((d) => d.quadrant * this.metrics.quadAngle + Math.PI / 2)
+      .endAngle((d) => (d.quadrant + 1) * this.metrics.quadAngle + Math.PI / 2)
+
+    const quads = []
+    for (var i = 0, ilen = this.metrics.quadNum; i < ilen; i++) {
+      const qName = this.data.quadrants[i]
+      for (var j = 0; j < this.metrics.quadNum; j++) {
+        quads.push({
+          outerRadius: (j + 1) / this.metrics.quadNum,
+          innerRadius: j / this.metrics.quadNum,
+          quadrant:    i,
+          horizon:     j,
+          name:        qName
+        })
+      }
+    }
+
+    const textAngle = (360 / this.metrics.quadNum)
+
+    svgQuadrants.selectAll('path.quadrant')
+      .data(quads)
+      .enter()
+      .append('path')
+      .attr('d', arcFunction)
+      .attr('fill', (d) => {
+        const rgb = d3.rgb(this.metrics.colorScale(d.quadrant))
+        return rgb.brighter(d.horizon / this.metrics.horizonNum * 3)
+      })
+      .attr('class', quadrantClass)
+
+    svgQuadrants.selectAll('text.quadrant')
+      .data(quads.filter((d) => d.horizon === 0))
+      .enter()
+      .append('text')
+      .attr('class', 'quadrant')
+      .attr('dx', this.metrics.horizonWidth / this.metrics.horizonNum)
+      .attr('transform', (d) => 'rotate(' + (d.quadrant * textAngle + textAngle) + ')')
+      .text((d) => d.name)
+  }
+
+  _processRadarData (blipData, currentTime = new Date()) {
     // go through the data
     return blipData.map((entry, index) => {
       const history       = entry.history.filter((e) =>
         (e.end === null || (e.end > currentTime && e.start < currentTime))
       )[0]
-      const quadrantDelta = getQuadrantDelta(data.quadrants, quadAngle, history.quadrant)
-      const theta         = (history.positionAngle * quadAngle) + quadrantDelta
-      const r             = history.position * horizonWidth
+      const quadrantDelta = getQuadrantDelta(this.data.quadrants, this.metrics.quadAngle, history.quadrant)
+      const theta         = (history.positionAngle * this.metrics.quadAngle) + quadrantDelta
+      const r             = history.position * this.metrics.horizonWidth
       const cart          = polarToCartesian(r, theta)
 
       const blip = {
@@ -105,8 +171,8 @@ function radar (id, data) {
       }
 
       if (history.direction) {
-        const r2     = history.direction * horizonWidth
-        const theta2 = (history.directionAngle * quadAngle) + quadrantDelta
+        const r2     = history.direction * this.metrics.horizonWidth
+        const theta2 = (history.directionAngle * this.metrics.quadAngle) + quadrantDelta
         const vector = polarToCartesian(r2, theta2)
 
         blip.dx = vector[0] - cart[0]
@@ -117,77 +183,10 @@ function radar (id, data) {
     })
   }
 
-  function addHorizons (base) {
-    const horizons = base
-      .append('g')
-      .attr('class', 'horizons')
-
-    horizons.selectAll('.horizon')
-      .data(data.horizons, identity)
-      .enter()
-      .append('circle')
-      .attr('r', (d, i) => (i + 1) * horizonUnit)
-      .attr('cx', 0)
-      .attr('cy', 0)
-      .attr('class', 'horizon')
-  }
-
-  // add the quadrants
-  function addQuadrants (base) {
-    const svgQuadrants = base
-      .append('g')
-      .attr('class', 'quadrants')
-
-    function quadrantClass (d) {
-      return 'quadrant quadrant--' + d.name.toLowerCase().replace(/ /, '-')
-    }
-
-    const arcFunction = d3.svg.arc()
-      .outerRadius((d) => d.outerRadius * horizonWidth)
-      .innerRadius((d) => d.innerRadius * horizonWidth)
-      .startAngle((d) => d.quadrant * quadAngle + Math.PI / 2)
-      .endAngle((d) => (d.quadrant + 1) * quadAngle + Math.PI / 2)
-
-    const hNum = data.horizons.length
-    const quads = []
-    for (var i = 0, ilen = data.quadrants.length; i < ilen; i++) {
-      const qName = data.quadrants[i]
-      for (var j = 0; j < hNum; j++) {
-        quads.push({
-          outerRadius: (j + 1) / hNum,
-          innerRadius: j / hNum,
-          quadrant:    i,
-          horizon:     j,
-          name:        qName
-        })
-      }
-    }
-
-    const textAngle = (360 / data.quadrants.length)
-
-    svgQuadrants.selectAll('path.quadrant')
-      .data(quads)
-      .enter()
-      .append('path')
-      .attr('d', arcFunction)
-      .attr('fill', (d) => {
-        const rgb = d3.rgb(colorScale(d.quadrant))
-        return rgb.brighter(d.horizon / data.horizons.length * 3)
-      })
-      .attr('class', quadrantClass)
-
-    svgQuadrants.selectAll('text.quadrant')
-      .data(quads.filter((d) => d.horizon === 0))
-      .enter()
-      .append('text')
-      .attr('class', 'quadrant')
-      .attr('dx', horizonWidth / data.horizons.length)
-      .attr('transform', (d) => 'rotate(' + (d.quadrant * textAngle + textAngle) + ')')
-      .text((d) => d.name)
-  }
-
-  function drawRadar (data) {
-    const blipData = processRadarData(data)
+  // Public API
+  //-----------------------------------------------
+  draw (data) {
+    const blipData = this._processRadarData(data)
 
     blipData.sort(
       function (a, b) {
@@ -196,7 +195,7 @@ function radar (id, data) {
         return 0
       })
 
-    const blips = base.selectAll('.blip')
+    const blips = this.base.selectAll('.blip')
       .data(blipData)
       .enter().append('g')
       .attr('class', 'blip')
@@ -219,7 +218,7 @@ function radar (id, data) {
       .text((d) => d.name)
 
     // add the lists
-    const ul = d3.select(id).append('ul')
+    const ul = d3.select(this.id).append('ul')
 
     ul.selectAll('li.quadrant')
       .data(blipData)
@@ -228,10 +227,6 @@ function radar (id, data) {
       .attr('class', 'quadrant')
       .text((d) => d.name)
   }
-
-  return {
-    draw: drawRadar
-  }
 }
 
-export default radar
+export default Radar
