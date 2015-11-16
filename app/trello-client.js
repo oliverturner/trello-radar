@@ -51,8 +51,6 @@ function wrapper (window, opts) {
       params  = {}
     }
 
-    console.log({'path': path, 'params': params, 'success': success, 'error': error})
-
     // Get rid of any leading /
     path = path.replace(/^\/*/, '')
 
@@ -125,19 +123,26 @@ function wrapper (window, opts) {
     // error - Function to call when the request fails
     rest: function (method, ...args) {
       const [path, params, success, error] = parseRestArgs(...args)
-      const url = '' + baseURL + path
 
-      let payload = {}
+      let url       = '' + baseURL + path
+      let payload   = {}
+      let fetchOpts = {
+        method: method
+      }
 
       // Only include the key if it's been set to something truthy
       if (key) payload.key = key
-
-      // Only include the token if it's been set to something truthy
       if (token) payload.token = token
-
       if (params) Object.assign(payload, params)
 
-      window.fetch(url, {method: method, body: JSON.stringify(payload)})
+      if (method === 'GET') {
+        url += '?'+serialise(payload)
+      }
+      else {
+        fetchOpts.body = JSON.stringify(payload)
+      }
+
+      window.fetch(url, fetchOpts)
         .then(function (response) {
           return response.json()
         })

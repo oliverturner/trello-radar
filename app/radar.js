@@ -34,7 +34,7 @@ function getQuadrantDelta (quadrants, quadAngle, historyQuad) {
 /**
  * Uses d3 to plot the radar
  *
- * @param id
+ * @param {string} id
  * @param {Object} data
  * @param {number} data.width
  * @param {number} data.height
@@ -235,6 +235,10 @@ function radar (id, data) {
       .append('li')
       .attr('class', 'quadrant')
       .text((d) => d.name)
+  }
+
+  return {
+    draw: drawRadar
   }
 }
 

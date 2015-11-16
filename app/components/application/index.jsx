@@ -1,7 +1,5 @@
 import React from 'react'
 
-import Chart from '../chart'
-
 import styles from './style.scss'
 
 class Application extends React.Component {
@@ -9,7 +7,6 @@ class Application extends React.Component {
     return (
       <div className={styles.main}>
         <div className={styles.wrap}>
-          <Chart />
         </div>
       </div>
     )
