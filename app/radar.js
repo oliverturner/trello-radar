@@ -142,31 +142,23 @@ function radar (id, data) {
       return 'quadrant quadrant--' + d.name.toLowerCase().replace(/ /, '-')
     }
 
-    svgQuadrants.selectAll('line.quadrant')
-      .data(data.quadrants, identity)
-      .enter().append('line')
-      .attr('x1', 0)
-      .attr('y1', 0)
-      .attr('x2', (d, i) => (Math.cos(quadAngle * i) * horizonWidth))
-      .attr('y2', (d, i) => (Math.sin(quadAngle * i) * horizonWidth))
-      //.attr('class', quadrantClass)
-      .attr('stroke', (d, i) => colorScale(i))
-
     const arcFunction = d3.svg.arc()
       .outerRadius((d) => d.outerRadius * horizonWidth)
       .innerRadius((d) => d.innerRadius * horizonWidth)
       .startAngle((d) => d.quadrant * quadAngle + Math.PI / 2)
       .endAngle((d) => (d.quadrant + 1) * quadAngle + Math.PI / 2)
 
+    const hNum = data.horizons.length
     const quads = []
     for (var i = 0, ilen = data.quadrants.length; i < ilen; i++) {
-      for (var j = 0, jlen = data.horizons.length; j < jlen; j++) {
+      const qName = data.quadrants[i]
+      for (var j = 0; j < hNum; j++) {
         quads.push({
-          outerRadius: (j + 1) / jlen,
-          innerRadius: j / jlen,
+          outerRadius: (j + 1) / hNum,
+          innerRadius: j / hNum,
           quadrant:    i,
           horizon:     j,
-          name:        data.quadrants[i]
+          name:        qName
         })
       }
     }

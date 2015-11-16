@@ -4,12 +4,9 @@
   box-sizing: border-box;
 }
 
-html, body {
-  height: 100%;
-}
-
 body {
-  background: black;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background:  black;
 }
 
 a {
@@ -26,13 +23,12 @@ svg {
 }
 
 svg text.name {
-  //font-family: Arial, Sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   opacity:   0.25
 }
 
 svg line.quadrant {
-  stroke-width: 2px;
+  //stroke-width: 2px;
 }
 
 svg circle.horizon {
@@ -53,17 +49,12 @@ svg #arrow {
   fill: black;
 }
 
-//svg path.quadrant {
-//  fill-opacity: 0.5;
-//}
-
 svg text.quadrant {
-  font-family: Arial, Sans-serif;
   font-weight: bold;
-  color:       white;
-  opacity:     0.3;
-  font-size:   40px;
+  font-size:   36px;
   text-align:  right;
+  opacity:     0.25;
+  color:       white;
 }
 
 .blip {
