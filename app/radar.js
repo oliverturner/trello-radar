@@ -53,8 +53,7 @@ function radar (id, data) {
   const colorScale   = d3.scale.category10()
 
   const svg = d3.select(id).append('svg')
-    .attr('width', width)
-    .attr('height', height)
+    .attr('viewBox', `0 0 ${width} ${height}`)
 
   svg.append('marker')
     .attr('id', 'arrow')
@@ -65,29 +64,37 @@ function radar (id, data) {
     .attr('refY', 2)
     .append('path').attr('d', 'M0,0 V4 L2,2 Z')
 
+  // add the horizons
+  const base = svg.append('g')
+    .attr('transform', 'translate(' + cx + ',' + cy + ')')
+
+  addHorizons(base)
+  addQuadrants(base)
+
   /**
    *
-   * @param {Object} data
-   * @param {Object} data.data
-   * @param {Array}  data.data.history
-   * @param {number} data.data.history.position_angle
-   * @param {number} data.data.history.direction_angle
-   * @param {number} data.data.history.direction
-   * @param {string} data.data.history.quadrant
-   * @param {Array}  data.quadrants
+   * @param {Array}  blipData
+   * @param {Array}  blipData.history
+   * @param {number} blipData.history.positionAngle
+   * @param {number} blipData.history.directionAngle
+   * @param {number} blipData.history.direction
+   * @param {string} blipData.history.quadrant
    * @param currentTime
    *
    * @returns {Array}
    */
-  function processRadarData (data, currentTime = new Date()) {
+  function processRadarData (blipData, currentTime = new Date()) {
     // go through the data
-    return data.data.map((entry, index) => {
-      const history       = entry.history.filter((e) => (e.end == null || (e.end > currentTime && e.start < currentTime)))[0]
+    return blipData.map((entry, index) => {
+      const history       = entry.history.filter((e) =>
+        (e.end === null || (e.end > currentTime && e.start < currentTime))
+      )[0]
       const quadrantDelta = getQuadrantDelta(data.quadrants, quadAngle, history.quadrant)
-      const theta         = (history.position_angle * quadAngle) + quadrantDelta
+      const theta         = (history.positionAngle * quadAngle) + quadrantDelta
       const r             = history.position * horizonWidth
       const cart          = polarToCartesian(r, theta)
-      const blip          = {
+
+      const blip = {
         id:       index,
         name:     entry.name,
         quadrant: history.quadrant,
@@ -99,7 +106,7 @@ function radar (id, data) {
 
       if (history.direction) {
         const r2     = history.direction * horizonWidth
-        const theta2 = (history.direction_angle * quadAngle) + quadrantDelta
+        const theta2 = (history.directionAngle * quadAngle) + quadrantDelta
         const vector = polarToCartesian(r2, theta2)
 
         blip.dx = vector[0] - cart[0]
@@ -127,7 +134,7 @@ function radar (id, data) {
 
   // add the quadrants
   function addQuadrants (base) {
-    const quadrants = base
+    const svgQuadrants = base
       .append('g')
       .attr('class', 'quadrants')
 
@@ -135,7 +142,7 @@ function radar (id, data) {
       return 'quadrant quadrant--' + d.name.toLowerCase().replace(/ /, '-')
     }
 
-    quadrants.selectAll('line.quadrant')
+    svgQuadrants.selectAll('line.quadrant')
       .data(data.quadrants, identity)
       .enter().append('line')
       .attr('x1', 0)
@@ -166,16 +173,7 @@ function radar (id, data) {
 
     const textAngle = (360 / data.quadrants.length)
 
-    quadrants.selectAll('text.quadrant')
-      .data(quads.filter((d) => d.horizon === 0))
-      .enter()
-      .append('text')
-      .attr('class', 'quadrant')
-      .attr('dx', horizonWidth / data.horizons.length)
-      .attr('transform', (d) => 'rotate(' + (d.quadrant * textAngle + textAngle) + ')')
-      .text((d) => d.name)
-
-    quadrants.selectAll('path.quadrant')
+    svgQuadrants.selectAll('path.quadrant')
       .data(quads)
       .enter()
       .append('path')
@@ -185,17 +183,20 @@ function radar (id, data) {
         return rgb.brighter(d.horizon / data.horizons.length * 3)
       })
       .attr('class', quadrantClass)
+
+    svgQuadrants.selectAll('text.quadrant')
+      .data(quads.filter((d) => d.horizon === 0))
+      .enter()
+      .append('text')
+      .attr('class', 'quadrant')
+      .attr('dx', horizonWidth / data.horizons.length)
+      .attr('transform', (d) => 'rotate(' + (d.quadrant * textAngle + textAngle) + ')')
+      .text((d) => d.name)
   }
 
-  function drawRadar () {
-    // add the horizons
-    const base = svg.append('g')
-      .attr('transform', 'translate(' + cx + ',' + cy + ')')
-
-    addHorizons(base)
-    addQuadrants(base)
-
+  function drawRadar (data) {
     const blipData = processRadarData(data)
+
     blipData.sort(
       function (a, b) {
         if (a.quadrant < b.quadrant) return -1
@@ -208,9 +209,7 @@ function radar (id, data) {
       .enter().append('g')
       .attr('class', 'blip')
       .attr('id', (d) => 'blip-' + d.id)
-      .attr('transform', (d) => 'translate(' + (d.x) + ',' + (d.y) + ')')
-      .on('mouseover', (d) => d3.select(this).select('text.name').style({opacity: '1.0'}))
-      .on('mouseout', (d) => d3.select(this).select('text.name').style({opacity: '0.1'}))
+      .attr('transform', (d) => 'translate(' + d.x + ',' + d.y + ')')
 
     blips.append('line')
       .attr('class', 'direction')
@@ -229,6 +228,7 @@ function radar (id, data) {
 
     // add the lists
     const ul = d3.select(id).append('ul')
+
     ul.selectAll('li.quadrant')
       .data(blipData)
       .enter()
