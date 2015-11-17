@@ -1,0 +1,53 @@
+[
+  {
+    "name":        "d3",
+    "description": "The d3 library for producing visualisation and data driven documents",
+    "links":       ["http://d3js.org"],
+    "quadrant":    "frameworks",
+    "horizon":     4,
+    "history":     [{
+      "start":    "2013-9-29",
+      "position": 0.1
+    }]
+  },
+  {
+    "name":        "angular",
+    "description": "The d3 library for producing visualisation and data driven documents",
+    "links":       ["http://d3js.org"],
+    "quadrant":    "frameworks",
+    "horizon":     0,
+    "history":     [
+      {
+        "start":    "2013-9-29",
+        "position": 0.9,
+        "positionAngle": 0.8
+      }
+    ]
+  },
+  {
+    "name":        "ember",
+    "quadrant":    "frameworks",
+    "horizon":     0,
+    "history":     [
+      {
+        "start":    "2013-9-29",
+        "position": 0.6,
+        "positionAngle": 0.8
+      }
+    ]
+  },
+  {
+    "name":        "react",
+    "description": "The d3 library for producing visualisation and data driven documents",
+    "links":       ["http://d3js.org"],
+    "quadrant":    "frameworks",
+    "horizon":     0,
+    "history":     [
+      {
+        "start":    "2013-9-29",
+        "position": 0.4,
+        "positionAngle": 0.8shu
+      }
+    ]
+  }
+]

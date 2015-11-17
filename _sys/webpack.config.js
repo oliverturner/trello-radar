@@ -46,6 +46,10 @@ module.exports = {
       {
         test:   /\.jpg$/,
         loader: 'file'
+      },
+      {
+        test:   /\.json$/,
+        loader: 'json'
       }
     ]
   },

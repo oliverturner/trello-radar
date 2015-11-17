@@ -27,11 +27,25 @@ class Radar {
   static width  = 800
   static height = 600
 
-  static _calcMetrics (data) {
-    const quadNum      = data.quadrants.length
-    const horizonNum   = data.horizons.length
-    const horizonWidth = 0.95 * (Radar.width > Radar.height ? Radar.height : Radar.width) / 2
+  /**
+   * Calculate the basic metrics for the radar
+   *
+   * @param {number} quadNum
+   * @param {number} horizonNum
+   * @returns {{
+   *   quadNum: number,
+   *   quadAngle: number,
+   *   horizonNum: number,
+   *   horizonUnit: number,
+   *   horizonWidth: number,
+   *   colorScale
+   * }}
+   *
+   * @private
+   */
+  static _calcMetrics (quadNum, horizonNum) {
     const quadAngle    = 2 * Math.PI / quadNum
+    const horizonWidth = 0.95 * (Radar.width > Radar.height ? Radar.height : Radar.width) / 2
     const horizonUnit  = horizonWidth / horizonNum
     const colorScale   = d3.scale.category10()
 
@@ -45,19 +59,90 @@ class Radar {
     }
   }
 
+  // Public API
+  //-----------------------------------------------
+  /**
+   * Initialise with basic sectors and assessments
+   *
+   * @param {string} id
+   * @param {object} data
+   * @param {Array} data.quadrants
+   * @param {Array} data.horizons
+   */
   constructor (id, data) {
     this.id   = id
     this.data = data
     this.svg  = this._initSVG()
     this.base = this._initBase()
 
-    this.metrics = Radar._calcMetrics(data)
+    this.props = Radar._calcMetrics(data.quadrants.length, data.horizons.length)
 
     this._addHorizons()
     this._addQuadrants()
     this._drawArrow()
   }
 
+  /**
+   * @typedef  {Object} Entry
+   * @property {Date}      start            Start date that this entry applies for
+   * @property {Date|null} end              End date for the entry
+   * @property {string}    quadrant         Quadrant label
+   * @property {number}    position         0 - 1 Start point within the total of horizons. Larger = worse.
+   * @property {number}    positionAngle    0 - 1 Horizontally within quadrant
+   * @property {number}    direction        0 - 1 End point with the total of horizons. Larger = worse.
+   * @property {number}    [directionAngle] Fraction of pi/2 (ie of a quadrant)
+   */
+  /**
+   * @param {Array.<Entry>} entries
+   * @param config
+   */
+  draw (entries, config = {lines: false}) {
+    const blipData = this._processRadarData(entries)
+      .sort(
+        function (a, b) {
+          if (a.quadrant < b.quadrant) return -1
+          if (a.quadrant > b.quadrant) return 1
+          return 0
+        })
+
+    const blips = this.base.selectAll('.blip')
+      .data(blipData)
+      .enter().append('g')
+      .attr('class', 'blip')
+      .attr('id', (d) => 'blip-' + d.id)
+      .attr('transform', (d) => `translate(${d.x}, ${d.y})`)
+
+    if (config.lines) {
+      blips.append('line')
+        .attr('class', 'direction')
+        .attr('x1', 0)
+        .attr('y1', 0)
+        .attr('x2', (d) => d.dx)
+        .attr('y2', (d) => d.dy)
+    }
+
+    blips.append('circle')
+      .attr('r', '7px')
+
+    blips.append('text')
+      .attr('dy', '20px')
+      .style('text-anchor', 'middle')
+      .attr('class', 'name')
+      .text((d) => d.name)
+
+    // add the lists
+    const ul = d3.select(this.id).append('ul')
+
+    ul.selectAll('li.quadrant')
+      .data(blipData)
+      .enter()
+      .append('li')
+      .attr('class', 'quadrant')
+      .text((d) => d.name)
+  }
+
+  // Initialising methods
+  //-----------------------------------------------
   _initSVG () {
     return d3.select(this.id).append('svg')
       .attr('viewBox', `0 0 ${Radar.width} ${Radar.height}`)
@@ -91,7 +176,7 @@ class Radar {
       .data(this.data.horizons, identity)
       .enter()
       .append('circle')
-      .attr('r', (d, i) => (i + 1) * this.metrics.horizonUnit)
+      .attr('r', (d, i) => (i + 1) * this.props.horizonUnit)
       .attr('cx', 0)
       .attr('cy', 0)
       .attr('class', 'horizon')
@@ -107,26 +192,26 @@ class Radar {
     }
 
     const arcFunction = d3.svg.arc()
-      .outerRadius((d) => d.outerRadius * this.metrics.horizonWidth)
-      .innerRadius((d) => d.innerRadius * this.metrics.horizonWidth)
-      .startAngle((d) => d.quadrant * this.metrics.quadAngle + Math.PI / 2)
-      .endAngle((d) => (d.quadrant + 1) * this.metrics.quadAngle + Math.PI / 2)
+      .outerRadius((d) => d.outerRadius * this.props.horizonWidth)
+      .innerRadius((d) => d.innerRadius * this.props.horizonWidth)
+      .startAngle((d)  => d.quadrant * this.props.quadAngle + Math.PI / 2)
+      .endAngle((d)    => (d.quadrant + 1) * this.props.quadAngle + Math.PI / 2)
 
-    const quads = []
-    for (var i = 0, ilen = this.metrics.quadNum; i < ilen; i++) {
-      const qName = this.data.quadrants[i]
-      for (var j = 0; j < this.metrics.quadNum; j++) {
-        quads.push({
-          outerRadius: (j + 1) / this.metrics.quadNum,
-          innerRadius: j / this.metrics.quadNum,
+    const quads = this.data.quadrants.reduce((ret, quad, i) => {
+      for (var j = 0; j < this.props.horizonNum; j++) {
+        ret.push({
+          outerRadius: (j + 1) / this.props.horizonNum,
+          innerRadius: j / this.props.horizonNum,
           quadrant:    i,
           horizon:     j,
-          name:        qName
+          name:        quad
         })
       }
-    }
 
-    const textAngle = (360 / this.metrics.quadNum)
+      return ret
+    }, [])
+
+    const textAngle = (360 / this.props.quadNum)
 
     svgQuadrants.selectAll('path.quadrant')
       .data(quads)
@@ -134,8 +219,8 @@ class Radar {
       .append('path')
       .attr('d', arcFunction)
       .attr('fill', (d) => {
-        const rgb = d3.rgb(this.metrics.colorScale(d.quadrant))
-        return rgb.brighter(d.horizon / this.metrics.horizonNum * 3)
+        const rgb = d3.rgb(this.props.colorScale(d.quadrant))
+        return rgb.brighter(d.horizon / this.props.horizonNum * 3)
       })
       .attr('class', quadrantClass)
 
@@ -144,26 +229,25 @@ class Radar {
       .enter()
       .append('text')
       .attr('class', 'quadrant')
-      .attr('dx', this.metrics.horizonWidth / this.metrics.horizonNum)
+      .attr('dx', this.props.horizonWidth / this.props.horizonNum)
       .attr('transform', (d) => 'rotate(' + (d.quadrant * textAngle + textAngle) + ')')
       .text((d) => d.name)
   }
 
-  _processRadarData (blipData, currentTime = new Date()) {
-    // go through the data
+  _processRadarData (blipData, now = new Date()) {
     return blipData.map((entry, index) => {
-      const history       = entry.history.filter((e) =>
-        (e.end === null || (e.end > currentTime && e.start < currentTime))
-      )[0]
-      const quadrantDelta = getQuadrantDelta(this.data.quadrants, this.metrics.quadAngle, history.quadrant)
-      const theta         = (history.positionAngle * this.metrics.quadAngle) + quadrantDelta
-      const r             = history.position * this.metrics.horizonWidth
+      const history       = entry.history.filter((e) => (!e.end || (e.end > now && new Date(e.start) < now)))[0]
+      const posAngle      = history.positionAngle || 0.5
+      const dirAngle      = history.directionAngle || 0.5
+      const quadrantDelta = getQuadrantDelta(this.data.quadrants, this.props.quadAngle, entry.quadrant)
+      const theta         = (posAngle * this.props.quadAngle) + quadrantDelta
+      const r             = history.position * this.props.horizonWidth
       const cart          = polarToCartesian(r, theta)
 
       const blip = {
         id:       index,
         name:     entry.name,
-        quadrant: history.quadrant,
+        quadrant: entry.quadrant,
         r:        r,
         theta:    theta,
         x:        cart[0],
@@ -171,9 +255,9 @@ class Radar {
       }
 
       if (history.direction) {
-        const r2     = history.direction * this.metrics.horizonWidth
-        const theta2 = (history.directionAngle * this.metrics.quadAngle) + quadrantDelta
-        const vector = polarToCartesian(r2, theta2)
+        const hR     = history.direction * this.props.horizonWidth
+        const hTheta = (dirAngle * this.props.quadAngle) + quadrantDelta
+        const vector = polarToCartesian(hR, hTheta)
 
         blip.dx = vector[0] - cart[0]
         blip.dy = vector[1] - cart[1]
@@ -181,51 +265,6 @@ class Radar {
 
       return blip
     })
-  }
-
-  // Public API
-  //-----------------------------------------------
-  draw (data) {
-    const blipData = this._processRadarData(data)
-
-    blipData.sort(
-      function (a, b) {
-        if (a.quadrant < b.quadrant) return -1
-        if (a.quadrant > b.quadrant) return 1
-        return 0
-      })
-
-    const blips = this.base.selectAll('.blip')
-      .data(blipData)
-      .enter().append('g')
-      .attr('class', 'blip')
-      .attr('id', (d) => 'blip-' + d.id)
-      .attr('transform', (d) => 'translate(' + d.x + ',' + d.y + ')')
-
-    blips.append('line')
-      .attr('class', 'direction')
-      .attr('x1', 0).attr('y1', 0)
-      .attr('x2', (d) => d.dx)
-      .attr('y2', (d) => d.dy)
-
-    blips.append('circle')
-      .attr('r', '7px')
-
-    blips.append('text')
-      .attr('dy', '20px')
-      .style('text-anchor', 'middle')
-      .attr('class', 'name')
-      .text((d) => d.name)
-
-    // add the lists
-    const ul = d3.select(this.id).append('ul')
-
-    ul.selectAll('li.quadrant')
-      .data(blipData)
-      .enter()
-      .append('li')
-      .attr('class', 'quadrant')
-      .text((d) => d.name)
   }
 }
 

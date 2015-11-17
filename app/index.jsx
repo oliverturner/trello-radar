@@ -8,24 +8,9 @@ import {render} from 'react-dom'
 import Application from './components/application'
 import wrapper from './trello-client'
 import Radar from './radar'
+import radarData from './data/radar.json'
 
 const results = {}
-
-//render(<Application />, document.getElementById('app'))
-
-// Radar
-//-----------------------------------------------
-function parseEntry (start, end, quadrant, position, positionAngle, direction, directionAngle = 0.5) {
-  return {
-    start,          // start date that this entry applies for
-    end,            // end date for the entry
-    quadrant,       // the quadrant label
-    position,       // 0 - 1 start point within the total of horizons. Larger = worse.
-    positionAngle,  // 0 - 1 horizontally within quadrant
-    direction,      // 0 - 1 end point with the total of horizons. Larger = worse.
-    directionAngle  // angles are fractions of pi/2 (ie of a quadrant)
-  }
-}
 
 // Data
 //-----------------------------------------------
@@ -45,30 +30,6 @@ function onCardSuccess (data) {
     return ret
   }, []).sort())
   console.log('-- lists', results.lists)
-
-  const chart = new Radar('#app', {
-    horizons:  ['discover', 'assess', 'learn', 'use'],
-    quadrants: ['languages', 'frameworks', 'tools', 'big data', 'statistics']
-  })
-
-  chart.draw([
-    {
-      name:        'd3',
-      description: 'The d3 library for producing visualisation and data driven documents',
-      links:       ['http://d3js.org'],
-      history:     [
-        parseEntry(new Date(2013, 9, 29), null, 'frameworks', 0.1, 0.5, 0.9, 0.75)
-      ]
-    },
-    {
-      name:        'react',
-      description: 'The d3 library for producing visualisation and data driven documents',
-      links:       ['http://d3js.org'],
-      history:     [
-        parseEntry(new Date(2013, 9, 29), null, 'frameworks', 0.9, 0.5, 0.4)
-      ]
-    }
-  ])
 }
 
 function onDataError (err) {
@@ -87,6 +48,13 @@ function onAuthFailure (err) {
 }
 
 wrapper(window, {key: '27674ab7f9665fde168a16611001e771'})
+
+const chart = new Radar('#app', {
+  horizons:  ['discover', 'assess', 'learn', 'use'],
+  quadrants: ['languages', 'frameworks', 'tools', 'big data', 'statistics']
+})
+
+chart.draw(radarData)
 
 window.Trello.authorize({
   type:       'popup',
