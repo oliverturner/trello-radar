@@ -21,15 +21,16 @@ function onListSuccess (data) {
 function onCardSuccess (data) {
   results.cards = data
 
-  console.log('onCardSuccess')
-  console.log('-- cards', results.cards)
-  console.log('---- labels', results.cards.reduce(function (ret, card) {
-    card.labels.forEach(function (label) {
-      if (ret.indexOf(label.name) < 0) ret.push(label.name)
-    })
-    return ret
-  }, []).sort())
-  console.log('-- lists', results.lists)
+  //console.log('onCardSuccess')
+  //console.log('-- cards', results.cards)
+  //console.log('---- labels', results.cards.reduce(function (ret, card) {
+  //  card.labels.forEach((label) => {
+  //    if (ret.indexOf(label.name) < 0) ret.push(label.name)
+  //  })
+  //  return ret
+  //}, []).sort())
+
+  //console.log('-- lists', results.lists)
 }
 
 function onDataError (err) {

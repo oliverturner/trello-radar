@@ -10,12 +10,12 @@ function identity (i) {
   return i
 }
 
-function getQuadrantDelta (quadrants, quadAngle, historyQuad) {
+function getQuadrantDelta (quadrants, quadAngle, currentQuad) {
   let quadrantDelta = 0
 
   // figure out which quadrant this is
   quadrants.forEach((quadrant, index) => {
-    if (quadrant === historyQuad) {
+    if (quadrant === currentQuad) {
       quadrantDelta = quadAngle * index
     }
   })
@@ -44,9 +44,10 @@ class Radar {
    * @private
    */
   static _calcMetrics (quadNum, horizonNum) {
+    const innerRad     = 2
     const quadAngle    = 2 * Math.PI / quadNum
     const horizonWidth = 0.95 * (Radar.width > Radar.height ? Radar.height : Radar.width) / 2
-    const horizonUnit  = horizonWidth / horizonNum
+    const horizonUnit  = horizonWidth / (horizonNum + innerRad)
     const colorScale   = d3.scale.category10()
 
     return {
@@ -55,6 +56,7 @@ class Radar {
       horizonNum,
       horizonUnit,
       horizonWidth,
+      innerRad,
       colorScale
     }
   }
@@ -131,7 +133,9 @@ class Radar {
       .text((d) => d.name)
 
     // add the lists
-    const ul = d3.select(this.id).append('ul')
+    const ul = d3.select(this.id)
+      .append('ul')
+      .attr('class', 'quadrants')
 
     ul.selectAll('li.quadrant')
       .data(blipData)
@@ -200,8 +204,8 @@ class Radar {
     const quads = this.data.quadrants.reduce((ret, quad, i) => {
       for (var j = 0; j < this.props.horizonNum; j++) {
         ret.push({
-          outerRadius: (j + 1) / this.props.horizonNum,
-          innerRadius: j / this.props.horizonNum,
+          outerRadius: (j + this.props.innerRad + 1) / (this.props.horizonNum + this.props.innerRad),
+          innerRadius: (j + this.props.innerRad) / (this.props.horizonNum + this.props.innerRad),
           quadrant:    i,
           horizon:     j,
           name:        quad
@@ -229,42 +233,62 @@ class Radar {
       .enter()
       .append('text')
       .attr('class', 'quadrant')
-      .attr('dx', this.props.horizonWidth / this.props.horizonNum)
-      .attr('transform', (d) => 'rotate(' + (d.quadrant * textAngle + textAngle) + ')')
+      .attr('dx', this.props.horizonWidth / (this.props.horizonNum - this.props.innerRad))
+      .attr('transform', (d) => `rotate(${d.quadrant * textAngle + textAngle})`)
       .text((d) => d.name)
   }
 
-  _processRadarData (blipData, now = new Date()) {
-    return blipData.map((entry, index) => {
-      const history       = entry.history.filter((e) => (!e.end || (e.end > now && new Date(e.start) < now)))[0]
-      const posAngle      = history.positionAngle || 0.5
-      const dirAngle      = history.directionAngle || 0.5
-      const quadrantDelta = getQuadrantDelta(this.data.quadrants, this.props.quadAngle, entry.quadrant)
-      const theta         = (posAngle * this.props.quadAngle) + quadrantDelta
-      const r             = history.position * this.props.horizonWidth
-      const cart          = polarToCartesian(r, theta)
+  _processRadarData (blipData) {
+    const keys    = {}
+    const ry      = this.props.horizonUnit / 2
+    const ry2     = ry / 2
+    const calcRad = (h) => {
+      const min = h + this.props.innerRad
+      const max = this.props.horizonNum + this.props.innerRad
+      return min / max * this.props.horizonWidth
+    }
 
-      const blip = {
-        id:       index,
-        name:     entry.name,
-        quadrant: entry.quadrant,
-        r:        r,
-        theta:    theta,
-        x:        cart[0],
-        y:        cart[1]
-      }
+    const blips = blipData
+      .map((entry, index) => {
+        return {
+          id:       index,
+          key:      entry.quadrant + '-' + entry.horizon,
+          name:     entry.name,
+          quadrant: entry.quadrant,
+          horizon:  entry.horizon
+        }
+      })
+      .map((blip) => {
+        keys[blip.key] = keys[blip.key] ? ++keys[blip.key] : 1
+        blip.keyIndex  = keys[blip.key]
+        return blip
+      })
+      .map((blip, index) => {
+        let stagger = 0
+        if (keys[blip.key] > blip.horizon + 1) {
+          stagger = index % 2 ? ry2 : -ry2
+        }
 
-      if (history.direction) {
-        const hR     = history.direction * this.props.horizonWidth
-        const hTheta = (dirAngle * this.props.quadAngle) + quadrantDelta
-        const vector = polarToCartesian(hR, hTheta)
+        blip.r = calcRad(blip.horizon) + ry + stagger
 
-        blip.dx = vector[0] - cart[0]
-        blip.dy = vector[1] - cart[1]
-      }
+        return blip
+      })
+      .map((blip) => {
+        const posAngle      = (1 / (keys[blip.key] + 1)) * blip.keyIndex
+        const quadrantDelta = getQuadrantDelta(this.data.quadrants, this.props.quadAngle, blip.quadrant)
+        const theta         = (posAngle * this.props.quadAngle) + quadrantDelta
+        const cart          = polarToCartesian(blip.r, theta)
 
-      return blip
-    })
+        blip = Object.assign(blip, {
+          theta: theta,
+          x:     cart[0],
+          y:     cart[1]
+        })
+
+        return blip
+      })
+
+    return blips
   }
 }
 

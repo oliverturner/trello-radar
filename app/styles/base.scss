@@ -6,7 +6,6 @@
 
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background:  black;
 }
 
 a {
@@ -19,11 +18,12 @@ a {
 }
 
 svg {
-  flex: 1;
+  flex: 2;
+  background: #999;
 }
 
 svg text.name {
-  font-size: 14px;
+  font-size: 12px;
   opacity:   0.25
 }
 
@@ -51,7 +51,7 @@ svg #arrow {
 
 svg text.quadrant {
   font-weight: bold;
-  font-size:   36px;
+  font-size:   24px;
   text-align:  right;
   opacity:     0.25;
   color:       white;
@@ -60,10 +60,14 @@ svg text.quadrant {
 .blip {
   circle {
     cursor:     pointer;
-    background: transparent;
+    //background: transparent;
   }
 
   &:hover text {
     opacity: 1;
   }
+}
+
+.quadrants {
+  flex: 1
 }

@@ -3,51 +3,68 @@
     "name":        "d3",
     "description": "The d3 library for producing visualisation and data driven documents",
     "links":       ["http://d3js.org"],
-    "quadrant":    "frameworks",
-    "horizon":     4,
-    "history":     [{
-      "start":    "2013-9-29",
-      "position": 0.1
-    }]
+    "quadrant":    "statistics",
+    "horizon":     0
   },
   {
     "name":        "angular",
     "description": "The d3 library for producing visualisation and data driven documents",
     "links":       ["http://d3js.org"],
     "quadrant":    "frameworks",
-    "horizon":     0,
-    "history":     [
-      {
-        "start":    "2013-9-29",
-        "position": 0.9,
-        "positionAngle": 0.8
-      }
-    ]
+    "horizon":     0
   },
   {
     "name":        "ember",
     "quadrant":    "frameworks",
-    "horizon":     0,
-    "history":     [
-      {
-        "start":    "2013-9-29",
-        "position": 0.6,
-        "positionAngle": 0.8
-      }
-    ]
+    "horizon":     0
   },
   {
     "name":        "react",
     "description": "The d3 library for producing visualisation and data driven documents",
     "links":       ["http://d3js.org"],
     "quadrant":    "frameworks",
-    "horizon":     0,
-    "history":     [
-      {
-        "start":    "2013-9-29",
-        "position": 0.4,
-        "positionAngle": 0.8shu
-      }
-    ]
+    "horizon":     0
+  },
+  {
+    "name":        "knockout",
+    "description": "The d3 library for producing visualisation and data driven documents",
+    "links":       ["http://d3js.org"],
+    "quadrant":    "frameworks",
+    "horizon":     0
+  },
+  {
+    "name":        "backbone",
+    "description": "The d3 library for producing visualisation and data driven documents",
+    "links":       ["http://d3js.org"],
+    "quadrant":    "frameworks",
+    "horizon":     0
+  },
+  {
+    "name":        "knockout",
+    "description": "The d3 library for producing visualisation and data driven documents",
+    "links":       ["http://d3js.org"],
+    "quadrant":    "frameworks",
+    "horizon":     2
+  },
+  {
+    "name":        "backbone",
+    "description": "The d3 library for producing visualisation and data driven documents",
+    "links":       ["http://d3js.org"],
+    "quadrant":    "frameworks",
+    "horizon":     3
+  },
+  {
+    "name":        "knockout",
+    "description": "The d3 library for producing visualisation and data driven documents",
+    "links":       ["http://d3js.org"],
+    "quadrant":    "frameworks",
+    "horizon":     3
+  },
+  {
+    "name":        "backbone",
+    "description": "The d3 library for producing visualisation and data driven documents",
+    "links":       ["http://d3js.org"],
+    "quadrant":    "frameworks",
+    "horizon":     3
   }
 ]
