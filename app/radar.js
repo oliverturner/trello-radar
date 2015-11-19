@@ -32,16 +32,8 @@ class Radar {
    *
    * @param {number} quadNum
    * @param {number} horizonNum
-   * @returns {{
-   *   quadNum: number,
-   *   quadAngle: number,
-   *   horizonNum: number,
-   *   horizonUnit: number,
-   *   horizonWidth: number,
-   *   colorScale
-   * }}
    *
-   * @private
+   * @returns {Metrics}
    */
   static _calcMetrics (quadNum, horizonNum) {
     const innerRad     = 2
@@ -84,16 +76,6 @@ class Radar {
     this._drawArrow()
   }
 
-  /**
-   * @typedef  {Object} Entry
-   * @property {Date}      start            Start date that this entry applies for
-   * @property {Date|null} end              End date for the entry
-   * @property {string}    quadrant         Quadrant label
-   * @property {number}    position         0 - 1 Start point within the total of horizons. Larger = worse.
-   * @property {number}    positionAngle    0 - 1 Horizontally within quadrant
-   * @property {number}    direction        0 - 1 End point with the total of horizons. Larger = worse.
-   * @property {number}    [directionAngle] Fraction of pi/2 (ie of a quadrant)
-   */
   /**
    * @param {Array.<Entry>} entries
    * @param config
@@ -293,3 +275,26 @@ class Radar {
 }
 
 export default Radar
+
+/**
+ * @typedef {Object} Metrics
+ * @property {number} quadNum
+ * @property {number} quadAngle
+ * @property {number} horizonNum
+ * @property {number} horizonUnit
+ * @property {number} horizonWidth
+ * @property {number} innerRad
+ * @property {*}      colorScale
+ * }
+ */
+
+/**
+ * @typedef  {Object} Entry
+ * @property {Date}      start            Start date that this entry applies for
+ * @property {Date|null} end              End date for the entry
+ * @property {string}    quadrant         Quadrant label
+ * @property {number}    position         0 - 1 Start point within the total of horizons. Larger = worse.
+ * @property {number}    positionAngle    0 - 1 Horizontally within quadrant
+ * @property {number}    direction        0 - 1 End point with the total of horizons. Larger = worse.
+ * @property {number}    [directionAngle] Fraction of pi/2 (ie of a quadrant)
+ */

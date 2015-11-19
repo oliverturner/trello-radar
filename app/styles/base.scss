@@ -59,8 +59,8 @@ svg text.quadrant {
 
 .blip {
   circle {
-    cursor:     pointer;
-    //background: transparent;
+    cursor: pointer;
+    fill:   rgba(black, 1);
   }
 
   &:hover text {
