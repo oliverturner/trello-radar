@@ -14,6 +14,10 @@ const results = {}
 
 // Data
 //-----------------------------------------------
+function onDataError (err) {
+  console.log('onDataError', err)
+}
+
 function onListSuccess (data) {
   results.lists = data
 }
@@ -33,10 +37,6 @@ function onCardSuccess (data) {
   //console.log('-- lists', results.lists)
 }
 
-function onDataError (err) {
-  console.log('onDataError', err)
-}
-
 function onAuthSuccess () {
   console.log('Successful authentication')
 
@@ -50,13 +50,6 @@ function onAuthFailure (err) {
 
 wrapper(window, {key: '27674ab7f9665fde168a16611001e771'})
 
-const chart = new Radar('#app', {
-  horizons:  ['discover', 'assess', 'learn', 'use'],
-  quadrants: ['languages', 'frameworks', 'tools', 'big data', 'statistics']
-})
-
-chart.draw(radarData)
-
 window.Trello.authorize({
   type:       'popup',
   name:       'Tech Radar',
@@ -64,3 +57,12 @@ window.Trello.authorize({
   success:    onAuthSuccess,
   error:      onAuthFailure
 })
+
+// Chart
+//-----------------------------------------------
+const chart = new Radar('#app', {
+  horizons:  ['discover', 'assess', 'learn', 'use'],
+  quadrants: ['languages', 'frameworks', 'tools', 'big data', 'statistics']
+})
+
+chart.draw(radarData)
