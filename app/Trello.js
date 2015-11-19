@@ -127,7 +127,7 @@ class Trello {
 
     if (opts.persist) {
       if (!this.appToken) {
-        this.appToken = readStorage('token')
+        this.appToken = this.readStorage('token')
       }
     }
 

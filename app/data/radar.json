@@ -44,14 +44,14 @@
     "description": "The d3 library for producing visualisation and data driven documents",
     "links":       ["http://d3js.org"],
     "quadrant":    "frameworks",
-    "horizon":     0
+    "horizon":     1
   },
   {
     "name":        "backbone",
     "description": "The d3 library for producing visualisation and data driven documents",
     "links":       ["http://d3js.org"],
     "quadrant":    "frameworks",
-    "horizon":     0
+    "horizon":     1
   },
   {
     "name":        "knockout",
