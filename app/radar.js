@@ -183,8 +183,6 @@ class Radar {
       return ret
     }, [])
 
-
-
     const textAngle = (360 / this.props.quadNum)
 
     svgQuadrants.selectAll('path.quadrant')
