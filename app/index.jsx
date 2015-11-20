@@ -2,12 +2,12 @@
 // to get around CSS order randomness in webpack.
 import './styles/base.scss'
 
-// import React from 'react'
-// import {render} from 'react-dom'
+import React from 'react'
+import {render} from 'react-dom'
 
-// import Application from './components/application'
+import Application from './components/application'
 import Radar from './radar'
-import radarData from './data/radar.json'
+import radarData from '../data/radar.json'
 
 // Data
 //-----------------------------------------------
@@ -59,3 +59,8 @@ const chart = new Radar('#app', {
 })
 
 chart.draw(radarData)
+
+// React
+//-----------------------------------------------
+
+render(<Application/>, document.getElementById('radar'))

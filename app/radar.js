@@ -71,7 +71,8 @@ class Radar {
 
     this.props = Radar._calcMetrics(data.quadrants.length, data.horizons.length)
 
-    this._addHorizons()
+    console.log(this.props)
+
     this._addQuadrants()
     this._drawArrow()
   }
@@ -153,21 +154,6 @@ class Radar {
       .append('path').attr('d', 'M0,0 V4 L2,2 Z')
   }
 
-  _addHorizons () {
-    const horizons = this.base
-      .append('g')
-      .attr('class', 'horizons')
-
-    horizons.selectAll('.horizon')
-      .data(this.data.horizons, identity)
-      .enter()
-      .append('circle')
-      .attr('r', (d, i) => (i + 1) * this.props.horizonUnit)
-      .attr('cx', 0)
-      .attr('cy', 0)
-      .attr('class', 'horizon')
-  }
-
   _addQuadrants () {
     const svgQuadrants = this.base
       .append('g')
@@ -196,6 +182,8 @@ class Radar {
 
       return ret
     }, [])
+
+
 
     const textAngle = (360 / this.props.quadNum)
 
@@ -278,13 +266,13 @@ export default Radar
 
 /**
  * @typedef {Object} Metrics
- * @property {number} quadNum
- * @property {number} quadAngle
- * @property {number} horizonNum
- * @property {number} horizonUnit
- * @property {number} horizonWidth
- * @property {number} innerRad
- * @property {*}      colorScale
+ * @property {number}   quadNum
+ * @property {number}   quadAngle
+ * @property {number}   horizonNum
+ * @property {number}   horizonUnit
+ * @property {number}   horizonWidth
+ * @property {number}   innerRad
+ * @property {Function} colorScale
  * }
  */
 
