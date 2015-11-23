@@ -1,7 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import Quadrants from '../../components/quadrants'
 import Quadrant from '../../components/quadrant'
 
 import styles from './style.scss'
@@ -18,12 +17,11 @@ class Application extends React.Component {
 
     return (
       <svg className={styles.wrap} viewBox={viewBox}>
-        <Quadrants transform={t}>
-          {this.props.quadrants.map((q, i) => {
-            console.log(q)
-            return <Quadrant key={i} {...q} metrics={this.props.metrics} />
-          })}
-        </Quadrants>
+        <g transform={t}>
+          {this.props.quadrants.map((q, i) =>
+            <Quadrant key={i} {...q} metrics={this.props.metrics} />
+          )}
+        </g>
       </svg>
     )
   }
