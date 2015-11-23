@@ -12,13 +12,17 @@ a {
   color: #00d8ff;
 }
 
-#app {
+.app {
+
+}
+
+.radar {
   display: flex;
   height:  100vh;
 }
 
-svg {
-  flex: 2;
+.radar__chart {
+  flex:       2;
   background: #999;
 }
 
@@ -28,14 +32,13 @@ svg text.name {
 }
 
 svg line.quadrant {
-  //stroke-width: 2px;
+  stroke-width: 2px;
 }
 
 svg circle.horizon {
   stroke:         #999;
   stroke-width:   2px;
   stroke-opacity: 0;
-  fill:           none;
 }
 
 svg line.direction {
@@ -68,6 +71,6 @@ svg text.quadrant {
   }
 }
 
-.quadrants {
+.radar__nav {
   flex: 1
 }

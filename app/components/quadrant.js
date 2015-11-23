@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import {connect} from 'react-redux'
 import d3 from 'd3'
 
 class Quadrant extends Component {
@@ -8,15 +9,14 @@ class Quadrant extends Component {
     return d3.svg.arc()
       .innerRadius((d) => this.props.innerRadius * w)
       .outerRadius((d) => this.props.outerRadius * w)
-      .startAngle((d)  => this.props.index * this.props.metrics.quadAngle + Math.PI / 2)
-      .endAngle((d)    => (this.props.index + 1) * this.props.metrics.quadAngle + Math.PI / 2)
+      .startAngle((d)  => this.props.quadrant * this.props.metrics.quadAngle + Math.PI / 2)
+      .endAngle((d)    => (this.props.quadrant + 1) * this.props.metrics.quadAngle + Math.PI / 2)
   }
 
   fill () {
-    const hue = d3.scale.category10()
-    const rgb = d3.rgb(hue(this.props.index))
+    const rgb = d3.rgb(this.props.metrics.colourScale(this.props.quadrant))
 
-    return rgb.brighter(this.props.index / this.props.metrics.horizonNum * 3)
+    return rgb.brighter(this.props.horizon / this.props.metrics.horizonNum * 3)
   }
 
   render () {
@@ -32,15 +32,21 @@ class Quadrant extends Component {
 
 Quadrant.propTypes = {
   name:        PropTypes.string,
-  index:       PropTypes.number.isRequired,
+  quadrant:    PropTypes.number.isRequired,
+  horizon:     PropTypes.number.isRequired,
   innerRadius: PropTypes.number.isRequired,
   outerRadius: PropTypes.number.isRequired,
 
   metrics: PropTypes.shape({
     horizonNum:   PropTypes.number,
     horizonWidth: PropTypes.number,
-    quadAngle:    PropTypes.number
+    quadAngle:    PropTypes.number,
+    colourScale:  PropTypes.func
   }).isRequired
 }
 
-export default Quadrant
+function select (state) {
+  return {metrics: state.metrics}
+}
+
+export default connect(select)(Quadrant)

@@ -1,11 +1,11 @@
-import React from 'react'
+import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 
 import Quadrant from '../../components/quadrant'
 
 import styles from './style.scss'
 
-class Application extends React.Component {
+class Application extends Component {
   render () {
     const w       = this.props.metrics.width
     const h       = this.props.metrics.height
@@ -16,15 +16,22 @@ class Application extends React.Component {
     const t  = `translate(${cx}, ${cy})`
 
     return (
-      <svg className={styles.wrap} viewBox={viewBox}>
-        <g transform={t}>
-          {this.props.quadrants.map((q, i) =>
-            <Quadrant key={i} {...q} metrics={this.props.metrics} />
-          )}
-        </g>
-      </svg>
+      <div className="radar">
+        <svg className="radar__chart" viewBox={viewBox}>
+          <g transform={t}>{this.props.quadrants.map((q, i) => <Quadrant key={i} {...q} />)}</g>
+        </svg>
+        <div className="radar__nav"></div>
+      </div>
     )
   }
+}
+
+Application.propTypes = {
+  metrics: PropTypes.shape({
+    width:  PropTypes.number,
+    height: PropTypes.number
+  }).isRequired,
+  quadrants: PropTypes.array.isRequired
 }
 
 function select (state) {

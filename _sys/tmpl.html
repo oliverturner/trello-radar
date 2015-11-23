@@ -8,7 +8,7 @@
     {% } %}
   </head>
   <body>
-    <div id="radar"></div>
+    <div id="app" class="app"></div>
 
     {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
     <script async src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>

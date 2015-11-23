@@ -7,9 +7,9 @@ const innerRad = 2
 export default function (quadNum, horizonNum) {
   const quadAngle    = 2 * Math.PI / quadNum
   const textAngle    = (360 / quadNum)
-  const horizonWidth = 0.95 * (width > height ? height : width) / 2
+  const horizonWidth = (width > height ? height : width) / 2
   const horizonUnit  = horizonWidth / (horizonNum + innerRad)
-  const colorScale   = d3.scale.category10()
+  const colourScale  = d3.scale.category10()
 
   return {
     width,
@@ -21,6 +21,6 @@ export default function (quadNum, horizonNum) {
     horizonUnit,
     horizonWidth,
     innerRad,
-    colorScale
+    colourScale
   }
 }
