@@ -27,8 +27,9 @@ a {
 }
 
 svg text.name {
-  font-size: 12px;
-  opacity:   0.25
+  text-anchor: middle;
+  font-size:   12px;
+  opacity:     0.25
 }
 
 svg line.quadrant {

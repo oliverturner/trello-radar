@@ -1,70 +1,98 @@
 [
   {
-    "name":        "d3",
+    "id": "abcd1",
+    "name": "d3",
     "description": "The d3 library for producing visualisation and data driven documents",
-    "links":       ["http://d3js.org"],
-    "quadrant":    "statistics",
-    "horizon":     0
+    "links": [
+      "http://d3js.org"
+    ],
+    "quadrant": 4,
+    "horizon": 0
   },
   {
-    "name":        "angular",
+    "id": "abcd2",
+    "name": "angular",
     "description": "The d3 library for producing visualisation and data driven documents",
-    "links":       ["http://d3js.org"],
-    "quadrant":    "frameworks",
-    "horizon":     0
+    "links": [
+      "http://d3js.org"
+    ],
+    "quadrant": 1,
+    "horizon": 0
   },
   {
-    "name":        "ember",
-    "quadrant":    "frameworks",
-    "horizon":     0
+    "id": "abcd3",
+    "name": "ember",
+    "quadrant": 1,
+    "horizon": 0
   },
   {
-    "name":        "react",
+    "id": "abcd4",
+    "name": "react",
     "description": "The d3 library for producing visualisation and data driven documents",
-    "links":       ["http://d3js.org"],
-    "quadrant":    "frameworks",
-    "horizon":     0
+    "links": [
+      "http://d3js.org"
+    ],
+    "quadrant": 1,
+    "horizon": 0
   },
   {
-    "name":        "knockout",
+    "id": "abcd5",
+    "name": "knockout",
     "description": "The d3 library for producing visualisation and data driven documents",
-    "links":       ["http://d3js.org"],
-    "quadrant":    "frameworks",
-    "horizon":     0
+    "links": [
+      "http://d3js.org"
+    ],
+    "quadrant": 1,
+    "horizon": 0
   },
   {
-    "name":        "backbone",
+    "id": "abcd6",
+    "name": "backbone",
     "description": "The d3 library for producing visualisation and data driven documents",
-    "links":       ["http://d3js.org"],
-    "quadrant":    "frameworks",
-    "horizon":     0
+    "links": [
+      "http://d3js.org"
+    ],
+    "quadrant": 1,
+    "horizon": 0
   },
   {
-    "name":        "knockout",
+    "id": "abcd7",
+    "name": "knockout",
     "description": "The d3 library for producing visualisation and data driven documents",
-    "links":       ["http://d3js.org"],
-    "quadrant":    "frameworks",
-    "horizon":     1
+    "links": [
+      "http://d3js.org"
+    ],
+    "quadrant": 1,
+    "horizon": 1
   },
   {
-    "name":        "backbone",
+    "id": "abcd8",
+    "name": "backbone",
     "description": "The d3 library for producing visualisation and data driven documents",
-    "links":       ["http://d3js.org"],
-    "quadrant":    "frameworks",
-    "horizon":     1
+    "links": [
+      "http://d3js.org"
+    ],
+    "quadrant": 1,
+    "horizon": 1
   },
   {
-    "name":        "knockout",
+    "id": "abcd9",
+    "name": "knockout",
     "description": "The d3 library for producing visualisation and data driven documents",
-    "links":       ["http://d3js.org"],
-    "quadrant":    "frameworks",
-    "horizon":     3
+    "links": [
+      "http://d3js.org"
+    ],
+    "quadrant": 1,
+    "horizon": 3
   },
   {
-    "name":        "backbone",
+    "id": "abcd10",
+    "name": "backbone",
     "description": "The d3 library for producing visualisation and data driven documents",
-    "links":       ["http://d3js.org"],
-    "quadrant":    "frameworks",
-    "horizon":     3
+    "links": [
+      "http://d3js.org"
+    ],
+    "quadrant": 1,
+    "horizon": 3
   }
 ]

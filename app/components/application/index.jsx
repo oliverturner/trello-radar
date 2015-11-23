@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 
 import Quadrant from '../../components/quadrant'
+import Blip from '../../components/blip'
 
 import styles from './style.scss'
 
@@ -18,7 +19,8 @@ class Application extends Component {
     return (
       <div className="radar">
         <svg className="radar__chart" viewBox={viewBox}>
-          <g transform={t}>{this.props.quadrants.map((q, i) => <Quadrant key={i} {...q} />)}</g>
+          <g transform={t}>{this.props.segments.map((q, i) => <Quadrant key={`s-${i}`} {...q} />)}</g>
+          <g transform={t}>{this.props.blips.map((b, i) => <Blip key={`b-${i}`} {...b} />)}</g>
         </svg>
         <div className="radar__nav"></div>
       </div>
@@ -31,7 +33,9 @@ Application.propTypes = {
     width:  PropTypes.number,
     height: PropTypes.number
   }).isRequired,
-  quadrants: PropTypes.array.isRequired
+
+  segments: PropTypes.array.isRequired,
+  blips:    PropTypes.array.isRequired
 }
 
 function select (state) {

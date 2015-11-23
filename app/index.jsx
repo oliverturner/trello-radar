@@ -21,19 +21,35 @@ const data = {
 
 const m = metrics(data.quadrants.length, data.horizons.length)
 const w = m.horizonNum + m.innerRad
-const q = data.quadrants.reduce((ret, q, i) => {
-  return ret.concat(data.horizons.map((horizon, j) => {
-    return {
-      outerRadius: (m.innerRad + j + 1) / w,
-      innerRadius: (m.innerRad + j) / w,
-      quadrant:    i,
-      horizon:     j,
-      name:        q
-    }
-  }))
-}, [])
+const s = data.quadrants
+  .reduce((ret, quadrant, i) => {
+    return ret.concat(data.horizons.map((horizon, j) => {
+      const segBlips = data.blips.filter((b) => b.quadrant === i && b.horizon === j)
 
-const store = createStore(reducer, {metrics: m, quadrants: q, data})
+      return {
+        id:          `${i}-${j}`,
+        name:        quadrant,
+        outerRadius: (m.innerRad + j + 1) / w,
+        innerRadius: (m.innerRad + j) / w,
+        quadrant:    i,
+        horizon:     j,
+        blips:       segBlips.map((sb) => sb.id)
+      }
+    }))
+  }, [])
+
+function setSegment (blip) {
+  const segmentId = `${blip.quadrant}-${blip.horizon}`
+  const segment   = s.filter((seg) => seg.id === segmentId)[0]
+  const keyNum    = segment.blips.length
+  const keyIndex  = segment.blips.indexOf(blip.id)
+
+  return Object.assign(blip, {segment, keyIndex, keyNum})
+}
+
+const b = data.blips.map(setSegment)
+
+const store = createStore(reducer, {metrics: m, segments: s, blips: b})
 
 render(
   <Provider store={store}>
