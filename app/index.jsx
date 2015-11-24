@@ -11,45 +11,45 @@ import reducer from './reducers'
 import metrics from './utils/metrics'
 
 import Application from './components/application'
-import blips from '../data/radar.json'
+import radar from '../data/radar.json'
 
 const data = {
-  horizons:  ['discover', 'assess', 'learn', 'use'],
-  quadrants: ['languages', 'frameworks', 'tools', 'big data', 'statistics'],
-  blips:     blips
+  quadrants: radar.labels,
+  horizons:  radar.lists,
+  blips:     radar.cards
 }
 
 const m = metrics(data.quadrants.length, data.horizons.length)
-const w = m.horizonNum + m.innerRad
-const s = data.quadrants
+
+const segments = data.quadrants
   .reduce((ret, quadrant, i) => {
     return ret.concat(data.horizons.map((horizon, j) => {
-      const segBlips = data.blips.filter((b) => b.quadrant === i && b.horizon === j)
+      const segBlips = data.blips.filter((b) =>
+        b.idLabels[0] === quadrant.id && b.idList === horizon.id
+      )
 
       return {
-        id:          `${i}-${j}`,
-        name:        quadrant,
-        outerRadius: (m.innerRad + j + 1) / w,
-        innerRadius: (m.innerRad + j) / w,
-        quadrant:    i,
-        horizon:     j,
-        blips:       segBlips.map((sb) => sb.id)
+        id:     `${i}-${j}`,
+        qIndex: i,
+        hIndex: j,
+        blips:  segBlips.map((sb) => sb.id)
       }
     }))
   }, [])
 
 function setSegment (blip) {
   const segmentId = `${blip.quadrant}-${blip.horizon}`
-  const segment   = s.filter((seg) => seg.id === segmentId)[0]
+  const segment   = segments.filter(({id}) => id === segmentId)[0]
   const keyNum    = segment.blips.length
   const keyIndex  = segment.blips.indexOf(blip.id)
 
-  return Object.assign(blip, {segment, keyIndex, keyNum})
+  return Object.assign(blip, {horizon: segment.hIndex, quadrant: segment.qIndex, keyIndex, keyNum})
+  //return Object.assign(blip, {keyIndex, keyNum})
 }
 
-const b = data.blips.map(setSegment)
+const blips = data.blips.map(setSegment)
 
-const store = createStore(reducer, {metrics: m, segments: s, blips: b})
+const store = createStore(reducer, {metrics: m, segments, blips})
 
 render(
   <Provider store={store}>

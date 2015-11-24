@@ -4,23 +4,22 @@ import {connect} from 'react-redux'
 import Quadrant from '../../components/quadrant'
 import Blip from '../../components/blip'
 
-import styles from './style.scss'
-
 class Application extends Component {
   render () {
-    const w       = this.props.metrics.width
-    const h       = this.props.metrics.height
-    const viewBox = `0 0 ${w} ${h}`
+    const {width, height} = this.props.metrics
+    const cx = width / 2
+    const cy = height / 2
 
-    const cx = w / 2
-    const cy = h / 2
     const t  = `translate(${cx}, ${cy})`
+    const vb = `0 0 ${width} ${height}`
+
+    const quads = this.props.segments.map((q, i) => <Quadrant {...q} />)
+    const blips = this.props.blips.map((b, i) => <Blip {...b} />)
 
     return (
       <div className="radar">
-        <svg className="radar__chart" viewBox={viewBox}>
-          <g transform={t}>{this.props.segments.map((q, i) => <Quadrant key={`s-${i}`} {...q} />)}</g>
-          <g transform={t}>{this.props.blips.map((b, i) => <Blip key={`b-${i}`} {...b} />)}</g>
+        <svg className="radar__chart" viewBox={vb}>
+          <g transform={t}>{[quads, blips]}</g>
         </svg>
         <div className="radar__nav"></div>
       </div>

@@ -4,40 +4,44 @@ import d3 from 'd3'
 
 class Quadrant extends Component {
   arcFunction () {
-    const w = this.props.metrics.horizonWidth
+    const {horizonWidth, horizonNum, quadAngle, innerRad, width} = this.props.metrics
+    const {qIndex, hIndex} = this.props
+
+    const w    = horizonNum + innerRad
+    const oRad = (innerRad + hIndex + 1) / w
+    const iRad = (innerRad + hIndex) / w
 
     return d3.svg.arc()
-      .innerRadius((d) => this.props.innerRadius * w)
-      .outerRadius((d) => this.props.outerRadius * w)
-      .startAngle((d)  => this.props.quadrant * this.props.metrics.quadAngle + Math.PI / 2)
-      .endAngle((d)    => (this.props.quadrant + 1) * this.props.metrics.quadAngle + Math.PI / 2)
+      .innerRadius((d) => iRad * horizonWidth)
+      .outerRadius((d) => oRad * horizonWidth)
+      .startAngle((d)  => qIndex * quadAngle + Math.PI / 2)
+      .endAngle((d)    => (qIndex + 1) * quadAngle + Math.PI / 2)
   }
 
   fill () {
-    const rgb = d3.rgb(this.props.metrics.colourScale(this.props.quadrant))
+    const {colourScale, horizonNum} = this.props.metrics
+    const rgb = d3.rgb(colourScale(this.props.qIndex))
 
-    return rgb.brighter(this.props.horizon / this.props.metrics.horizonNum * 3)
+    return rgb.brighter(this.props.hIndex / horizonNum * 3)
   }
 
   render () {
-    const cls  = 'quadrant quadrant--' + this.props.name.toLowerCase().replace(/ /, '-')
     const arc  = this.arcFunction()
     const fill = this.fill()
 
     return (
-      <path className={cls} d={arc()} fill={fill}/>
+      <path d={arc()} fill={fill}/>
     )
   }
 }
 
 Quadrant.propTypes = {
-  name:        PropTypes.string,
-  quadrant:    PropTypes.number.isRequired,
-  horizon:     PropTypes.number.isRequired,
-  innerRadius: PropTypes.number.isRequired,
-  outerRadius: PropTypes.number.isRequired,
+  qIndex: PropTypes.number.isRequired,
+  hIndex: PropTypes.number.isRequired,
 
   metrics: PropTypes.shape({
+    width:        PropTypes.number,
+    innerRad:     PropTypes.number,
     horizonNum:   PropTypes.number,
     horizonWidth: PropTypes.number,
     quadAngle:    PropTypes.number,

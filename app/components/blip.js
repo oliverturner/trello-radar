@@ -61,10 +61,11 @@ Blip.propTypes = {
     horizonUnit:  PropTypes.number
   }).isRequired,
 
+  name:     PropTypes.string.isRequired,
   keyIndex: PropTypes.number.isRequired,
   keyNum:   PropTypes.number.isRequired,
-  horizon:  PropTypes.number.isRequired,
-  quadrant: PropTypes.number.isRequired
+  horizon:   PropTypes.number.isRequired,
+  quadrant:   PropTypes.number.isRequired
 }
 
 function select (state) {
