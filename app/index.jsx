@@ -30,8 +30,8 @@ const segments = data.quadrants
         qIndex: i,
         hIndex: j,
         cards:  data.cards
-          .filter((b) => b.idLabels[0] === quadrant.id && b.idList === horizon.id)
-          .map(({id}) => id)
+                  .filter((b) => b.idLabels[0] === quadrant.id && b.idList === horizon.id)
+                  .map(({id}) => id)
       }
 
       return hRet
@@ -50,8 +50,7 @@ data.cards.map((card) => {
 })
 
 const store = createStore(reducer, {metrics: m, segments, ...data})
-
-console.log(store.getState())
+store.dispatch({type: 'INIT'})
 
 render(
   <Provider store={store}>

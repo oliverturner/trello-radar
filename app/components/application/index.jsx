@@ -26,11 +26,14 @@ class Application extends Component {
         </svg>
         <div className="radar__nav">
           {this.props.quadrants.map(q =>
-            <li>{q.name}
+            <li key={q.id}>{q.name}
               <ul>
                 {this.props.cards
                   .filter((c) => c.idLabels[0] === q.id)
-                  .map((c) => <li>{c.name}</li>)
+                  .map((c) => <li key={c.id}>
+                    {c.name}
+                    <p>{c.description}</p>
+                  </li>)
                 }
               </ul>
             </li>
