@@ -1,0 +1,50 @@
+[
+  {
+    "id": "564319cf1c2042e7984fcd6d",
+    "name": "EA Candidates",
+    "closed": false,
+    "idBoard": "56431976063102e6178fa3d4",
+    "pos": 49151,
+    "subscribed": false
+  },
+  {
+    "id": "564319ef5c3ab1fee0458bd4",
+    "name": "ADOPT CONFIDENTLY - technologies and practices that have proved their merit for general use.",
+    "closed": false,
+    "idBoard": "56431976063102e6178fa3d4",
+    "pos": 139263,
+    "subscribed": false
+  },
+  {
+    "id": "56431a0a1b9ea2159950a2cd",
+    "name": "ADOPT CAUTIOUSLY - widespread industry acceptance but limited internal experience; consider adopting in your project.",
+    "closed": false,
+    "idBoard": "56431976063102e6178fa3d4",
+    "pos": 200703,
+    "subscribed": false
+  },
+  {
+    "id": "56431a307ab6f566f2901517",
+    "name": "ASSESS - technologies and practices you’ll probably want to know about but not necessarily adopt unless the fit is obvious and you can accept the risk.",
+    "closed": false,
+    "idBoard": "56431976063102e6178fa3d4",
+    "pos": 231423,
+    "subscribed": false
+  },
+  {
+    "id": "56431a5af6a6885d2a3fe4e7",
+    "name": "WATCH - have industry buzz but may not be ready for prime time.",
+    "closed": false,
+    "idBoard": "56431976063102e6178fa3d4",
+    "pos": 249855,
+    "subscribed": false
+  },
+  {
+    "id": "56431a81a9a3375242b4b1fc",
+    "name": "RECONSIDER - problematic or of limited applicability; where reasonable, avoid and even replace.",
+    "closed": false,
+    "idBoard": "56431976063102e6178fa3d4",
+    "pos": 344063,
+    "subscribed": false
+  }
+]
