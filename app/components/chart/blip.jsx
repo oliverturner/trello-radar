@@ -10,7 +10,7 @@ function polarToCartesian (r, t) {
 class Blip extends Component {
   calcRad () {
     const {innerRad, horizonNum, horizonWidth} = this.props.metrics
-    const min = this.props.horizon + innerRad
+    const min = this.props.hIndex + innerRad
     const max = horizonNum + innerRad
 
     return min / max * horizonWidth
@@ -21,8 +21,8 @@ class Blip extends Component {
     const dy = ry / 2
 
     let stagger = 0
-    if (this.props.keyNum > this.props.horizon + 1) {
-      stagger = this.props.keyIndex % 2 ? dy : -dy
+    if (this.props.sCount > this.props.hIndex + 1) {
+      stagger = this.props.sIndex % 2 ? dy : -dy
     }
 
     return this.calcRad() + ry + stagger
@@ -32,8 +32,8 @@ class Blip extends Component {
     const q = this.props.metrics.quadAngle
     const r = this.getRadius()
 
-    const posAngle  = (1 / (this.props.keyNum + 1)) * (this.props.keyIndex + 1)
-    const quadDelta = q * this.props.quadrant
+    const posAngle  = (1 / (this.props.sCount + 1)) * (this.props.sIndex + 1)
+    const quadDelta = q * this.props.qIndex
     const theta     = (posAngle * q) + quadDelta
 
     return polarToCartesian(r, theta)
@@ -61,11 +61,11 @@ Blip.propTypes = {
     horizonUnit:  PropTypes.number
   }).isRequired,
 
-  name:     PropTypes.string.isRequired,
-  keyIndex: PropTypes.number.isRequired,
-  keyNum:   PropTypes.number.isRequired,
-  horizon:   PropTypes.number.isRequired,
-  quadrant:   PropTypes.number.isRequired
+  name:   PropTypes.string.isRequired,
+  sCount: PropTypes.number.isRequired,
+  sIndex: PropTypes.number.isRequired,
+  hIndex: PropTypes.number.isRequired,
+  qIndex: PropTypes.number.isRequired
 }
 
 function select (state) {

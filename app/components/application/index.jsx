@@ -1,8 +1,9 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 
-import Quadrant from '../../components/quadrant'
-import Blip from '../../components/blip'
+import Blip from '../chart/blip'
+import Quadrant from '../chart/quadrant'
+import QuadrantLabel from '../chart/quadrant-label'
 
 class Application extends Component {
   render () {
@@ -13,15 +14,28 @@ class Application extends Component {
     const t  = `translate(${cx}, ${cy})`
     const vb = `0 0 ${width} ${height}`
 
-    const quads = this.props.segments.map((q, i) => <Quadrant {...q} />)
-    const blips = this.props.blips.map((b, i) => <Blip {...b} />)
+    const sKeys  = Object.keys(this.props.segments)
+    const quads  = sKeys.map((key) => <Quadrant {...this.props.segments[key]} />)
+    const blips  = this.props.cards.map((b, i) => <Blip {...b} />)
+    const labels = this.props.quadrants.map((q, i) => <QuadrantLabel index={i} {...q} />)
 
     return (
       <div className="radar">
         <svg className="radar__chart" viewBox={vb}>
-          <g transform={t}>{[quads, blips]}</g>
+          <g transform={t}>{[quads, blips, labels]}</g>
         </svg>
-        <div className="radar__nav"></div>
+        <div className="radar__nav">
+          {this.props.quadrants.map(q =>
+            <li>{q.name}
+              <ul>
+                {this.props.cards
+                  .filter((c) => c.idLabels[0] === q.id)
+                  .map((c) => <li>{c.name}</li>)
+                }
+              </ul>
+            </li>
+          )}
+        </div>
       </div>
     )
   }
@@ -33,8 +47,9 @@ Application.propTypes = {
     height: PropTypes.number
   }).isRequired,
 
-  segments: PropTypes.array.isRequired,
-  blips:    PropTypes.array.isRequired
+  segments:  PropTypes.object.isRequired,
+  quadrants: PropTypes.array.isRequired,
+  cards:     PropTypes.array.isRequired
 }
 
 function select (state) {

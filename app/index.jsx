@@ -16,40 +16,42 @@ import radar from '../data/radar.json'
 const data = {
   quadrants: radar.labels,
   horizons:  radar.lists,
-  blips:     radar.cards
+  cards:     radar.cards
 }
 
 const m = metrics(data.quadrants.length, data.horizons.length)
 
 const segments = data.quadrants
-  .reduce((ret, quadrant, i) => {
-    return ret.concat(data.horizons.map((horizon, j) => {
-      const segBlips = data.blips.filter((b) =>
-        b.idLabels[0] === quadrant.id && b.idList === horizon.id
-      )
+  .reduce((qRet, quadrant, i) => {
+    const qh = data.horizons.reduce((hRet, horizon, j) => {
+      const key = `${quadrant.id}-${horizon.id}`
 
-      return {
-        id:     `${i}-${j}`,
+      hRet[key] = {
         qIndex: i,
         hIndex: j,
-        blips:  segBlips.map((sb) => sb.id)
+        cards:  data.cards
+          .filter((b) => b.idLabels[0] === quadrant.id && b.idList === horizon.id)
+          .map(({id}) => id)
       }
-    }))
-  }, [])
 
-function setSegment (blip) {
-  const segmentId = `${blip.quadrant}-${blip.horizon}`
-  const segment   = segments.filter(({id}) => id === segmentId)[0]
-  const keyNum    = segment.blips.length
-  const keyIndex  = segment.blips.indexOf(blip.id)
+      return hRet
+    }, {})
 
-  return Object.assign(blip, {horizon: segment.hIndex, quadrant: segment.qIndex, keyIndex, keyNum})
-  //return Object.assign(blip, {keyIndex, keyNum})
-}
+    return Object.assign(qRet, qh)
+  }, {})
 
-const blips = data.blips.map(setSegment)
+data.cards.map((card) => {
+  const k      = `${card.idLabels[0]}-${card.idList}`
+  const s      = segments[k]
+  const sCount = s.cards.length
+  const sIndex = s.cards.indexOf(card.id)
 
-const store = createStore(reducer, {metrics: m, segments, blips})
+  return Object.assign(card, {sIndex, sCount, ...s})
+})
+
+const store = createStore(reducer, {metrics: m, segments, ...data})
+
+console.log(store.getState())
 
 render(
   <Provider store={store}>
