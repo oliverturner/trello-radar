@@ -13,7 +13,7 @@ class Application extends Component {
     const {width, height} = metrics
     const cx = width / 2
     const cy = height / 2
-    
+
     const t  = `translate(${cx}, ${cy})`
     const vb = `0 0 ${width} ${height}`
 
