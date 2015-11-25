@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 
-function polarToCartesian (r, t) {
+const polarToCartesian = (r, t) => {
   var x = r * Math.cos(t)
   var y = r * Math.sin(t)
   return [x, y]
