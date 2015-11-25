@@ -4,7 +4,7 @@ import d3 from 'd3'
 
 class Quadrant extends Component {
   arcFunction () {
-    const {horizonWidth, horizonNum, quadAngle, innerRad, width} = this.props.metrics
+    const {horizonWidth, horizonNum, quadAngle, innerRad} = this.props.metrics
     const {qIndex, hIndex} = this.props
 
     const w    = horizonNum + innerRad
