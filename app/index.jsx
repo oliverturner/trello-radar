@@ -19,7 +19,7 @@ const data = {
   cards:     radar.cards
 }
 
-const m = metrics(data.quadrants.length, data.horizons.length)
+metrics.init(data.quadrants.length, data.horizons.length)
 
 const segments = data.quadrants
   .reduce((qRet, quadrant, i) => {
@@ -29,6 +29,8 @@ const segments = data.quadrants
       hRet[key] = {
         qIndex: i,
         hIndex: j,
+        fill:   metrics.getSegmentFill(i, j),
+        arcFn:  metrics.getSegmentArc(i, j),
         cards:  data.cards
                   .filter((b) => b.idLabels[0] === quadrant.id && b.idList === horizon.id)
                   .map(({id}) => id)
@@ -46,11 +48,18 @@ data.cards.map((card) => {
   const sCount = s.cards.length
   const sIndex = s.cards.indexOf(card.id)
 
-  return Object.assign(card, {sIndex, sCount, ...s})
+  const {qIndex, hIndex, fill} = s
+
+  return Object.assign(card, {sIndex, sCount, qIndex, hIndex, fill})
 })
 
-const store = createStore(reducer, {metrics: m, segments, ...data})
-store.dispatch({type: 'INIT'})
+data.quadrants.map((q) => {
+  const cards = data.cards.filter((c) => c.idLabels[0] === q.id)
+
+  return Object.assign(q, {cards})
+})
+
+const store = createStore(reducer, {segments, ...data})
 
 render(
   <Provider store={store}>

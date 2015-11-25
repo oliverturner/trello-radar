@@ -22,6 +22,8 @@ a {
 
 .radar__chart {
   flex:       2;
+
+  padding:    20px;
   background: #999;
 }
 
@@ -75,5 +77,27 @@ svg text.quadrant {
   flex-basis: 300px;
 
   overflow-y: scroll;
-  padding:    10px;
+  padding:    0 10px;
+}
+
+.navitems {
+  list-style: none;
+  padding:    0;
+}
+
+.navitem__label {
+  margin:  1px 0 0 0;
+  padding: 5px 10px;
+}
+
+.navitem--segment {
+  margin: 0 0 0 20px;
+}
+
+.navitem__desc {
+  display: none;
+
+  &.is-active {
+    display: block;
+  }
 }

@@ -5,7 +5,6 @@ const reducer = (state = {}, action) => {
       return state
 
     default:
-      console.log('default')
       return state
   }
 }
