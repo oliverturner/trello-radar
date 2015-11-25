@@ -1,16 +1,14 @@
-import React, {Component, PropTypes} from 'react'
-import {connect} from 'react-redux'
+import React, {PropTypes} from 'react'
 
-class QuadrantLabel extends Component {
-  render () {
-    const {horizonWidth, horizonNum, innerRad, textAngle} = this.props.metrics
+const QuadrantLabel = ({index, name, metrics}) => {
+  const {horizonWidth, horizonNum, innerRad, textAngle} = metrics
 
-    const dx = horizonWidth / (horizonNum - innerRad)
-    const t  = `rotate(${this.props.index * textAngle + textAngle})`
-    return (
-      <text className="quadrant" dx={dx} transform={t}>{this.props.name}</text>
-    )
-  }
+  const dx = horizonWidth / (horizonNum - innerRad)
+  const t  = `rotate(${index * textAngle + textAngle})`
+
+  return (
+    <text className="quadrant" dx={dx} transform={t}>{name}</text>
+  )
 }
 
 QuadrantLabel.propTypes = {
@@ -25,8 +23,4 @@ QuadrantLabel.propTypes = {
   }).isRequired
 }
 
-function select (state) {
-  return {metrics: state.metrics}
-}
-
-export default connect(select)(QuadrantLabel)
+export default QuadrantLabel

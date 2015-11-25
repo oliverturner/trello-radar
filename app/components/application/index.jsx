@@ -17,7 +17,9 @@ class Application extends Component {
     const sKeys  = Object.keys(this.props.segments)
     const quads  = sKeys.map((key) => <Quadrant {...this.props.segments[key]} />)
     const blips  = this.props.cards.map((b, i) => <Blip {...b} />)
-    const labels = this.props.quadrants.map((q, i) => <QuadrantLabel index={i} {...q} />)
+    const labels = this.props.quadrants.map((q, i) =>
+      <QuadrantLabel index={i} name={q.name} metrics={this.props.metrics} />
+    )
 
     return (
       <div className="radar">
