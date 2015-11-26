@@ -14,9 +14,10 @@ import Application from './components/application'
 import radar from '../data/radar.json'
 
 const data = {
-  quadrants: radar.labels,
-  horizons:  radar.lists,
-  cards:     radar.cards
+  quadrants:    radar.labels,
+  horizons:     radar.lists,
+  cards:        radar.cards,
+  cardSelected: null
 }
 
 metrics.init(data.quadrants.length, data.horizons.length)

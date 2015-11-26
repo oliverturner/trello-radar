@@ -1,23 +1,15 @@
 import React, {Component, PropTypes} from 'react'
 
+import {connect} from 'react-redux'
+
 class QuadrantItem extends Component {
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      open: false
-    }
-  }
-
   toggleOpen = () => {
-    if (!this.props.description.length) return
-
-    this.setState({open: !this.state.open})
+    this.props.dispatch({type: 'CARD_SELECT', cardId: this.props.id})
   }
 
   render () {
     const style = {background: this.props.fill}
-    const cls   = this.state.open ? 'navitem__desc is-active' : 'navitem__desc'
+    const cls   = this.props.cardSelected === this.props.id ? 'navitem__desc is-active' : 'navitem__desc'
 
     return (
       <li key={this.props.id} className="navitem--segment" onClick={this.toggleOpen}>
@@ -29,10 +21,17 @@ class QuadrantItem extends Component {
 }
 
 QuadrantItem.propTypes = {
+  dispatch:     PropTypes.func.isRequired,
+  cardSelected: PropTypes.string.isRequired,
+
   id:          PropTypes.string.isRequired,
   fill:        PropTypes.string.isRequired,
   name:        PropTypes.string.isRequired,
   description: PropTypes.string
 }
 
-export default QuadrantItem
+function select (state) {
+  return {cardSelected: state.cardSelected}
+}
+
+export default connect(select)(QuadrantItem)

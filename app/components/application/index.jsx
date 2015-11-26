@@ -22,7 +22,7 @@ class Application extends Component {
       <Quadrant {...this.props.segments[key]} />
     )
 
-    const blips = this.props.cards.map((b, i) => <Blip {...b} />)
+    const blips = this.props.cards.map((c, i) => <Blip {...c} />)
 
     const labels = this.props.quadrants.map((q, i) =>
       <QuadrantLabel index={i} name={q.name}/>
@@ -42,11 +42,6 @@ class Application extends Component {
 }
 
 Application.propTypes = {
-  metrics: PropTypes.shape({
-    width:  PropTypes.number,
-    height: PropTypes.number
-  }).isRequired,
-
   segments:  PropTypes.object.isRequired,
   quadrants: PropTypes.array.isRequired,
   cards:     PropTypes.array.isRequired
