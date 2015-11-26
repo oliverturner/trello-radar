@@ -16,15 +16,15 @@ a {
 }
 
 .radar {
-  display: flex;
-  height:  100vh;
+  display:    flex;
+  height:     100vh;
+  background: #999;
 }
 
 .radar__chart {
-  flex:       2;
+  flex:    2;
 
-  padding:    20px;
-  background: #999;
+  padding: 20px;
 }
 
 svg text.name {
@@ -63,9 +63,10 @@ svg text.quadrant {
 }
 
 .blip {
+  cursor: pointer;
+
   circle {
-    cursor: pointer;
-    fill:   rgba(black, 1);
+    fill: rgba(black, 1);
   }
 
   &:hover text {
@@ -77,27 +78,5 @@ svg text.quadrant {
   flex-basis: 300px;
 
   overflow-y: scroll;
-  padding:    0 10px;
-}
-
-.navitems {
-  list-style: none;
-  padding:    0;
-}
-
-.navitem__label {
-  margin:  1px 0 0 0;
-  padding: 5px 10px;
-}
-
-.navitem--segment {
-  margin: 0 0 0 20px;
-}
-
-.navitem__desc {
-  display: none;
-
-  &.is-active {
-    display: block;
-  }
+  background: #fff;
 }

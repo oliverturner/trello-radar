@@ -1,20 +1,37 @@
 import React, {Component, PropTypes} from 'react'
-
+import Collapse from 'react-collapse'
 import {connect} from 'react-redux'
 
+import styles from './style.scss'
+
 class QuadrantItem extends Component {
+  static defaultProps = {
+    description: ''
+  }
+
   toggleOpen = () => {
     this.props.dispatch({type: 'CARD_SELECT', cardId: this.props.id})
   }
 
-  render () {
-    const style = {background: this.props.fill}
-    const cls   = this.props.cardSelected === this.props.id ? 'navitem__desc is-active' : 'navitem__desc'
+  getDescription () {
+    if (this.props.description.length === 0) return
+
+    const opened = this.props.cardSelected === this.props.id
 
     return (
-      <li key={this.props.id} className="navitem--segment" onClick={this.toggleOpen}>
-        <p className="navitem__label" style={style}>{this.props.name}</p>
-        <p className={cls}>{this.props.description}</p>
+      <Collapse isOpened={opened}>
+        <p className={styles['item__desc']}>{this.props.description}</p>
+      </Collapse>
+    )
+  }
+
+  render () {
+    const style  = {background: this.props.fill}
+
+    return (
+      <li className={styles['item--segment']} onClick={this.toggleOpen}>
+        <p className={styles['item__label']} style={style}>{this.props.name}</p>
+        {this.getDescription()}
       </li>
     )
   }
@@ -22,10 +39,10 @@ class QuadrantItem extends Component {
 
 QuadrantItem.propTypes = {
   dispatch:     PropTypes.func.isRequired,
-  cardSelected: PropTypes.string.isRequired,
+  cardSelected: PropTypes.string,
 
   id:          PropTypes.string.isRequired,
-  fill:        PropTypes.string.isRequired,
+  fill:        PropTypes.object.isRequired,
   name:        PropTypes.string.isRequired,
   description: PropTypes.string
 }

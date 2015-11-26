@@ -9,6 +9,10 @@ import QuadrantLabel from '../chart/quadrant-label'
 import Nav from '../nav'
 
 class Application extends Component {
+  blipClick = (blipId) => {
+    this.props.dispatch({type: 'CARD_SELECT', cardId: blipId})
+  }
+
   render () {
     const {width, height} = metrics
     const cx = width / 2
@@ -22,7 +26,7 @@ class Application extends Component {
       <Quadrant {...this.props.segments[key]} />
     )
 
-    const blips = this.props.cards.map((c, i) => <Blip {...c} />)
+    const blips = this.props.cards.map((c, i) => <Blip {...c} blipClick={this.blipClick} />)
 
     const labels = this.props.quadrants.map((q, i) =>
       <QuadrantLabel index={i} name={q.name}/>
@@ -34,7 +38,7 @@ class Application extends Component {
           <g transform={t}>{[quads, blips, labels]}</g>
         </svg>
         <div className="radar__nav">
-          <Nav quadrants={this.props.quadrants} />
+          <Nav quadrants={this.props.quadrants}/>
         </div>
       </div>
     )
@@ -42,6 +46,8 @@ class Application extends Component {
 }
 
 Application.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+
   segments:  PropTypes.object.isRequired,
   quadrants: PropTypes.array.isRequired,
   cards:     PropTypes.array.isRequired

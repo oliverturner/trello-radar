@@ -1,0 +1,32 @@
+:local(.items),
+:local(.subitems) {
+  list-style: none;
+  margin:     0;
+  padding:    0;
+}
+
+:local(.subitems) {
+  margin: 5px;
+}
+
+:local(.item--segment) {
+  margin: 0 0 0 5px;
+}
+
+:local(.subitem__label) {
+  margin:  0;
+  padding: 5px;
+}
+
+:local(.item__label) {
+  margin:  1px 0 0 0;
+  padding: 5px 10px;
+  cursor:  pointer;
+}
+
+:local(.item__desc) {
+  margin:     0;
+  padding:    10px;
+  font-size:  85%;
+  background: #fff;
+}
