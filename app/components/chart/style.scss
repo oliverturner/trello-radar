@@ -1,0 +1,34 @@
+:local(.horizon) {
+  stroke:         #999;
+  stroke-width:   2px;
+  stroke-opacity: 0;
+}
+
+:local(.quadrant) {
+  stroke-width: 2px;
+  font-weight:  bold;
+  font-size:    24px;
+  text-align:   right;
+  opacity:      0.25;
+  color:        white;
+}
+
+:local(.blip) {
+  cursor: pointer;
+
+  circle {
+    fill: rgba(black, 1);
+  }
+
+  &:hover :local(.name) {
+    opacity: 1;
+  }
+}
+
+:local(.name) {
+  transition:  0.25s opacity;
+
+  text-anchor: middle;
+  font-size:   12px;
+  opacity:     0.25
+}

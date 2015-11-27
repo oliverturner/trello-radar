@@ -1,17 +1,155 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
-    <title>Yet Another React Starter Kit</title>
-    {% if (o.htmlWebpackPlugin.options.production) { %}
-    <link rel="stylesheet" href="app.{%=o.webpack.hash%}.css" media="all">
-    {% } %}
-  </head>
-  <body>
-    <div id="app" class="app"></div>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EA Tech Radar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
-    <script async src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
-    {% } %}
-  </body>
+  {% if (o.htmlWebpackPlugin.options.production) { %}
+  <link rel="stylesheet" href="app.{%=o.webpack.hash%}.css" media="all">
+  {% } %}
+</head>
+<body>
+<div id="app" class="app"></div>
+
+<script id="radar-data" type="application/json">
+  {
+    "lists": [
+      {
+        "id": "564319ef5c3ab1fee0458bd4",
+        "name": "ADOPT CONFIDENTLY - technologies and practices that have proved their merit for general use."
+      },
+      {
+        "id": "56431a0a1b9ea2159950a2cd",
+        "name": "ADOPT CAUTIOUSLY - widespread industry acceptance but limited internal experience; consider adopting in your project."
+      },
+      {
+        "id": "56431a307ab6f566f2901517",
+        "name": "ASSESS - technologies and practices you’ll probably want to know about but not necessarily adopt unless the fit is obvious and you can accept the risk."
+      },
+      {
+        "id": "56431a81a9a3375242b4b1fc",
+        "name": "RECONSIDER - problematic or of limited applicability; where reasonable, avoid and even replace."
+      }
+    ],
+    "labels": [
+      {
+        "id": "56431a0119ad3a5dc21bda02",
+        "name": "languages"
+      },
+      {
+        "id": "564319db19ad3a5dc21bd9a0",
+        "name": "frameworks"
+      },
+      {
+        "id": "56431a0119ad3a5dc21bd9fe",
+        "name": "tools"
+      },
+      {
+        "id": "56431a0319ad3a5dc21bda0a",
+        "name": "metrics"
+      },
+      {
+        "id": "564319dc19ad3a5dc21bd9a8",
+        "name": "databases"
+      }
+    ],
+    "cards": [
+      {
+        "id": "abcd1",
+        "idList": "564319ef5c3ab1fee0458bd4",
+        "idLabels": [
+          "564319dc19ad3a5dc21bd9a8"
+        ],
+        "name": "d3",
+        "description": "The d3 library for producing visualisation and data driven documents"
+      },
+      {
+        "id": "abcd2",
+        "idList": "564319ef5c3ab1fee0458bd4",
+        "idLabels": [
+          "564319db19ad3a5dc21bd9a0"
+        ],
+        "name": "angular",
+        "description": "The d3 library for producing visualisation and data driven documents"
+      },
+      {
+        "id": "abcd3",
+        "idList": "564319ef5c3ab1fee0458bd4",
+        "idLabels": [
+          "564319db19ad3a5dc21bd9a0"
+        ],
+        "name": "ember"
+      },
+      {
+        "id": "abcd4",
+        "idList": "564319ef5c3ab1fee0458bd4",
+        "idLabels": [
+          "564319db19ad3a5dc21bd9a0"
+        ],
+        "name": "react",
+        "description": "The d3 library for producing visualisation and data driven documents"
+      },
+      {
+        "id": "abcd5",
+        "idList": "564319ef5c3ab1fee0458bd4",
+        "idLabels": [
+          "564319db19ad3a5dc21bd9a0"
+        ],
+        "name": "knockout",
+        "description": "The d3 library for producing visualisation and data driven documents"
+      },
+      {
+        "id": "abcd6",
+        "idList": "564319ef5c3ab1fee0458bd4",
+        "idLabels": [
+          "564319db19ad3a5dc21bd9a0"
+        ],
+        "name": "backbone",
+        "description": "The d3 library for producing visualisation and data driven documents"
+      },
+      {
+        "id": "abcd7",
+        "idList": "56431a0a1b9ea2159950a2cd",
+        "idLabels": [
+          "564319db19ad3a5dc21bd9a0"
+        ],
+        "name": "knockout",
+        "description": "The d3 library for producing visualisation and data driven documents"
+      },
+      {
+        "id": "abcd8",
+        "idList": "56431a0a1b9ea2159950a2cd",
+        "idLabels": [
+          "564319db19ad3a5dc21bd9a0"
+        ],
+        "name": "backbone",
+        "description": "The d3 library for producing visualisation and data driven documents"
+      },
+      {
+        "id": "abcd9",
+        "idList": "56431a81a9a3375242b4b1fc",
+        "idLabels": [
+          "564319db19ad3a5dc21bd9a0"
+        ],
+        "name": "knockout",
+        "description": "The d3 library for producing visualisation and data driven documents"
+      },
+      {
+        "id": "abcd10",
+        "idList": "56431a81a9a3375242b4b1fc",
+        "idLabels": [
+          "564319db19ad3a5dc21bd9a0"
+        ],
+        "name": "backbone",
+        "description": "The d3 library for producing visualisation and data driven documents"
+      }
+    ]
+  }
+</script>
+
+{% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
+<script async src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
+{% } %}
+</body>
 </html>

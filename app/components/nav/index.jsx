@@ -1,24 +1,17 @@
 import React from 'react'
 
-import QuadrantList from './quadrant-list'
+import Quadrant from './quadrant'
 
 import styles from './style.scss'
 
-const Nav = ({quadrants}) => {
-  const getQuadList = (q) => {
-    return (
-      <li key={q.id} className={styles['subitems']}>
-        <p className={styles['subitem__label']}>{q.name}</p>
-        <QuadrantList cards={q.cards}/>
+const Nav = ({quadrants}) =>
+  <ul className={styles.quadrants}>
+    {quadrants.map((q) =>
+      <li key={q.id} className={styles['quadrant']}>
+        <p className={styles['quadrant__label']}>{q.name}</p>
+        <Quadrant cards={q.cards}/>
       </li>
-    )
-  }
-
-  return (
-    <ul className={styles.items}>
-      {quadrants.map(getQuadList)}
-    </ul>
-  )
-}
+    )}
+  </ul>
 
 export default Nav

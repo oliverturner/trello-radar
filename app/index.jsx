@@ -11,30 +11,32 @@ import reducer from './reducers'
 import metrics from './utils/metrics'
 
 import Application from './components/application'
-import radar from '../data/radar.json'
 
+const json = JSON.parse(document.getElementById('radar-data').innerHTML)
 const data = {
-  quadrants:    radar.labels,
-  horizons:     radar.lists,
-  cards:        radar.cards,
-  cardSelected: null
+  quadrants:    json.labels,
+  horizons:     json.lists,
+  cards:        json.cards,
+  cardSelected: null,
+  cardHovered:  null
 }
 
 metrics.init(data.quadrants.length, data.horizons.length)
 
+// TODO: move these into the reducer
 const segments = data.quadrants
   .reduce((qRet, quadrant, i) => {
     const qh = data.horizons.reduce((hRet, horizon, j) => {
       const key = `${quadrant.id}-${horizon.id}`
 
       hRet[key] = {
-        qIndex: i,
-        hIndex: j,
-        fill:   metrics.getSegmentFill(i, j),
-        arcFn:  metrics.getSegmentArc(i, j),
-        cards:  data.cards
-                  .filter((b) => b.idLabels[0] === quadrant.id && b.idList === horizon.id)
-                  .map(({id}) => id)
+        qIndex:  i,
+        hIndex:  j,
+        fill:    metrics.getSegmentFill(i, j),
+        arcFn:   metrics.getSegmentArc(i, j),
+        cardIds: data.cards
+                   .filter((b) => b.idLabels[0] === quadrant.id && b.idList === horizon.id)
+                   .map(({id}) => id)
       }
 
       return hRet
@@ -46,8 +48,8 @@ const segments = data.quadrants
 data.cards.map((card) => {
   const k      = `${card.idLabels[0]}-${card.idList}`
   const s      = segments[k]
-  const sCount = s.cards.length
-  const sIndex = s.cards.indexOf(card.id)
+  const sCount = s.cardIds.length
+  const sIndex = s.cardIds.indexOf(card.id)
 
   const {qIndex, hIndex, fill} = s
 
