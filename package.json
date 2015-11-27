@@ -62,7 +62,7 @@
   "main": "app/index.js",
   "repository": "git@bitbucket.org:oturner/tech-radar.git",
   "scripts": {
-    "build": "NODE_ENV=production webpack --config _sys/webpack.production.js",
+    "build": "webpack --config _sys/webpack.production.js",
     "build:gh": "npm run build && gh-pages -d ./dist && rm -r ./dist",
     "lint:js": "eslint .",
     "prebuild": "rm -rf ./dist",
