@@ -2,10 +2,16 @@
 
 ## Installation
 
-`npm i && npm start`
+Run `npm i`
 
-Then open a browser to [localhost:4000](http://localhost:4000)
+## Develop
+
+Run `npm start` then open a browser to [localhost:4000](http://localhost:4000)
  
 ## Deploy
 
-Run `NODE_ENV=production npm run build`. Assets will be compiled to `/dist`
+Nix-based: `NODE_ENV=production npm run build`
+
+Win-based: `set NODE_ENV=production npm run build`
+
+Assets will be compiled to `/dist`
