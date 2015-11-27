@@ -45,14 +45,14 @@
       "idList": "564319ef5c3ab1fee0458bd4",
       "idLabels": ["564319dc19ad3a5dc21bd9a8"],
       "name": "d3",
-      "description": "The d3 library for producing visualisation and data driven documents"
+      "desc": "The d3 library for producing visualisation and data driven documents"
     },
     {
       "id": "abcd2",
       "idList": "564319ef5c3ab1fee0458bd4",
       "idLabels": ["564319db19ad3a5dc21bd9a0"],
       "name": "angular",
-      "description": "The d3 library for producing visualisation and data driven documents"
+      "desc": "The d3 library for producing visualisation and data driven documents"
     },
     {
       "id": "abcd3",
@@ -65,49 +65,49 @@
       "idList": "564319ef5c3ab1fee0458bd4",
       "idLabels": ["564319db19ad3a5dc21bd9a0"],
       "name": "react",
-      "description": "The d3 library for producing visualisation and data driven documents"
+      "desc": "The d3 library for producing visualisation and data driven documents"
     },
     {
       "id": "abcd5",
       "idList": "564319ef5c3ab1fee0458bd4",
       "idLabels": ["564319db19ad3a5dc21bd9a0"],
       "name": "knockout",
-      "description": "The d3 library for producing visualisation and data driven documents"
+      "desc": "The d3 library for producing visualisation and data driven documents"
     },
     {
       "id": "abcd6",
       "idList": "564319ef5c3ab1fee0458bd4",
       "idLabels": ["564319db19ad3a5dc21bd9a0"],
       "name": "backbone",
-      "description": "The d3 library for producing visualisation and data driven documents"
+      "desc": "The d3 library for producing visualisation and data driven documents"
     },
     {
       "id": "abcd7",
       "idList": "56431a0a1b9ea2159950a2cd",
       "idLabels": ["564319db19ad3a5dc21bd9a0"],
       "name": "knockout",
-      "description": "The d3 library for producing visualisation and data driven documents"
+      "desc": "The d3 library for producing visualisation and data driven documents"
     },
     {
       "id": "abcd8",
       "idList": "56431a0a1b9ea2159950a2cd",
       "idLabels": ["564319db19ad3a5dc21bd9a0"],
       "name": "backbone",
-      "description": "The d3 library for producing visualisation and data driven documents"
+      "desc": "The d3 library for producing visualisation and data driven documents"
     },
     {
       "id": "abcd9",
       "idList": "56431a81a9a3375242b4b1fc",
       "idLabels": ["564319db19ad3a5dc21bd9a0"],
       "name": "knockout",
-      "description": "The d3 library for producing visualisation and data driven documents"
+      "desc": "The d3 library for producing visualisation and data driven documents"
     },
     {
       "id": "abcd10",
       "idList": "56431a81a9a3375242b4b1fc",
       "idLabels": ["564319db19ad3a5dc21bd9a0"],
       "name": "backbone",
-      "description": "The d3 library for producing visualisation and data driven documents"
+      "desc": "The d3 library for producing visualisation and data driven documents"
     }
   ]
 }

@@ -14,11 +14,11 @@ class Card extends Component {
   }
 
   getDescription (opened) {
-    if (this.props.description.length === 0) return
+    if (this.props.desc.length === 0) return
 
     return (
       <Collapse isOpened={opened}>
-        <p className={styles['card__desc']}>{this.props.description}</p>
+        <p className={styles['card__desc']}>{this.props.desc}</p>
       </Collapse>
     )
   }
@@ -47,10 +47,10 @@ Card.propTypes = {
   cardSelected: PropTypes.string,
   cardHovered:  PropTypes.string,
 
-  id:          PropTypes.string.isRequired,
-  fill:        PropTypes.object.isRequired,
-  name:        PropTypes.string.isRequired,
-  description: PropTypes.string
+  id:   PropTypes.string.isRequired,
+  fill: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
+  desc: PropTypes.string
 }
 
 function select (state) {

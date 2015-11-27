@@ -5,6 +5,7 @@
 body {
   margin:      0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: #999;
 }
 
 a {
@@ -12,9 +13,8 @@ a {
 }
 
 .radar {
-  display:    flex;
-  height:     100vh;
-  background: #999;
+  display: flex;
+  height:  100vh;
 }
 
 .radar__chart {
@@ -27,5 +27,5 @@ a {
   flex-basis: 300px;
 
   overflow-y: scroll;
-  //background: #fff;
+  background: #fff;
 }

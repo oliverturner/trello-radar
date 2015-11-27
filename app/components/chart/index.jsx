@@ -25,9 +25,11 @@ class Chart extends Component {
       <Quadrant {...this.props.segments[key]} />
     )
 
-    const blips = this.props.cards.map((c, i) =>
-      <Blip {...c} blipClick={this.blipClick} blipHover={this.blipHover} />
-    )
+    const blips = this.props.cards.map((c) => {
+      if (c.displayed) {
+        return <Blip {...c} blipClick={this.blipClick} blipHover={this.blipHover} />
+      }
+    })
 
     const labels = this.props.quadrants.map((q, i) =>
       <QuadrantLabel index={i} name={q.name}/>

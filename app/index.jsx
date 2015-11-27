@@ -12,61 +12,107 @@ import metrics from './utils/metrics'
 
 import Application from './components/application'
 
-const json = JSON.parse(document.getElementById('radar-data').innerHTML)
-const data = {
-  quadrants:    json.labels,
-  horizons:     json.lists,
-  cards:        json.cards,
-  cardSelected: null,
-  cardHovered:  null
-}
+// Load data
+//-----------------------------------------------
+const types = ['cards', 'lists', 'labels']
+const srcs  = types.map((type) =>
+  `https://api.trello.com/1/boards/uD51usV2/${type}` +
+  '?key=27674ab7f9665fde168a16611001e771' +
+  '&token=fb2811ea5b95bdbf70dd2a73d5243c9f846a422e31c12a1dd9489b13a29818c0'
+)
 
-metrics.init(data.quadrants.length, data.horizons.length)
+/**
+ * Called on successful retrieval of data
+ * @param {Object} results
+ * @param {Array.<Object>} results.cards
+ * @param {Array.<Object>} results.labels
+ * @param {Array.<Object>} results.lists
+ */
+const onSuccess = (results) => {
+  const data = {
+    quadrants: results.labels.map(({id, name}) => ({id, name})),
 
-// TODO: move these into the reducer
-const segments = data.quadrants
-  .reduce((qRet, quadrant, i) => {
-    const qh = data.horizons.reduce((hRet, horizon, j) => {
-      const key = `${quadrant.id}-${horizon.id}`
+    horizons: results.lists.map(({id, name}) => {
+      name = name.toLowerCase().split(' - ')[0]
+      return {id, name}
+    }),
 
-      hRet[key] = {
-        qIndex:  i,
-        hIndex:  j,
-        fill:    metrics.getSegmentFill(i, j),
-        arcFn:   metrics.getSegmentArc(i, j),
-        cardIds: data.cards
-                   .filter((b) => b.idLabels[0] === quadrant.id && b.idList === horizon.id)
-                   .map(({id}) => id)
-      }
+    cards: results.cards.map(({id, idLabels, idList, name, desc}) =>
+      ({id, idLabels, idList, name, desc})
+    ),
 
-      return hRet
+    cardSelected: null,
+    cardHovered:  null
+  }
+
+  console.log(data)
+
+  metrics.init(data.quadrants.length, data.horizons.length)
+
+  // TODO: move these into the reducer
+  const segments = data.quadrants
+    .reduce((qRet, quadrant, i) => {
+      const qh = data.horizons.reduce((hRet, horizon, j) => {
+        const key = `${quadrant.id}-${horizon.id}`
+
+        hRet[key] = {
+          qIndex:  i,
+          hIndex:  j,
+          fill:    metrics.getSegmentFill(i, j),
+          arcFn:   metrics.getSegmentArc(i, j),
+          cardIds: data.cards
+                     .filter((c) => c.idLabels[0] === quadrant.id && c.idList === horizon.id)
+                     .map(({id}) => id)
+        }
+
+        return hRet
+      }, {})
+
+      return Object.assign(qRet, qh)
     }, {})
 
-    return Object.assign(qRet, qh)
-  }, {})
+  data.cards.map((card) => {
+    const k = `${card.idLabels[0]}-${card.idList}`
+    const s = segments[k]
 
-data.cards.map((card) => {
-  const k      = `${card.idLabels[0]}-${card.idList}`
-  const s      = segments[k]
-  const sCount = s.cardIds.length
-  const sIndex = s.cardIds.indexOf(card.id)
+    if (!s) return Object.assign(card, {displayed: false})
 
-  const {qIndex, hIndex, fill} = s
+    const sCount = s.cardIds ? s.cardIds.length : 0
+    const sIndex = s.cardIds ? s.cardIds.indexOf(card.id) : 0
 
-  return Object.assign(card, {sIndex, sCount, qIndex, hIndex, fill})
-})
+    const {qIndex, hIndex, fill} = s
 
-data.quadrants.map((q) => {
-  const cards = data.cards.filter((c) => c.idLabels[0] === q.id)
+    return Object.assign(card, {sIndex, sCount, qIndex, hIndex, fill, displayed: true})
+  })
 
-  return Object.assign(q, {cards})
-})
+  data.quadrants.map((q) => {
+    const cards = data.cards.filter((c) => c.idLabels[0] === q.id)
 
-const store = createStore(reducer, {segments, ...data})
+    return Object.assign(q, {cards})
+  })
 
-render(
-  <Provider store={store}>
-    <Application/>
-  </Provider>,
-  document.getElementById('app')
-)
+  const store = createStore(reducer, {segments, ...data})
+
+  render(
+    <Provider store={store}>
+      <Application/>
+    </Provider>,
+    document.getElementById('app')
+  )
+}
+
+const onError = (err) => {
+  console.log(err)
+}
+
+Promise
+  .all(srcs.map((src) => window.fetch(src).then((res) => res.json())))
+  .then((values) => {
+    return values.reduce((ret, val, index) => {
+      ret[types[index]] = val
+      return ret
+    }, {})
+  })
+  .then(onSuccess)
+  .catch(onError)
+
