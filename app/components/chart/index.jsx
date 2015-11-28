@@ -32,7 +32,7 @@ class Chart extends Component {
     })
 
     const labels = this.props.quadrants.map((q, i) =>
-      <QuadrantLabel index={i} name={q.name}/>
+      <QuadrantLabel name={q.name} arcId={q.labelArcId} />
     )
 
     return (

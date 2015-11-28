@@ -45,31 +45,32 @@ const onSuccess = (results) => {
     cardHovered:  null
   }
 
-  console.log(data)
-
   metrics.init(data.quadrants.length, data.horizons.length)
 
-  // TODO: move these into the reducer
-  const segments = data.quadrants
-    .reduce((qRet, quadrant, i) => {
-      const qh = data.horizons.reduce((hRet, horizon, j) => {
-        const key = `${quadrant.id}-${horizon.id}`
+  const deriveKey = (q, h) => `${q.id}-${h.id}`
 
-        hRet[key] = {
-          qIndex:  i,
-          hIndex:  j,
-          fill:    metrics.getSegmentFill(i, j),
-          arcFn:   metrics.getSegmentArc(i, j),
-          cardIds: data.cards
-                     .filter((c) => c.idLabels[0] === quadrant.id && c.idList === horizon.id)
-                     .map(({id}) => id)
-        }
+  const segments  = data.quadrants.reduce((qRet, quadrant, i) => {
+    quadrant.labelArcId = deriveKey(quadrant, data.horizons.slice().pop())
 
-        return hRet
-      }, {})
+    const qh = data.horizons.reduce((hRet, horizon, j) => {
+      const key = deriveKey(quadrant, horizon)
 
-      return Object.assign(qRet, qh)
+      hRet[key] = {
+        id:      key,
+        qIndex:  i,
+        hIndex:  j,
+        fill:    metrics.getSegmentFill(i, j),
+        arcFn:   metrics.getSegmentArc(i, j),
+        cardIds: data.cards
+                   .filter((c) => c.idLabels[0] === quadrant.id && c.idList === horizon.id)
+                   .map(({id}) => id)
+      }
+
+      return hRet
     }, {})
+
+    return Object.assign(qRet, qh)
+  }, {})
 
   data.cards.map((card) => {
     const k = `${card.idLabels[0]}-${card.idList}`

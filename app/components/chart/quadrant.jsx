@@ -1,3 +1,3 @@
 import React from 'react'
 
-export default ({arcFn, fill}) => <path d={arcFn()} fill={fill}/>
+export default ({id, arcFn, fill}) => <path id={id} d={arcFn()} fill={fill} />

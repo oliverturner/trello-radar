@@ -65,7 +65,7 @@
     "build": "webpack --config _sys/webpack.production.js",
     "build:gh": "npm run build && gh-pages -d ./dist && rm -r ./dist",
     "lint:js": "eslint .",
-    "start": "webpack-dev-server --config _sys/webpack.config.js --no-info --hot --content-base ./public --port 4000",
+    "start": "webpack-dev-server --config _sys/webpack.config.js --no-info --hot --inline --content-base ./public --port 4000",
     "test": "npm run test:watch -- --single-run",
     "test:ci": "karma start _sys/karma.ci.conf.js --single-run",
     "test:coverage": "karma start _sys/karma.coverage.conf.js --single-run",
