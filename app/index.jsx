@@ -32,7 +32,7 @@ const onSuccess = (results) => {
   const data = {
     quadrants: results.labels.map(({id, name}) => ({id, name})),
 
-    horizons: results.lists.map(({id, name}) => {
+    horizons: results.lists.slice(0, -1).map(({id, name}) => {
       name = name.toLowerCase().split(' - ')[0]
       return {id, name}
     }),

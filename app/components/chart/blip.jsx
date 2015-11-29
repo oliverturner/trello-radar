@@ -16,8 +16,10 @@ const Blip = ({id, sCount, sIndex, qIndex, hIndex, name, blipClick, blipHover}) 
        onMouseOver={blipHover.bind(null, id)}
        onMouseOut={blipHover.bind(null, null)}
        onClick={blipClick.bind(null, id)}>
-      <circle r="5px" />
-      <text className={styles['name']} dy="15px">{name}</text>
+      <circle r="3px" />
+      <text className={styles['blip__name']}>{
+        name.split(' ').map((word, i) => <tspan key={`${id}-${i}`} x="0" dy={i > 0 ? 12 : 15}>{word}</tspan>)
+      }</text>
     </g>
   )
 }

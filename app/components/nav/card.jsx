@@ -26,13 +26,13 @@ class Card extends Component {
   render () {
     const opened  = this.props.cardSelected === this.props.id
     const hovered = this.props.cardHovered === this.props.id
-    const style   = {background: this.props.fill}
+    const style   = {background: this.props.fill || '#ccc'}
 
     if (opened || hovered) style.width = '100%'
 
     return (
-      <li className={styles['card']} onClick={this.toggleOpen}>
-        <p className={styles['card__label']}>
+      <li className={styles['card']}>
+        <p className={styles['card__label']} onClick={this.toggleOpen}>
           <span className={styles['card__label__prompt']} style={style}/>
           <span className={styles['card__label__text']}>{this.props.name}</span>
         </p>
@@ -48,8 +48,8 @@ Card.propTypes = {
   cardHovered:  PropTypes.string,
 
   id:   PropTypes.string.isRequired,
-  fill: PropTypes.object.isRequired,
   name: PropTypes.string.isRequired,
+  fill: PropTypes.object,
   desc: PropTypes.string
 }
 

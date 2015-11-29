@@ -4,7 +4,7 @@ class Metrics {
   constructor () {
     this.width    = 800
     this.height   = 600
-    this.innerRad = 2
+    this.innerRad = 1
   }
 
   init (quadNum, horizonNum) {
@@ -12,12 +12,10 @@ class Metrics {
     this.horizonNum = horizonNum
 
     this.quadAngle    = 2 * Math.PI / this.quadNum
-    this.textAngle    = 360 / this.quadNum
     this.horizonWidth = (this.width > this.height ? this.height : this.width) / 2
     this.horizonMax   = this.horizonNum + this.innerRad
     this.horizonUnit  = this.horizonWidth / this.horizonMax
     this.colourScale  = d3.scale.category10()
-    this.labelDX      = this.getHorizonRad(1)
   }
 
   getSegmentFill (qIndex, hIndex) {
@@ -49,7 +47,7 @@ class Metrics {
 
   getBlipRadius (sCount, sIndex, hIndex) {
     let stagger = 0.5
-    if (sCount > hIndex + 1) {
+    if (sCount > hIndex + 4) {
       stagger = sIndex % 2 ? 0.75 : 0.25
     }
 

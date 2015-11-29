@@ -37,7 +37,7 @@ class Chart extends Component {
 
     return (
       <svg className="radar__chart" viewBox={`0 0 ${width} ${height}`}>
-        <g transform={`translate(${cx}, ${cy})`}>{[quads, blips, labels]}</g>
+        <g transform={`translate(${cx}, ${cy})`}>{[labels, quads, blips]}</g>
       </svg>
     )
   }

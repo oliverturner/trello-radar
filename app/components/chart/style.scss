@@ -13,18 +13,19 @@
 }
 
 :local(.blip) {
-  cursor: pointer;
+  cursor:     pointer;
+  background: red;
 
   circle {
     fill: rgba(black, 1);
   }
 
-  &:hover :local(.name) {
+  &:hover :local(.blip__name) {
     opacity: 1;
   }
 }
 
-:local(.name) {
+:local(.blip__name) {
   transition:  0.25s opacity;
 
   text-anchor: middle;
