@@ -8,6 +8,7 @@
     "no-multi-spaces": 0,
     "spaced-comment": [2, "always", {"exceptions": ["-", "*"]}],
     "jsx-quotes": [2, "prefer-double"],
+    "standard/object-curly-even-spacing": 0,
     "react/sort-comp": [
       2, {
         "order": [

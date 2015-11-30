@@ -6,6 +6,8 @@ import React from 'react'
 import {render} from 'react-dom'
 import {createStore} from 'redux'
 import {Provider} from 'react-redux'
+import fetch from 'isomorphic-fetch'
+import {Promise} from 'es6-promise'
 
 import reducer from './reducers'
 import metrics from './utils/metrics'
@@ -21,6 +23,8 @@ const srcs  = types.map((type) =>
   '&token=fb2811ea5b95bdbf70dd2a73d5243c9f846a422e31c12a1dd9489b13a29818c0'
 )
 
+const deriveKey = (q, h) => `${q.id}-${h.id}`
+
 /**
  * Called on successful retrieval of data
  * @param {Object} results
@@ -33,8 +37,7 @@ const onSuccess = (results) => {
     quadrants: results.labels.map(({id, name}) => ({id, name})),
 
     horizons: results.lists.slice(0, -1).map(({id, name}) => {
-      name = name.toLowerCase().split(' - ')[0]
-      return {id, name}
+      return {id, name: name.split(' - ')[0]}
     }),
 
     cards: results.cards.map(({id, idLabels, idList, name, desc}) =>
@@ -47,23 +50,22 @@ const onSuccess = (results) => {
 
   metrics.init(data.quadrants.length, data.horizons.length)
 
-  const deriveKey = (q, h) => `${q.id}-${h.id}`
-
-  const segments  = data.quadrants.reduce((qRet, quadrant, i) => {
+  const segments = data.quadrants.reduce((qRet, quadrant, i) => {
     quadrant.labelArcId = deriveKey(quadrant, data.horizons.slice().pop())
 
     const qh = data.horizons.reduce((hRet, horizon, j) => {
       const key = deriveKey(quadrant, horizon)
 
       hRet[key] = {
-        id:      key,
-        qIndex:  i,
-        hIndex:  j,
-        fill:    metrics.getSegmentFill(i, j),
-        arcFn:   metrics.getSegmentArc(i, j),
-        cardIds: data.cards
-                   .filter((c) => c.idLabels[0] === quadrant.id && c.idList === horizon.id)
-                   .map(({id}) => id)
+        id:         key,
+        quadrantId: quadrant.id,
+        qIndex:     i,
+        hIndex:     j,
+        fill:       metrics.getSegmentFill(i, j),
+        d:          metrics.getSegmentArc(i, j)(),
+        cardIds:    data.cards
+                      .filter((c) => c.idLabels[0] === quadrant.id && c.idList === horizon.id)
+                      .map(({id}) => id)
       }
 
       return hRet
@@ -81,9 +83,9 @@ const onSuccess = (results) => {
     const sCount = s.cardIds ? s.cardIds.length : 0
     const sIndex = s.cardIds ? s.cardIds.indexOf(card.id) : 0
 
-    const {qIndex, hIndex, fill} = s
+    const {quadrantId, qIndex, hIndex, fill} = s
 
-    return Object.assign(card, {sIndex, sCount, qIndex, hIndex, fill, displayed: true})
+    return Object.assign(card, {sIndex, sCount, quadrantId, qIndex, hIndex, fill, displayed: true})
   })
 
   data.quadrants.map((q) => {
@@ -94,7 +96,7 @@ const onSuccess = (results) => {
 
   const store = createStore(reducer, {segments, ...data})
 
-  console.log('store.getState', store.getState())
+  console.log('state', store.getState())
 
   render(
     <Provider store={store}>
@@ -109,7 +111,7 @@ const onError = (err) => {
 }
 
 Promise
-  .all(srcs.map((src) => window.fetch(src).then((res) => res.json())))
+  .all(srcs.map((src) => fetch(src).then((res) => res.json())))
   .then((values) => {
     return values.reduce((ret, val, index) => {
       ret[types[index]] = val

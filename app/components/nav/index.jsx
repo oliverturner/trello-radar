@@ -7,7 +7,7 @@ import styles from './style.scss'
 const Nav = ({quadrants}) =>
   <ul className={styles.quadrants}>
     {quadrants.map((q) =>
-      <li key={q.id} className={styles['quadrant']}>
+      <li key={q.id} id={q.id} className={styles['quadrant']}>
         <div className={styles['quadrant__label']}>
           <p className={styles['quadrant__label__vert']}>{q.name}</p>
         </div>
