@@ -5,11 +5,10 @@
 }
 
 :local(.quadrantlabel) {
-  font-weight: bold;
   font-size:   24px;
+  font-weight: 200;
   text-anchor: middle;
-  opacity:     0.25;
-  color:       white;
+  opacity:     0.5;
 }
 
 :local(.blip) {

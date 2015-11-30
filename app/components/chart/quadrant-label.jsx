@@ -6,10 +6,11 @@ import styles from './style.scss'
 
 const QuadrantLabel = ({name, arcId}) => {
   const path = `<textPath xlink:href="#${arcId}">${name}</textPath>`
+  const dx   = (Math.PI * metrics.horizonWidth * 2) / (metrics.quadNum * 2)
+  const dy   = -15
 
-  // TODO: fix magic dx value
   return (
-    <text className={styles['quadrantlabel']} dx="250" dy="-5" dangerouslySetInnerHTML={{__html: path }} />
+    <text className={styles['quadrantlabel']} dx={dx} dy={dy} dangerouslySetInnerHTML={{__html: path }}/>
   )
 }
 

@@ -8,7 +8,9 @@ const Nav = ({quadrants}) =>
   <ul className={styles.quadrants}>
     {quadrants.map((q) =>
       <li key={q.id} className={styles['quadrant']}>
-        <p className={styles['quadrant__label']}>{q.name}</p>
+        <div className={styles['quadrant__label']}>
+          <p className={styles['quadrant__label__vert']}>{q.name}</p>
+        </div>
         <Quadrant cards={q.cards}/>
       </li>
     )}

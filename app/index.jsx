@@ -94,6 +94,8 @@ const onSuccess = (results) => {
 
   const store = createStore(reducer, {segments, ...data})
 
+  console.log('store.getState', store.getState())
+
   render(
     <Provider store={store}>
       <Application/>

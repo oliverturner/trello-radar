@@ -1,4 +1,4 @@
-:local(.cards),
+:local(.quadrant__cards),
 :local(.quadrants) {
   list-style: none;
   margin:     0;
@@ -11,7 +11,10 @@
 }
 
 :local(.quadrant) {
-  margin: 1px 0 0;
+  display:    flex;
+
+  margin:     1px 0 0;
+  background: #333;
 
   &:first-child {
     margin: 0;
@@ -19,17 +22,26 @@
 }
 
 :local(.quadrant__label) {
-  margin:         0;
-  padding:        2px 5px;
-  font-variant:   small-caps;
-  text-transform: lowercase;
-  font-size:      120%;
-  background:     #666;
-  color:          #ccc;
+  flex:            0 0 30px;
+
+  display:         flex;
+  justify-content: center;
+  align-items:     center;
+
+  font-size:       16px;
+  font-weight:     100;
+  letter-spacing:  3px;
+  text-transform:  uppercase;
+  color:           #ccc;
 }
 
-:local(.card) {
+:local(.quadrant__label__vert) {
+  transform:   rotate(-90deg);
+  white-space: nowrap;
+}
 
+:local(.quadrant__cards) {
+  flex: 1;
 }
 
 :local(.card__label) {
