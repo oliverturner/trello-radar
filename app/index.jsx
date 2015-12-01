@@ -113,9 +113,8 @@ const onError = (err) => {
 
 // Let's go disco!
 //-----------------------------------------------
-var browser = navigator.userAgent.toLowerCase();
-
-if (browser.indexOf('firefox') > -1) {
+if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+  // Warn user if on Firefox
   render(<BrowserCheck />, document.getElementById('app'))
 }
 else {

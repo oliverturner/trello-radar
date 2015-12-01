@@ -6,7 +6,6 @@ import Blip from './blip'
 import Segment from './segment'
 import QuadrantLabel from './quadrant-label'
 
-import testLogo from '../../images/radar.svg'
 import styles from './style.scss'
 
 class Chart extends Component {
