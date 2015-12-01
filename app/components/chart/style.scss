@@ -1,3 +1,11 @@
+:local(.radar__chart) {
+  flex:    2;
+
+  padding: 30px;
+  background: url('../../images/tm.svg') center center no-repeat;
+  background-size: 60px;
+}
+
 :local(.horizon) {
   stroke:         #999;
   stroke-width:   2px;

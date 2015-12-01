@@ -13,6 +13,7 @@ import reducer from './reducers'
 import metrics from './utils/metrics'
 
 import Application from './components/application'
+import BrowserCheck from './components/application/browser-check'
 
 // Load data
 //-----------------------------------------------
@@ -110,14 +111,23 @@ const onError = (err) => {
   console.log(err)
 }
 
-Promise
-  .all(srcs.map((src) => fetch(src).then((res) => res.json())))
-  .then((values) => {
-    return values.reduce((ret, val, index) => {
-      ret[types[index]] = val
-      return ret
-    }, {})
-  })
-  .then(onSuccess)
-  .catch(onError)
+// Let's go disco!
+//-----------------------------------------------
+var browser = navigator.userAgent.toLowerCase();
+
+if (browser.indexOf('firefox') > -1) {
+  render(<BrowserCheck />, document.getElementById('app'))
+}
+else {
+  Promise
+    .all(srcs.map((src) => fetch(src).then((res) => res.json())))
+    .then((values) => {
+      return values.reduce((ret, val, index) => {
+        ret[types[index]] = val
+        return ret
+      }, {})
+    })
+    .then(onSuccess)
+    .catch(onError)
+}
 

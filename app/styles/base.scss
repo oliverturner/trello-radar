@@ -11,21 +11,3 @@ body {
 a {
   color: inherit;
 }
-
-.radar {
-  display: flex;
-  height:  100vh;
-}
-
-.radar__chart {
-  flex:    2;
-
-  padding: 30px;
-}
-
-.radar__nav {
-  flex-basis: 22.5%;
-
-  overflow-y: scroll;
-  background: #fff;
-}

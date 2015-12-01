@@ -6,6 +6,9 @@ import Blip from './blip'
 import Segment from './segment'
 import QuadrantLabel from './quadrant-label'
 
+import testLogo from '../../images/radar.svg'
+import styles from './style.scss'
+
 class Chart extends Component {
   blipClick = (cardId) => {
     this.props.dispatch({type: 'CARD_SELECT', cardId})
@@ -38,7 +41,7 @@ class Chart extends Component {
     )
 
     return (
-      <svg className="radar__chart" viewBox={`0 0 ${width} ${height}`}>
+      <svg className={styles['radar__chart']} viewBox={`0 0 ${width} ${height}`}>
         <g transform={`translate(${cx}, ${cy})`}>{[labels, segments, blips]}</g>
       </svg>
     )

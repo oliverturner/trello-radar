@@ -4,12 +4,14 @@ import {connect} from 'react-redux'
 import Chart from '../chart'
 import Nav from '../nav'
 
+import styles from './style.scss'
+
 class Application extends Component {
   render () {
     return (
-      <div className="radar">
+      <div className={styles['radar']}>
         <Chart {...this.props} />
-        <div className="radar__nav">
+        <div className={styles['radar__nav']}>
           <Nav quadrants={this.props.quadrants}/>
         </div>
       </div>
