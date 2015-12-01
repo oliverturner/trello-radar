@@ -12,7 +12,7 @@ class Chart extends Component {
   }
 
   blipHover = (cardId, quadrantId) => {
-    //window.location.hash = quadrantId || ''
+    window.location.hash = quadrantId || ''
 
     this.props.dispatch({type: 'CARD_HOVER', cardId})
   }
@@ -39,7 +39,7 @@ class Chart extends Component {
 
     return (
       <svg className="radar__chart" viewBox={`0 0 ${width} ${height}`}>
-        <g transform={`translate(${cx}, ${cy})`}>{[segments, labels, blips]}</g>
+        <g transform={`translate(${cx}, ${cy})`}>{[labels, segments, blips]}</g>
       </svg>
     )
   }

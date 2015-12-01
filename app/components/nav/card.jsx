@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import Collapse from 'react-collapse'
 import {connect} from 'react-redux'
+import {markdown} from 'markdown'
 
 import styles from './style.scss'
 
@@ -16,9 +17,10 @@ class Card extends Component {
   getDescription (opened) {
     if (this.props.desc.length === 0) return
 
+    const desc = markdown.toHTML(this.props.desc)
     return (
       <Collapse isOpened={opened}>
-        <p className={styles['card__desc']}>{this.props.desc}</p>
+        <div className={styles['card__desc']} dangerouslySetInnerHTML={{__html: desc }} />
       </Collapse>
     )
   }

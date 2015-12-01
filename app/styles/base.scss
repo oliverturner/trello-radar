@@ -9,7 +9,7 @@ body {
 }
 
 a {
-  color: #00d8ff;
+  color: inherit;
 }
 
 .radar {
@@ -20,7 +20,7 @@ a {
 .radar__chart {
   flex:    2;
 
-  padding: 20px;
+  padding: 30px;
 }
 
 .radar__nav {
