@@ -82,9 +82,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template:   './_sys/tmpl.html',
       production: true
-    }),
-    new Webpack.ProvidePlugin({
-      'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
     })
   ]
 }
