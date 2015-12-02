@@ -45,8 +45,9 @@ const onSuccess = (results) => {
       ({id, idLabels, idList, name, desc})
     ),
 
-    cardSelected: null,
-    cardHovered:  null
+    horizonSelected: null,
+    cardSelected:    null,
+    cardHovered:     null
   }
 
   metrics.init(data.quadrants.length, data.horizons.length)
@@ -60,6 +61,7 @@ const onSuccess = (results) => {
       hRet[key] = {
         id:         key,
         quadrantId: quadrant.id,
+        horizonId:  horizon.id,
         qIndex:     i,
         hIndex:     j,
         fill:       metrics.getSegmentFill(i, j),
@@ -97,8 +99,6 @@ const onSuccess = (results) => {
 
   const store = createStore(reducer, {segments, ...data})
 
-  console.log('state', store.getState())
-
   render(
     <Provider store={store}>
       <Application/>
@@ -126,7 +126,7 @@ else {
         return ret
       }, {})
     })
-    .then(onSuccess)
+    .then((results) => setTimeout(onSuccess.bind(null, results), 2000))
     .catch(onError)
 }
 

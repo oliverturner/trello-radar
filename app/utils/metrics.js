@@ -33,9 +33,7 @@ class Metrics {
   }
 
   getHorizonRad (hIndex) {
-    const min = hIndex + this.innerRad
-
-    return min / this.horizonMax * this.horizonWidth
+    return (hIndex + this.innerRad) * this.horizonUnit
   }
 
   getBlipTheta (sCount, sIndex, qIndex) {

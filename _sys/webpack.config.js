@@ -10,7 +10,7 @@ module.exports = {
   devtool: 'eval',
   output:  {
     path:       './build',
-    publicPath: 'http://0.0.0.0:4000/',
+    publicPath: '/',
     filename:   'app.js'
   },
 

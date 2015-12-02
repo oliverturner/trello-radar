@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EA Tech Radar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <style type="text/css">
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin:      0;
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      background:  #999
+    }
+
+    .radar {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      height:  100vh
+    }
+
+    .radar__chart {
+      -webkit-flex:    2;
+      -ms-flex:        2;
+      flex:            2;
+      padding:         30px;
+      background:      url(data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDAgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgICA8cGF0aCBkPSJNLjcxOCA1LjIyN2gzLjMxNGwuNzg2LTMuNjJMOS43MzggMCA4LjYxIDUuMjI3aDQuMWwtLjcxOCAzLjM0OGgtNC4xbC0xLjY3NCA3LjY4N2MtLjEwMi40MS0uMjA1IDEuMDI2LS4yMDUgMS43MSAwIDEuMDU3LjcxOCAxLjcwNyAxLjc0MyAxLjcwNy44MiAwIDEuNjQtLjE3NSAyLjIyLS40MWwtLjc4NiAzLjU1Yy0uNzg1LjE3LTEuNjc0LjQxLTIuNDYuNDEtMy4xMDggMC01LjI5NS0xLjIzLTUuMjk1LTQuNjEgMC0xLjM3LjI3My0yLjcuNTgtNC4xbDEuMy01Ljk0OEgwbC43MTgtMy4zNDh6bTEzLjk2NyAxLjk0OGMuMTM2LS42ODMuMjcyLTEuNC4zNzYtMS45NDhoNC4yN2wtLjQxIDIuMzU4aC4wN2MxLjIzLTEuODEgMy4yNDctMi43NjcgNS40LTIuNzY3IDIuMDg0IDAgNC4yMzYgMS4yMyA0LjQ3NiAzLjM0OGguMDY4YzEuMTYzLTIuMjkgMy43MjUtMy4zNDggNi4xODUtMy4zNDggMi42MjUgMCA0Ljg4IDIuMTUyIDQuODggNC44MTcgMCAxLjU3LS40MSAzLjM0OC0uNzg1IDQuNzgzTDM3LjM3IDIyLjgyaC00LjU3OGwxLjg0NS04LjU3NGMuMjM4LTEuMDU4LjU4LTIuNy41OC0zLjc1OCAwLTEuMjk4LS45OS0yLjExOC0yLjE1Mi0yLjExOC0zLjE3NyAwLTMuOTYzIDMuNjktNC41NDQgNi4wODJsLTEuODEgOC4zN2gtNC41NzVsMS44NDYtOC41NzZjLjI0LTEuMDU4LjU4LTIuNy41OC0zLjc1OCAwLTEuMjk4LS45OS0yLjExOC0yLjE1My0yLjExOC0zLjEwOCAwLTMuOTYyIDMuNzI0LTQuNTQzIDYuMDgybC0xLjgxIDguMzdoLTQuNThsMy4yMTMtMTUuNjQ3eiIgZmlsbD0iIzMzMyIgZmlsbC1ydWxlPSJldmVub2RkIi8+Cjwvc3ZnPgo=) center center no-repeat;
+      background-size: 60px
+    }
+
+    .radar__nav {
+      -webkit-flex-basis:      22.5%;
+      -ms-flex-preferred-size: 22.5%;
+      flex-basis:              22.5%;
+      overflow-y:              scroll;
+    }
+
+    .proto {
+      animation:    dash 1s linear forwards;
+      stroke:       #000;
+      stroke-width: 0.5;
+    }
+
+    .proto--horizon {
+      transform:         rotate(-90deg);
+      fill:              transparent;
+    }
+
+    .proto--horizon:nth-child(1) {
+      stroke-dasharray:  1508;
+      stroke-dashoffset: 1508;
+    }
+
+    .proto--horizon:nth-child(2) {
+      stroke-dasharray:  1257;
+      stroke-dashoffset: 1257;
+    }
+
+    .proto--horizon:nth-child(3) {
+      stroke-dasharray:  1006;
+      stroke-dashoffset: 1006;
+    }
+
+    .proto--horizon:nth-child(4) {
+      stroke-dasharray:  754;
+      stroke-dashoffset: 754;
+    }
+
+    .proto--horizon:nth-child(5) {
+      stroke-dasharray:  503;
+      stroke-dashoffset: 503;
+    }
+
+    .proto--line {
+      stroke-dasharray:          360;
+      stroke-dashoffset:         360;
+      animation-delay:           1s;
+      animation-duration:        0.5s;
+      animation-timing-function: ease-out;
+    }
+
+    @keyframes dash {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+  </style>
+  <script>
+    (function (u) {
+      function loadCSS (e, t, n) {
+        "use strict";
+        function r () {
+          for (var t, i = 0; i < d.length; i++)d[i].href && d[i].href.indexOf(e) > -1 && (t = !0);
+          t ? o.media = n || "all" : setTimeout(r)
+        }
+
+        var o = window.document.createElement("link"), i = t || window.document.getElementsByTagName("script")[0], d = window.document.styleSheets;
+        return o.rel = "stylesheet", o.href = e, o.media = "only x", i.parentNode.insertBefore(o, i), r(), o
+      }
+
+      for (var i in u) {
+        loadCSS(u[i]);
+      }
+    }(['app.aa700f666d9cc3eee9af.css']));
+  </script>
+  <noscript>
+    <link rel="stylesheet" href="app.aa700f666d9cc3eee9af.css" media="all">
+  </noscript>
+
+</head>
+<body>
+<div id="app" class="app">
+  <div class="radar">
+    <svg class="radar__chart" viewbox="0 0 800 600">
+      <g transform="translate(400, 300)">
+        <circle class="proto proto--horizon" r="240"></circle>
+        <circle class="proto proto--horizon" r="200" fill="transparent" stroke="#000"></circle>
+        <circle class="proto proto--horizon" r="160" fill="transparent" stroke="#000"></circle>
+        <circle class="proto proto--horizon" r="120" fill="transparent" stroke="#000"></circle>
+        <circle class="proto proto--horizon" r="80" fill="transparent" stroke="#000"></circle>
+        <line class="proto proto--line" x1="0" y1="-80" x2="360" y2="-80" stroke="black"></line>
+        <line class="proto proto--line" x1="0" y1="-120" x2="360" y2="-120" stroke="black"></line>
+        <line class="proto proto--line" x1="0" y1="-160" x2="360" y2="-160" stroke="black"></line>
+        <line class="proto proto--line" x1="0" y1="-200" x2="360" y2="-200" stroke="black"></line>
+      </g>
+    </svg>
+    <div class="radar__nav"></div>
+  </div>
+</div>
+
+
+<script async src="app.aa700f666d9cc3eee9af.js"></script>
+
+</body>
+</html>

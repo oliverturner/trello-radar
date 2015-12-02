@@ -66,6 +66,7 @@
   "repository": "git@bitbucket.org:oturner/tech-radar.git",
   "scripts": {
     "build": "webpack --config _sys/webpack.production.js",
+    "postbuild": "critical dist/index.html -b dist/ -w 1300 -h 800 -i true -H dist/index.html",
     "build:gh": "npm run build && gh-pages -d ./dist && rm -r ./dist",
     "lint:js": "eslint .",
     "start": "webpack-dev-server --config _sys/webpack.config.js --no-info --hot --inline --content-base ./public --port 4000",

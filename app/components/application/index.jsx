@@ -9,9 +9,9 @@ import styles from './style.scss'
 class Application extends Component {
   render () {
     return (
-      <div className={styles['radar']}>
+      <div className="radar">
         <Chart {...this.props} />
-        <div className={styles['radar__nav']}>
+        <div className="radar__nav">
           <Nav quadrants={this.props.quadrants}/>
         </div>
       </div>

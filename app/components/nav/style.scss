@@ -7,7 +7,9 @@
 }
 
 :local(.quadrants) {
-  transition: top 0.5s;
+  opacity:    0;
+
+  animation: fadeup 0.5s linear forwards;
 }
 
 :local(.quadrant) {
