@@ -1,3 +1,7 @@
+$animTimeCirc: 0.7s;
+$animTimeLine: 0.3s;
+$animTime: $animTimeCirc + $animTimeLine;
+
 * {
   box-sizing: border-box;
 }
@@ -42,7 +46,7 @@ a {
 }
 
 %proto-anim {
-  animation: dash 1s linear forwards;
+  animation: dash $animTimeCirc linear forwards;
 }
 
 .proto {
@@ -77,8 +81,8 @@ a {
 
   stroke-dasharray:          400;
   stroke-dashoffset:         400;
-  animation-delay:           1s;
-  animation-duration:        0.5s;
+  animation-delay:           $animTimeCirc;
+  animation-duration:        $animTimeLine;
   animation-timing-function: ease-out;
 }
 

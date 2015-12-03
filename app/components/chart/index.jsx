@@ -49,9 +49,9 @@ class Chart extends Component {
       }
     })
 
-    const quadrantLabels = this.props.quadrants.map((q, i) =>
-      <QuadrantLabel name={q.name} arcId={q.labelArcId}/>
-    )
+    const quadrantLabels = this.props.textPathSupported
+      ? this.props.quadrants.map((q, i) => <QuadrantLabel name={q.name} arcId={q.labelArcId}/>)
+      : []
 
     return (
       <svg className="radar__chart" viewBox={`0 0 ${width} ${height}`}>
@@ -74,7 +74,8 @@ Chart.propTypes = {
   horizons:  PropTypes.array.isRequired,
   cards:     PropTypes.array.isRequired,
 
-  horizonSelected: PropTypes.string
+  textPathSupported: PropTypes.bool,
+  horizonSelected:   PropTypes.string
 }
 
 export default Chart

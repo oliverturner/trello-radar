@@ -13,7 +13,6 @@ import reducer from './reducers'
 import metrics from './utils/metrics'
 
 import Application from './components/application'
-import BrowserCheck from './components/application/browser-check'
 
 // Load data
 //-----------------------------------------------
@@ -45,9 +44,10 @@ const onSuccess = (results) => {
       ({id, idLabels, idList, name, desc})
     ),
 
-    horizonSelected: null,
-    cardSelected:    null,
-    cardHovered:     null
+    horizonSelected:   null,
+    cardSelected:      null,
+    cardHovered:       null,
+    textPathSupported: navigator.userAgent.toLowerCase().indexOf('firefox') === -1
   }
 
   metrics.init(data.quadrants.length, data.horizons.length)
@@ -113,20 +113,14 @@ const onError = (err) => {
 
 // Let's go disco!
 //-----------------------------------------------
-if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-  // Warn user if on Firefox
-  render(<BrowserCheck />, document.getElementById('app'))
-}
-else {
-  Promise
-    .all(srcs.map((src) => fetch(src).then((res) => res.json())))
-    .then((values) => {
-      return values.reduce((ret, val, index) => {
-        ret[types[index]] = val
-        return ret
-      }, {})
-    })
-    .then((results) => setTimeout(onSuccess.bind(null, results), 2000))
-    .catch(onError)
-}
+Promise
+  .all(srcs.map((src) => fetch(src).then((res) => res.json())))
+  .then((values) => {
+    return values.reduce((ret, val, index) => {
+      ret[types[index]] = val
+      return ret
+    }, {})
+  })
+  .then((results) => setTimeout(onSuccess.bind(null, results), 700))
+  .catch(onError)
 

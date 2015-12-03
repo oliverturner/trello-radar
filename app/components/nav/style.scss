@@ -30,6 +30,7 @@
   justify-content: center;
   align-items:     center;
 
+  overflow:        hidden;
   font-size:       16px;
   font-weight:     100;
   letter-spacing:  3px;
@@ -65,9 +66,9 @@
 }
 
 :local(.card__label__text) {
-  position:       relative;
-  display:        block;
-  padding:        3px 15px;
+  position: relative;
+  display:  block;
+  padding:  3px 15px;
 
   //color: #eee;
   //mix-blend-mode: hard-light;
