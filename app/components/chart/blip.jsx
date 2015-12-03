@@ -4,7 +4,7 @@ import metrics from '../../utils/metrics'
 
 import styles from './style.scss'
 
-const Blip = ({id, sCount, sIndex, quadrantId, qIndex, hIndex, name, blipClick, blipHover}) => {
+const Blip = ({id, sCount, sIndex, quadrantId, horizonId, qIndex, hIndex, name, blipClick, blipHover}) => {
   const r      = metrics.getBlipRadius(sCount, sIndex, hIndex)
   const theta  = metrics.getBlipTheta(sCount, sIndex, qIndex)
   const [x, y] = metrics.polarToCartesian(r, theta)
@@ -13,8 +13,8 @@ const Blip = ({id, sCount, sIndex, quadrantId, qIndex, hIndex, name, blipClick, 
 
   return (
     <g className={styles['blip']} transform={t}
-       onMouseOver={blipHover.bind(null, id, quadrantId)}
-       onMouseOut={blipHover.bind(null, null, null)}
+       onMouseOver={blipHover.bind(null, id, quadrantId, horizonId)}
+       onMouseOut={blipHover.bind(null, null, null, null)}
        onClick={blipClick.bind(null, id)}>
       <circle r="3px" />
       <text className={styles['blip__name']}>{

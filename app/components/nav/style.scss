@@ -7,7 +7,7 @@
 }
 
 :local(.quadrants) {
-  opacity:    0;
+  opacity:   0;
 
   animation: fadeup 0.5s linear forwards;
 }
@@ -65,9 +65,12 @@
 }
 
 :local(.card__label__text) {
-  position: relative;
-  display:  block;
-  padding:  3px 15px;
+  position:       relative;
+  display:        block;
+  padding:        3px 15px;
+
+  //color: #eee;
+  //mix-blend-mode: hard-light;
 }
 
 :local(.card__desc) {

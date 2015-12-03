@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import Chart from '../chart'
 import Nav from '../nav'
 
-import styles from './style.scss'
+import '../../styles/base.scss'
 
 class Application extends Component {
   render () {
@@ -23,8 +23,6 @@ Application.propTypes = {
   quadrants: PropTypes.array.isRequired
 }
 
-function select (state) {
-  return {...state}
-}
+const select = (state) => state
 
 export default connect(select)(Application)

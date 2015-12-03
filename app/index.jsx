@@ -86,9 +86,9 @@ const onSuccess = (results) => {
     const sCount = s.cardIds ? s.cardIds.length : 0
     const sIndex = s.cardIds ? s.cardIds.indexOf(card.id) : 0
 
-    const {quadrantId, qIndex, hIndex, fill} = s
+    const {quadrantId, horizonId, qIndex, hIndex, fill} = s
 
-    return Object.assign(card, {sIndex, sCount, quadrantId, qIndex, hIndex, fill, displayed: true})
+    return Object.assign(card, {sIndex, sCount, quadrantId, horizonId, qIndex, hIndex, fill, displayed: true})
   })
 
   data.quadrants.map((q) => {

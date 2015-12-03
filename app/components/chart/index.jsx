@@ -12,7 +12,6 @@ import styles from './style.scss'
 
 class Chart extends Component {
   segmentHover = (horizonId) => {
-    console.log('segmentHover:', horizonId)
     this.props.dispatch({type: 'HORIZON_HOVER', horizonId})
   }
 
@@ -20,10 +19,10 @@ class Chart extends Component {
     this.props.dispatch({type: 'CARD_SELECT', cardId})
   }
 
-  blipHover = (cardId, quadrantId) => {
+  blipHover = (cardId, quadrantId, horizonId) => {
     window.location.hash = quadrantId || ''
 
-    this.props.dispatch({type: 'CARD_HOVER', cardId})
+    this.props.dispatch({type: 'CARD_HOVER', cardId, horizonId})
   }
 
   render () {
@@ -70,10 +69,10 @@ class Chart extends Component {
 Chart.propTypes = {
   dispatch: PropTypes.func.isRequired,
 
-  segments:        PropTypes.object.isRequired,
-  quadrants:       PropTypes.array.isRequired,
-  horizons:        PropTypes.array.isRequired,
-  cards:           PropTypes.array.isRequired,
+  segments:  PropTypes.object.isRequired,
+  quadrants: PropTypes.array.isRequired,
+  horizons:  PropTypes.array.isRequired,
+  cards:     PropTypes.array.isRequired,
 
   horizonSelected: PropTypes.string
 }

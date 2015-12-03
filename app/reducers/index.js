@@ -12,7 +12,8 @@ const reducer = (state, action) => {
 
     case 'CARD_HOVER':
       return Object.assign({}, state, {
-        cardHovered: action.cardId
+        cardHovered:     action.cardId,
+        horizonSelected: action.horizonId
       })
 
     default:
