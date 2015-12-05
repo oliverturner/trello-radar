@@ -1,10 +1,12 @@
 {
   "stage": 0,
+  "plugins": [
+    "object-assign"
+  ],
   "env": {
     "development": {
       "plugins": [
-        "react-transform",
-        "object-assign"
+        "react-transform"
       ],
       "extra": {
         "react-transform": {

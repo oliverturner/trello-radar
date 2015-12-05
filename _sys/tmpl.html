@@ -12,18 +12,14 @@
   <body>
     <div id="app">
       <div class="radar" style="display: flex; height: 100vh">
-        <svg class="radar__chart" viewbox="0 0 800 600">
+        <svg class="radar__chart" viewbox="0 0 800 600" style="flex: 2">
           <g transform="translate(400, 300)">
-            <circle class="proto proto--horizon" r="300"></circle>
-            <circle class="proto proto--horizon" r="240"></circle>
-            <circle class="proto proto--horizon" r="180"></circle>
-            <circle class="proto proto--horizon" r="120"></circle>
-            <circle class="proto proto--horizon" r="60"></circle>
-            <line class="proto proto--line" x1="0" x2="400" y1="-60" y2="-60"></line>
-            <line class="proto proto--line" x1="0" x2="400" y1="-120" y2="-120"></line>
-            <line class="proto proto--line" x1="0" x2="400" y1="-180" y2="-180"></line>
-            <line class="proto proto--line" x1="0" x2="400" y1="-240" y2="-240"></line>
-            <line class="proto proto--line" x1="0" x2="400" y1="-300" y2="-300"></line>
+          {% for (var i = 0; i < 5; i++) { %}
+            <circle class="proto proto--horizon" r="{%=300 - (i * 60)%}" fill="transparent"></circle>
+          {% } %}
+          {% for (var j = 0; j < 5; j++) { var y = (j + 1) * -60; %}
+            <line class="proto proto--line" x1="0" x2="400" y1="{%= y %}" y2="{%= y %}"></line>
+          {% } %}
           </g>
         </svg>
         <div class="radar__nav" style="flex-basis: 22.5%; background: #333;">
