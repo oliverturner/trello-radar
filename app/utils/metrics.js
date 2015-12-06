@@ -1,4 +1,5 @@
-import d3 from 'd3'
+import {arc} from 'd3-shape'
+import color from 'd3-color'
 
 class Metrics {
   constructor () {
@@ -15,21 +16,23 @@ class Metrics {
     this.horizonWidth = (this.width > this.height ? this.height : this.width) / 2
     this.horizonMax   = this.horizonNum + this.innerRad
     this.horizonUnit  = this.horizonWidth / this.horizonMax
-    this.colourScale  = d3.scale.category10()
+    this.colourScale  = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
+    this.arc          = arc()
   }
 
   getSegmentFill (qIndex, hIndex) {
-    const rgb = d3.rgb(this.colourScale(qIndex))
+    const rgb = color.rgb(this.colourScale[qIndex])
 
     return rgb.brighter(hIndex / this.horizonNum * 3)
   }
 
   getSegmentArc (qIndex, hIndex) {
-    return d3.svg.arc()
-      .innerRadius((d) => this.getHorizonRad(hIndex))
-      .outerRadius((d) => this.getHorizonRad(hIndex + 1))
-      .startAngle((d)  => qIndex * this.quadAngle + Math.PI / 2)
-      .endAngle((d)    => (qIndex + 1) * this.quadAngle + Math.PI / 2)
+    return this.arc({
+      innerRadius: this.getHorizonRad(hIndex),
+      outerRadius: this.getHorizonRad(hIndex + 1),
+      startAngle:  qIndex * this.quadAngle + Math.PI / 2,
+      endAngle:    (qIndex + 1) * this.quadAngle + Math.PI / 2
+    })
   }
 
   getHorizonRad (hIndex) {

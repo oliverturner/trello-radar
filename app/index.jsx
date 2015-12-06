@@ -65,7 +65,7 @@ const onSuccess = (results) => {
         qIndex:     i,
         hIndex:     j,
         fill:       metrics.getSegmentFill(i, j),
-        d:          metrics.getSegmentArc(i, j)(),
+        d:          metrics.getSegmentArc(i, j),
         cardIds:    data.cards
                       .filter((c) => c.idLabels[0] === quadrant.id && c.idList === horizon.id)
                       .map(({id}) => id)
