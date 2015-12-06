@@ -68,8 +68,8 @@
   "repository": "git@bitbucket.org:oturner/tech-radar.git",
   "scripts": {
     "critical": "critical dist/index.html -b dist/ -w 1300 -h 900 -i true -H dist/index.html",
-    "build": "webpack --config _sys/webpack.production.js",
     "analyze": "webpack --config _sys/webpack.production.js --profile --json > stats.json",
+    "build": "webpack --config _sys/webpack.production.js",
     "postbuild": "npm run critical",
     "surge": "surge dist --domain $npm_package_name.surge.sh",
     "build:surge": "npm run build && npm run surge && rm -rf ./dist",

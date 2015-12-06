@@ -15,3 +15,8 @@ Nix-based: `NODE_ENV=production npm run build`
 Win-based: `set NODE_ENV=production npm run build`
 
 Assets will be compiled to `/dist`
+
+## TODO
+
+Implement ServiceWorker
+Use Redux Immutable
