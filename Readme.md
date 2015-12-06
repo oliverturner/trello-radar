@@ -16,7 +16,15 @@ Win-based: `set NODE_ENV=production npm run build`
 
 Assets will be compiled to `/dist`
 
+## Features
+
+- Critical for inlining CSS
+- Modular D3
+- React with Redux
+- Fetch & Promises
+- Publish to Surge & Github Pages
+
 ## TODO
 
-Implement ServiceWorker
-Use Redux Immutable
+- Implement ServiceWorker
+- Use Redux Immutable
