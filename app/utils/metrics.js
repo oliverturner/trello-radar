@@ -17,6 +17,7 @@ class Metrics {
     this.horizonMax   = this.horizonNum + this.innerRad
     this.horizonUnit  = this.horizonWidth / this.horizonMax
     this.colourScale  = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
+    //this.colourScale  = ['#a559ff', '#e059ff', '#ff59d3', '#ff595b', '#ff7f59', '#ffa159', '#ffb559', '#ffc959', '#bcbd22', '#17becf']
     this.arc          = arc()
   }
 

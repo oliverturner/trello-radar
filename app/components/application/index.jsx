@@ -8,6 +8,10 @@ import '../../styles/base.scss'
 
 class Application extends Component {
   render () {
+    if (this.props.cardHovered) {
+      window.location.hash = this.props.cardHovered.quadrantId
+    }
+
     return (
       <div className="radar">
         <Chart {...this.props} />
@@ -20,7 +24,8 @@ class Application extends Component {
 }
 
 Application.propTypes = {
-  quadrants: PropTypes.array.isRequired
+  quadrants:   PropTypes.array.isRequired,
+  cardHovered: PropTypes.object
 }
 
 const select = (state) => state

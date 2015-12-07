@@ -20,9 +20,7 @@ class Chart extends Component {
   }
 
   blipHover = (cardId, quadrantId, horizonId) => {
-    window.location.hash = quadrantId || ''
-
-    this.props.dispatch({type: 'CARD_HOVER', cardId, horizonId})
+    this.props.dispatch({type: 'CARD_HOVER', cardId, quadrantId, horizonId})
   }
 
   render () {

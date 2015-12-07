@@ -42,14 +42,16 @@
   }
 
   &:hover :local(.blip__name) {
-    opacity: 1;
+    opacity:   1;
+    font-size: 12px;
   }
 }
 
 :local(.blip__name) {
-  transition:  0.25s opacity;
+  transition:        0.25s opacity, 0.25s font-size;
 
-  text-anchor: middle;
-  font-size:   8px;
-  opacity:     0.5
+  text-anchor:       middle;
+  dominant-baseline: text-bottom;
+  font-size:         8px;
+  opacity:           0.4;
 }
