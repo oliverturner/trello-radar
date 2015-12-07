@@ -27,7 +27,7 @@
 }
 
 :local(.quadrantlabel) {
-  font-size:   24px;
+  font-size:   18px;
   font-weight: 200;
   text-anchor: middle;
   opacity:     0.5;
@@ -50,6 +50,6 @@
   transition:  0.25s opacity;
 
   text-anchor: middle;
-  font-size:   12px;
-  opacity:     0.25
+  font-size:   8px;
+  opacity:     0.5
 }
