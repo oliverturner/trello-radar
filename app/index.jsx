@@ -37,7 +37,7 @@ const onSuccess = (results) => {
     quadrants: results.labels.map(({id, name}) => ({id, name})),
 
     horizons: results.lists.slice(0, -1).map(({id, name}) => {
-      return {id, name: name.split(' - ')[0]}
+      return {id, name: name.split(' ')[0]}
     }),
 
     cards: results.cards.map(({id, idLabels, idList, name, desc}) =>

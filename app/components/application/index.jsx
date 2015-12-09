@@ -9,7 +9,7 @@ import '../../styles/base.scss'
 class Application extends Component {
   render () {
     if (this.props.cardHovered) {
-      window.location.hash = this.props.cardHovered.quadrantId
+      window.location.hash = this.props.cardHovered
     }
 
     return (
@@ -25,7 +25,7 @@ class Application extends Component {
 
 Application.propTypes = {
   quadrants:   PropTypes.array.isRequired,
-  cardHovered: PropTypes.object
+  cardHovered: PropTypes.string
 }
 
 const select = (state) => state

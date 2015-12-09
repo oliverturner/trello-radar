@@ -1,24 +1,49 @@
 import {arc} from 'd3-shape'
 import color from 'd3-color'
 
+const getArea = (r) => Math.pow(r, 2) * Math.PI
+
 class Metrics {
   constructor () {
-    this.width    = 800
-    this.height   = 600
-    this.innerRad = 1
+    this.width        = 800
+    this.height       = 600
+    this.horizonWidth = (this.width > this.height ? this.height : this.width) / 2
+    this.aMax         = getArea(this.horizonWidth)
   }
 
   init (quadNum, horizonNum) {
     this.quadNum    = quadNum
     this.horizonNum = horizonNum
 
-    this.quadAngle    = 2 * Math.PI / this.quadNum
-    this.horizonWidth = (this.width > this.height ? this.height : this.width) / 2
-    this.horizonMax   = this.horizonNum + this.innerRad
-    this.horizonUnit  = this.horizonWidth / this.horizonMax
-    this.colourScale  = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
-    //this.colourScale  = ['#a559ff', '#e059ff', '#ff59d3', '#ff595b', '#ff7f59', '#ffa159', '#ffb559', '#ffc959', '#bcbd22', '#17becf']
-    this.arc          = arc()
+    this.hMax          = this.horizonNum + 1
+    this.aConst        = this.aMax / this.horizonNum
+    this.rads          = this.calcRads(this.hMax)
+    this.horizonWidths = this.calcHorizonWidths(this.horizonNum, this.rads)
+
+    this.quadAngle   = 2 * Math.PI / this.quadNum
+    this.colourScale = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
+    this.arc         = arc()
+  }
+
+  calcRads (n) {
+    return Array(n).fill().map((_, i) => {
+      const index = i === 0 ? 1 : i
+      const area  = index * this.aConst
+      const rad   = Math.sqrt(area / Math.PI)
+
+      return (i === 0)
+        ? rad / 2
+        : rad
+    })
+  }
+
+  calcHorizonWidths (n, rads) {
+    return Array(n).fill().map((_, i) => {
+      const inner = rads[i]
+      const outer = rads[i + 1]
+
+      return (outer - inner)
+    })
   }
 
   getSegmentFill (qIndex, hIndex) {
@@ -37,7 +62,7 @@ class Metrics {
   }
 
   getHorizonRad (hIndex) {
-    return (hIndex + this.innerRad) * this.horizonUnit
+    return this.rads[hIndex]
   }
 
   getBlipTheta (sCount, sIndex, qIndex) {
@@ -53,7 +78,7 @@ class Metrics {
       stagger = sIndex % 2 ? 0.75 : 0.25
     }
 
-    return this.getHorizonRad(hIndex) + (this.horizonUnit * stagger)
+    return this.getHorizonRad(hIndex) + (this.horizonWidths[hIndex] * stagger)
   }
 
   polarToCartesian (r, theta) {

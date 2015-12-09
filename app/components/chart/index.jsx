@@ -30,7 +30,7 @@ class Chart extends Component {
 
     const arr = Array(metrics.horizonNum + 1).fill()
 
-    const circles      = arr.map((h, i) => <circle className="proto" r={metrics.horizonUnit * i}/>)
+    const circles      = arr.map((h, i) => <circle className="proto" r={metrics.getHorizonRad(i)}/>)
     const horizonLines = arr.map((h, i) => <HorizonLine index={i}/>)
 
     const horizonLabels = this.props.horizons.map((h, i) =>
