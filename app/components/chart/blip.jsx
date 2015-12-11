@@ -1,10 +1,10 @@
-import React from 'react'
+//import React from 'react'
 
 import metrics from '../../utils/metrics'
 
 import styles from './style.scss'
 
-const Blip = ({id, sCount, sIndex, quadrantId, horizonId, qIndex, hIndex, name, blipClick, blipHover}) => {
+export default React => ({id, sCount, sIndex, quadrantId, horizonId, qIndex, hIndex, name, blipClick, blipHover}) => {
   const r     = metrics.getBlipRadius(sCount, sIndex, hIndex)
   const theta = metrics.getBlipTheta(sCount, sIndex, qIndex)
   const [x, y] = metrics.polarToCartesian(r, theta)
@@ -21,5 +21,3 @@ const Blip = ({id, sCount, sIndex, quadrantId, horizonId, qIndex, hIndex, name, 
     </g>
   )
 }
-
-export default Blip
