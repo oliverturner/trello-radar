@@ -1,0 +1,1 @@
+'https://api.trello.com/1/search?key=27674ab7f9665fde168a16611001e771&token=fb2811ea5b95bdbf70dd2a73d5243c9f846a422e31c12a1dd9489b13a29818c0&query=PHP&card_fields=name%2CidLabels%2Cdesc&modelTypes=cards&idBoard=56431976063102e6178fa3d4'

@@ -12,16 +12,16 @@ import {Promise} from 'es6-promise'
 import reducer from './reducers'
 import metrics from './utils/metrics'
 
+import Card from './models/card'
+
 import Application from './components/application'
 
 // Load data
 //-----------------------------------------------
-const types = ['cards', 'lists', 'labels']
-const srcs  = types.map((type) =>
-  `https://api.trello.com/1/boards/uD51usV2/${type}` +
-  '?key=27674ab7f9665fde168a16611001e771' +
-  '&token=fb2811ea5b95bdbf70dd2a73d5243c9f846a422e31c12a1dd9489b13a29818c0'
-)
+const types      = ['cards', 'lists', 'labels']
+const endPoint   = 'https://api.trello.com/1/'
+const srcs       = types.map((type) => `${endPoint}/boards/uD51usV2/${type}?`)
+const cedentials = '&key=27674ab7f9665fde168a16611001e771&token=fb2811ea5b95bdbf70dd2a73d5243c9f846a422e31c12a1dd9489b13a29818c0'
 
 const deriveKey = (q, h) => `${q.id}-${h.id}`
 
@@ -40,9 +40,11 @@ const onSuccess = (results) => {
       return {id, name: name.split(' ')[0]}
     }),
 
-    cards: results.cards.map(({id, idLabels, idList, name, desc}) =>
-      ({id, idLabels, idList, name, desc})
-    ),
+    //cards: results.cards.map(({id, idLabels, idList, name, desc}) =>
+    //  ({id, idLabels, idList, name, desc})
+    //),
+
+    cards: results.cards.map(c => new Card(c)),
 
     horizonSelected:   null,
     cardSelected:      null,
@@ -77,9 +79,22 @@ const onSuccess = (results) => {
     return Object.assign(qRet, qh)
   }, {})
 
+  //data.cards.map((card) => {
+  //  const k = `${card.idLabels[0]}-${card.idList}`
+  //  const s = segments[k]
+  //
+  //  if (!s) return Object.assign(card, {displayed: false})
+  //
+  //  const sCount = s.cardIds ? s.cardIds.length : 0
+  //  const sIndex = s.cardIds ? s.cardIds.indexOf(card.id) : 0
+  //
+  //  const {quadrantId, horizonId, qIndex, hIndex, fill} = s
+  //
+  //  return Object.assign(card, {sIndex, sCount, quadrantId, horizonId, qIndex, hIndex, fill, displayed: true})
+  //})
+
   data.cards.map((card) => {
-    const k = `${card.idLabels[0]}-${card.idList}`
-    const s = segments[k]
+    const s = segments[card.key]
 
     if (!s) return Object.assign(card, {displayed: false})
 
@@ -113,8 +128,20 @@ const onError = (err) => {
 
 // Let's go disco!
 //-----------------------------------------------
+srcs.push(`${endPoint}/search?query=PHP&card_fields=name,idLabels,desc&modelTypes=cards&idBoards=56431976063102e6178fa3d4&cb=${new Date().toISOString()}`)
+
+//var s = {
+//  card_fields: 'name,idLabels,desc',
+//  cb:          '2015-12-11T17:13:44.152Z',
+//  idBoards:    '56431976063102e6178fa3d4',
+//  modelTypes:  'cards',
+//  query:       'PHP',
+//  key:         '27674ab7f9665fde168a16611001e771',
+//  token:       'fb2811ea5b95bdbf70dd2a73d5243c9f846a422e31c12a1dd9489b13a29818c0'
+//}
+
 Promise
-  .all(srcs.map((src) => fetch(src).then((res) => res.json())))
+  .all(srcs.map((src) => fetch(src + cedentials).then((res) => res.json())))
   .then((values) => {
     return values.reduce((ret, val, index) => {
       ret[types[index]] = val

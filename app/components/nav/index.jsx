@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Quadrant from './quadrant'
+import Card from './card'
 
 import styles from './style.scss'
 
@@ -11,7 +11,9 @@ const Nav = ({quadrants}) =>
         <div className={styles['quadrant__label']}>
           <p className={styles['quadrant__label__vert']}>{q.name}</p>
         </div>
-        <Quadrant cards={q.cards}/>
+        <ul className={styles['quadrant__cards']}>
+          {q.cards.map((c) => <Card key={c.id} {...c} />)}
+        </ul>
       </li>
     )}
   </ul>
