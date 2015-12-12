@@ -13,6 +13,7 @@ import reducer from './reducers'
 import metrics from './utils/metrics'
 
 import Card from './models/card'
+import Segment from './models/segment'
 
 import Application from './components/application'
 
@@ -35,43 +36,39 @@ const deriveKey = (q, h) => `${q.id}-${h.id}`
 const onSuccess = (results) => {
   const data = {
     quadrants: results.labels.map(({id, name}) => ({id, name})),
-
-    horizons: results.lists.slice(0, -1).map(({id, name}) => {
-      return {id, name: name.split(' ')[0]}
-    }),
-
-    //cards: results.cards.map(({id, idLabels, idList, name, desc}) =>
-    //  ({id, idLabels, idList, name, desc})
-    //),
-
-    cards: results.cards.map(c => new Card(c)),
+    horizons:  results.lists.slice(0, -1).map(({id, name}) => ({id, name: name.split(' ')[0]})),
+    cards:     results.cards.map(c => new Card(c)),
 
     horizonSelected:   null,
     cardSelected:      null,
     cardHovered:       null,
+    cardsFiltered:     [],
     textPathSupported: navigator.userAgent.toLowerCase().indexOf('firefox') === -1
   }
 
+  // Derived data
+  //-----------------------------------------------
+  // Create a singleton source of metrics
   metrics.init(data.quadrants.length, data.horizons.length)
 
-  const segments = data.quadrants.reduce((qRet, quadrant, i) => {
+  // Generate segments from quadrants and horizons
+  data.segments = data.quadrants.reduce((qRet, quadrant, i) => {
+    // store a reference to the outermost section: used to apply curved quadrantLabel
     quadrant.labelArcId = deriveKey(quadrant, data.horizons.slice().pop())
 
     const qh = data.horizons.reduce((hRet, horizon, j) => {
       const key = deriveKey(quadrant, horizon)
 
-      hRet[key] = {
+      hRet[key] = new Segment({
         id:         key,
         quadrantId: quadrant.id,
         horizonId:  horizon.id,
         qIndex:     i,
         hIndex:     j,
-        fill:       metrics.getSegmentFill(i, j),
-        d:          metrics.getSegmentArc(i, j),
         cardIds:    data.cards
-                      .filter((c) => c.idLabels[0] === quadrant.id && c.idList === horizon.id)
+                      .filter((c) => c.idLabel === quadrant.id && c.idList === horizon.id)
                       .map(({id}) => id)
-      }
+      })
 
       return hRet
     }, {})
@@ -79,40 +76,25 @@ const onSuccess = (results) => {
     return Object.assign(qRet, qh)
   }, {})
 
-  //data.cards.map((card) => {
-  //  const k = `${card.idLabels[0]}-${card.idList}`
-  //  const s = segments[k]
-  //
-  //  if (!s) return Object.assign(card, {displayed: false})
-  //
-  //  const sCount = s.cardIds ? s.cardIds.length : 0
-  //  const sIndex = s.cardIds ? s.cardIds.indexOf(card.id) : 0
-  //
-  //  const {quadrantId, horizonId, qIndex, hIndex, fill} = s
-  //
-  //  return Object.assign(card, {sIndex, sCount, quadrantId, horizonId, qIndex, hIndex, fill, displayed: true})
-  //})
+  // Remove cards that lack a corresponding segment (e.g. no label applied)
+  data.cards = data.cards.reduce((ret, card) => {
+    const segment = data.segments[card.segmentKey]
 
-  data.cards.map((card) => {
-    const s = segments[card.key]
+    if (segment) {
+      ret.push(card.setSegment(segment.getCardDetails(card.id)))
+    }
 
-    if (!s) return Object.assign(card, {displayed: false})
+    return ret
+  }, [])
 
-    const sCount = s.cardIds ? s.cardIds.length : 0
-    const sIndex = s.cardIds ? s.cardIds.indexOf(card.id) : 0
+  // Cache references to cards within this quadrant
+  data.quadrants = data.quadrants.map((q) =>
+    Object.assign({}, q, {
+      cards: data.cards.filter((c) => c.idLabel === q.id)
+    })
+  )
 
-    const {quadrantId, horizonId, qIndex, hIndex, fill} = s
-
-    return Object.assign(card, {sIndex, sCount, quadrantId, horizonId, qIndex, hIndex, fill, displayed: true})
-  })
-
-  data.quadrants.map((q) => {
-    const cards = data.cards.filter((c) => c.idLabels[0] === q.id)
-
-    return Object.assign(q, {cards})
-  })
-
-  const store = createStore(reducer, {segments, ...data})
+  const store = createStore(reducer, data)
 
   render(
     <Provider store={store}>
@@ -131,13 +113,13 @@ const onError = (err) => {
 srcs.push(`${endPoint}/search?query=PHP&card_fields=name,idLabels,desc&modelTypes=cards&idBoards=56431976063102e6178fa3d4&cb=${new Date().toISOString()}`)
 
 //var s = {
-//  card_fields: 'name,idLabels,desc',
-//  cb:          '2015-12-11T17:13:44.152Z',
-//  idBoards:    '56431976063102e6178fa3d4',
-//  modelTypes:  'cards',
-//  query:       'PHP',
 //  key:         '27674ab7f9665fde168a16611001e771',
 //  token:       'fb2811ea5b95bdbf70dd2a73d5243c9f846a422e31c12a1dd9489b13a29818c0'
+//  card_fields: 'name,desc',
+//  idBoards:    '56431976063102e6178fa3d4',
+//  modelTypes:  'cards',
+//  query:       '',
+//  cb:          new Date().toISOString(),
 //}
 
 Promise

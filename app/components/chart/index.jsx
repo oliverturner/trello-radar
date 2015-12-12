@@ -41,11 +41,9 @@ class Chart extends Component {
       <Segment {...this.props.segments[key]} onHover={this.segmentHover}/>
     )
 
-    const blips = this.props.cards.map((c) => {
-      if (c.displayed) {
-        return <Blip {...c} blipClick={this.blipClick} blipHover={this.blipHover}/>
-      }
-    })
+    const blips = this.props.cards.map((c) =>
+      <Blip {...c} blipClick={this.blipClick} blipHover={this.blipHover}/>
+    )
 
     const quadrantLabels = this.props.textPathSupported
       ? this.props.quadrants.map((q, i) => <QuadrantLabel name={q.name} arcId={q.labelArcId}/>)
