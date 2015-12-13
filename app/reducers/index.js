@@ -1,6 +1,9 @@
+import fetch from 'isomorphic-fetch'
+
 import Card from '../models/card'
 import Segment from '../models/segment'
 
+import {searchQS} from '../utils/trello'
 import metrics from '../utils/metrics'
 
 // Helpers
@@ -75,6 +78,14 @@ const deriveData = (data) => {
   }
 }
 
+// Search
+//-----------------------------------------------
+//const searchCards = (query) => (dispatch) =>
+//  fetch(searchQS(query))
+//    .then((res) => res.json())
+//    .then((json) => dispatch({type: 'CARDS_FILTER', payload: json}))
+
+
 // Reducers
 //-----------------------------------------------
 const reducer = (state, action) => {
@@ -101,8 +112,9 @@ const reducer = (state, action) => {
         horizonSelected: action.horizonId
       })
 
-    //case 'CARDS_FILTER':
-    //  return {}
+    case 'CARDS_FILTER':
+      console.log('CARDS_FILTER!!!', action.payload)
+      return state
 
     default:
       return state
