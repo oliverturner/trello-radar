@@ -1,9 +1,6 @@
-import fetch from 'isomorphic-fetch'
-
 import Card from '../models/card'
 import Segment from '../models/segment'
 
-import {searchQS} from '../utils/trello'
 import metrics from '../utils/metrics'
 
 // Helpers
@@ -77,14 +74,6 @@ const deriveData = (data) => {
     quadrants: cacheQuadrantCards(data)
   }
 }
-
-// Search
-//-----------------------------------------------
-//const searchCards = (query) => (dispatch) =>
-//  fetch(searchQS(query))
-//    .then((res) => res.json())
-//    .then((json) => dispatch({type: 'CARDS_FILTER', payload: json}))
-
 
 // Reducers
 //-----------------------------------------------

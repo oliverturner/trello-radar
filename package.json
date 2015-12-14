@@ -75,7 +75,7 @@
     "surge": "surge dist --domain $npm_package_name.surge.sh",
     "build:surge": "npm run build && npm run surge && rm -rf ./dist",
     "build:gh": "npm run build && gh-pages -d ./dist && rm -r ./dist",
-    "lint:js": "eslint .",
+    "lint:js": "eslint ./app",
     "start": "webpack-dev-server --config _sys/webpack.config.js --no-info --hot --inline --content-base ./public --port 4000",
     "test": "npm run test:watch -- --single-run",
     "test:ci": "karma start _sys/karma.ci.conf.js --single-run",

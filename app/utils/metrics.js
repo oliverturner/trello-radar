@@ -17,7 +17,7 @@ class Metrics {
 
     this.hMax          = this.horizonNum + 1
     this.aConst        = this.aMax / this.horizonNum
-    this.rads          = this.calcRads(this.hMax)
+    this.rads          = this.calcRadii(this.hMax, this.aConst)
     this.horizonWidths = this.calcHorizonWidths(this.horizonNum, this.rads)
 
     this.quadAngle   = 2 * Math.PI / this.quadNum
@@ -25,15 +25,13 @@ class Metrics {
     this.arc         = arc()
   }
 
-  calcRads (n) {
+  calcRadii (n, aConst) {
     return Array(n).fill().map((_, i) => {
       const index = i === 0 ? 1 : i
-      const area  = index * this.aConst
+      const area  = index * aConst
       const rad   = Math.sqrt(area / Math.PI)
 
-      return (i === 0)
-        ? rad / 2
-        : rad
+      return (i === 0) ? rad / 2 : rad
     })
   }
 
