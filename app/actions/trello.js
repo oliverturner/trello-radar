@@ -15,7 +15,7 @@ const srcs = types.map((type) => `${endPoint}/boards/uD51usV2/${type}?${qs.strin
 
 const getSearchQS = (query) => {
   const str = qs.stringify(Object.assign({}, credentials, {
-    card_fields: 'name,desc',
+    card_fields: 'id',
     idBoards:    '56431976063102e6178fa3d4',
     modelTypes:  'cards',
     cb:          new Date().toISOString(),

@@ -102,7 +102,8 @@ const reducer = (state, action) => {
       })
 
     case 'CARDS_FILTER':
-      console.log('CARDS_FILTER!!!', action.payload)
+      //return Object.assign({}, state, action.payload.map((card) => ))
+      console.log('cards:', action.payload.cards)
       return state
 
     default:
