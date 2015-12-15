@@ -12,8 +12,11 @@ import '../../styles/base.scss'
 class Application extends Component {
   onSearchChange = (event) => {
     const query = event.currentTarget.query.value
-    console.log('onSearchChange', query)
     this.props.dispatch(searchCards(query))
+  }
+
+  onSearchReset = () => {
+    this.props.dispatch({type: 'CARDS_FILTER_RESET'})
   }
 
   render () {
@@ -25,8 +28,8 @@ class Application extends Component {
       <div className="radar">
         <Chart {...this.props} />
         <div className="radar__nav">
-          <Search onChange={this.onSearchChange}/>
-          <Nav quadrants={this.props.quadrants}/>
+          <Search onChange={this.onSearchChange} onReset={this.onSearchReset} />
+          <Nav quadrants={this.props.quadrants} cards={this.props.cards}/>
         </div>
       </div>
     )
@@ -36,6 +39,7 @@ class Application extends Component {
 Application.propTypes = {
   dispatch:    PropTypes.func.isRequired,
   quadrants:   PropTypes.array.isRequired,
+  cards:       PropTypes.array.isRequired,
   cardHovered: PropTypes.string
 }
 

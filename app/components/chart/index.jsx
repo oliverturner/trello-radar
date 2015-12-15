@@ -41,7 +41,7 @@ class Chart extends Component {
       <Segment {...this.props.segments[key]} onHover={this.segmentHover}/>
     )
 
-    const blips = this.props.cards.map((c) =>
+    const blips = this.props.segmentCards.map((c) =>
       <Blip {...c} blipClick={this.blipClick} blipHover={this.blipHover}/>
     )
 

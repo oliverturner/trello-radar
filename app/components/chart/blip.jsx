@@ -4,7 +4,9 @@ import metrics from '../../utils/metrics'
 
 import styles from './style.scss'
 
-const Blip = ({id, sCount, sIndex, quadrantId, horizonId, qIndex, hIndex, name, blipClick, blipHover}) => {
+const Blip = ({id, sCount, sIndex, quadrantId, horizonId, qIndex, hIndex, name, blipClick, blipHover, displayed = true}) => {
+  if (!displayed) return false
+
   const r     = metrics.getBlipRadius(sCount, sIndex, hIndex)
   const theta = metrics.getBlipTheta(sCount, sIndex, qIndex)
   const [x, y] = metrics.polarToCartesian(r, theta)

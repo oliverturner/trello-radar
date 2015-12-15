@@ -13,7 +13,7 @@ import {loadData} from './actions/trello'
 
 import Application from './components/application'
 
-// Start
+// Initialise
 //-----------------------------------------------
 // create a store that has redux-thunk middleware enabled
 const createAsyncStore = applyMiddleware(thunk)(createStore)

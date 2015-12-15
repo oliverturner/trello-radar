@@ -10,14 +10,13 @@ class Search extends Component {
   }
 
   onInputUpdate = (event) => {
-    console.log('onInputUpdate:', event.target.value)
     this.setState({query: event.target.value})
   }
 
   render () {
     return (
-      <form onChange={this.props.onChange}>
-        <input name="query" value={this.state.query} onChange={this.onInputUpdate} />
+      <form onChange={this.props.onChange} onReset={this.props.onReset}>
+        <input name="query" value={this.state.query} onChange={this.onInputUpdate}/>
         <button type="reset">x</button>
         <button disabled>Go!</button>
       </form>
@@ -26,7 +25,8 @@ class Search extends Component {
 }
 
 Search.propTypes = {
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  onReset:  PropTypes.func.isRequired
 }
 
 export default Search

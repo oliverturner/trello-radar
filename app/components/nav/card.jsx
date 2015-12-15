@@ -6,10 +6,6 @@ import {markdown} from 'markdown'
 import styles from './style.scss'
 
 class Card extends Component {
-  static defaultProps = {
-    description: ''
-  }
-
   toggleOpen = () => {
     this.props.dispatch({type: 'CARD_SELECT', cardId: this.props.id})
   }
@@ -20,12 +16,14 @@ class Card extends Component {
     const desc = markdown.toHTML(this.props.desc)
     return (
       <Collapse isOpened={opened}>
-        <div className={styles['card__desc']} dangerouslySetInnerHTML={{__html: desc }} />
+        <div className={styles['card__desc']} dangerouslySetInnerHTML={{__html: desc }}/>
       </Collapse>
     )
   }
 
   render () {
+    if (!this.props.displayed) return false
+
     const opened  = this.props.cardSelected === this.props.id
     const hovered = this.props.cardHovered === this.props.id
     const style   = {background: this.props.fill || '#ccc'}
@@ -44,15 +42,21 @@ class Card extends Component {
   }
 }
 
+Card.defaultProps = {
+  description: '',
+  displayed:   true
+}
+
 Card.propTypes = {
   dispatch:     PropTypes.func.isRequired,
   cardSelected: PropTypes.string,
   cardHovered:  PropTypes.string,
 
-  id:   PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  fill: PropTypes.object,
-  desc: PropTypes.string
+  id:        PropTypes.string.isRequired,
+  name:      PropTypes.string.isRequired,
+  fill:      PropTypes.object,
+  desc:      PropTypes.string,
+  displayed: PropTypes.bool.isRequired
 }
 
 function select (state) {

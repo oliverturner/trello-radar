@@ -35,7 +35,7 @@ const createSegments = ({quadrants, horizons, cards}) =>
         qIndex:     i,
         hIndex:     j,
         cardIds:    cards
-                      .filter((c) => c.idLabel === quadrant.id && c.idList === horizon.id)
+                      .filter((c) => c.quadrantId === quadrant.id && c.horizonId === horizon.id)
                       .map(({id}) => id)
       })
 
@@ -45,7 +45,9 @@ const createSegments = ({quadrants, horizons, cards}) =>
     return Object.assign(qRet, qh)
   }, {})
 
-// Remove cards that lack a corresponding segment (e.g. no label applied)
+// Remove cards that lack a corresponding segment:
+// 1) no label applied
+// 2) deprecated
 const filterSegmentCards = (cards, segments) =>
   cards.reduce((ret, card) => {
     const segment = segments[card.segmentKey]
@@ -57,21 +59,12 @@ const filterSegmentCards = (cards, segments) =>
     return ret
   }, [])
 
-// Cache references to cards within this quadrant
-const cacheQuadrantCards = ({quadrants, cards}) =>
-  quadrants.map((q) =>
-    Object.assign({}, q, {
-      cards: cards.filter((c) => c.idLabel === q.id)
-    })
-  )
-
 const deriveData = (data) => {
   const segments = createSegments(data)
 
   return {
-    segments,
-    cards:     filterSegmentCards(data.cards, segments),
-    quadrants: cacheQuadrantCards(data)
+    segments:     segments,
+    segmentCards: filterSegmentCards(data.cards, segments)
   }
 }
 
@@ -101,10 +94,19 @@ const reducer = (state, action) => {
         horizonSelected: action.horizonId
       })
 
-    case 'CARDS_FILTER':
-      //return Object.assign({}, state, action.payload.map((card) => ))
-      console.log('cards:', action.payload.cards)
-      return state
+    case 'CARDS_FILTER_RESET':
+      return Object.assign({}, state, {
+        cards:        state.cards.map((c) => c.setDisplayed(true)),
+        segmentCards: state.segmentCards.map((c) => c.setDisplayed(true))
+      })
+
+    case 'CARDS_FILTER_APPLY':
+      const res = action.payload.cards.map((r) => r.id)
+
+      return Object.assign({}, state, {
+        cards:        state.cards.map((c) => c.setDisplayed(res.indexOf(c.id) > -1)),
+        segmentCards: state.segmentCards.map((c) => c.setDisplayed(res.indexOf(c.id) > -1))
+      })
 
     default:
       return state
