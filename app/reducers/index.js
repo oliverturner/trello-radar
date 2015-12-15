@@ -101,11 +101,12 @@ const reducer = (state, action) => {
       })
 
     case 'CARDS_FILTER_APPLY':
-      const res = action.payload.cards.map((r) => r.id)
+      const res         = action.payload.cards.map((r) => r.id)
+      const applyFilter = (c) => c.setDisplayed(res.indexOf(c.id) > -1)
 
       return Object.assign({}, state, {
-        cards:        state.cards.map((c) => c.setDisplayed(res.indexOf(c.id) > -1)),
-        segmentCards: state.segmentCards.map((c) => c.setDisplayed(res.indexOf(c.id) > -1))
+        cards:        state.cards.map(applyFilter),
+        segmentCards: state.segmentCards.map(applyFilter)
       })
 
     default:

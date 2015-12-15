@@ -1,5 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 
+import styles from './style.scss'
+
 class Search extends Component {
   constructor (props) {
     super(props)
@@ -15,10 +17,11 @@ class Search extends Component {
 
   render () {
     return (
-      <form onChange={this.props.onChange} onReset={this.props.onReset}>
-        <input name="query" value={this.state.query} onChange={this.onInputUpdate}/>
-        <button type="reset">x</button>
-        <button disabled>Go!</button>
+      <form className={styles['search']} onChange={this.props.onChange} onReset={this.props.onReset}>
+        <input className={styles['search__input']}
+               name="query" value={this.state.query} placeholder="Search for a technology"
+               onChange={this.onInputUpdate}/>
+        <button className={styles['search__btn']} type="reset">clear</button>
       </form>
     )
   }
