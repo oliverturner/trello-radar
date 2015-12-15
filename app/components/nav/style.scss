@@ -7,18 +7,15 @@
 }
 
 :local(.quadrants) {
-  flex:          1;
+  flex:        1;
 
-  overflow-y:    scroll;
-  padding-right: 10px;
-  opacity:       0;
+  overflow-y:  scroll;
+  opacity:     0;
 
-  animation:     fadeup 0.5s linear forwards;
+  animation:   fadeup 0.5s linear forwards;
 }
 
 :local(.quadrant) {
-  display:    flex;
-
   margin:     1px 0 0;
   background: #333;
 
@@ -28,23 +25,13 @@
 }
 
 :local(.quadrant__label) {
-  flex:            0 0 30px;
-
-  display:         flex;
-  justify-content: center;
-  align-items:     center;
-
-  overflow:        hidden;
-  font-size:       16px;
-  font-weight:     100;
-  letter-spacing:  3px;
-  text-transform:  uppercase;
-  color:           #ccc;
-}
-
-:local(.quadrant__label__vert) {
-  transform:   rotate(-90deg);
-  white-space: nowrap;
+  margin:         5px 15px;
+  line-height:    1;
+  font-size:      14px;
+  font-weight:    100;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color:          #ccc;
 }
 
 :local(.quadrant__cards) {

@@ -65,10 +65,10 @@ class Chart extends Component {
 Chart.propTypes = {
   dispatch: PropTypes.func.isRequired,
 
-  segments:  PropTypes.object.isRequired,
-  quadrants: PropTypes.array.isRequired,
-  horizons:  PropTypes.array.isRequired,
-  cards:     PropTypes.array.isRequired,
+  segments:     PropTypes.object.isRequired,
+  segmentCards: PropTypes.array.isRequired,
+  quadrants:    PropTypes.array.isRequired,
+  horizons:     PropTypes.array.isRequired,
 
   textPathSupported: PropTypes.bool,
   horizonSelected:   PropTypes.string

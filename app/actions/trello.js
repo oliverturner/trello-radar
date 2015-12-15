@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch'
 import {Promise} from 'es6-promise'
-import qs from 'qs'
+import qs from 'query-string'
 
 const endPoint = 'https://api.trello.com/1/'
 

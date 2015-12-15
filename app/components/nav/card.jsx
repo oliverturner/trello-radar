@@ -11,6 +11,7 @@ class Card extends Component {
   }
 
   getDescription (opened) {
+    if (opened) console.log('this.props.desc.length', this.props.desc.length)
     if (this.props.desc.length === 0) return
 
     const desc = markdown.toHTML(this.props.desc)

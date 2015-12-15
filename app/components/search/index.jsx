@@ -15,9 +15,19 @@ class Search extends Component {
     this.setState({query: event.target.value})
   }
 
+  onReset = () => {
+    this.setState({query: ''})
+    this.props.onReset()
+  }
+
+  onSubmit = (event) => {
+    event.preventDefault()
+  }
+
+  // TODO: eliminate local state: make query a prop
   render () {
     return (
-      <form className={styles['search']} onChange={this.props.onChange} onReset={this.props.onReset}>
+      <form className={styles['search']} onChange={this.props.onChange} onReset={this.onReset} onSubmit={this.onSubmit}>
         <input className={styles['search__input']}
                name="query" value={this.state.query} placeholder="Search for a technology"
                onChange={this.onInputUpdate}/>

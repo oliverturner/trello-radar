@@ -3,25 +3,36 @@
 :local(.search) {
   flex-shrink: 0;
 
-  display: flex;
+  display:     flex;
 
-  padding: 10px;
+  padding:     10px;
 }
 
 :local(.search__input) {
   flex:       1;
 
+  transition: 0.25s background;
+
   padding:    5px 10px;
   border:     none;
+  outline:    none;
   background: #fff;
+
+  &:focus {
+    background: lightgoldenrodyellow;
+  }
 }
 
 :local(.search__btn) {
   @include btn;
 
-  outline:    none;
-  background: #ccc;
-  color:      #666;
+  transition:     0.25s background, 0.25s color;
+
+  text-transform: lowercase;
+  font-variant:   small-caps;
+  outline:        none;
+  background:     #ccc;
+  color:          #666;
 
   &:focus {
     background: #666;
