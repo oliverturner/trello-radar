@@ -64,6 +64,10 @@
     "redux-devtools": "^3.0.0",
     "webpack-dev-server": "^1.14.0"
   },
+  "engines": {
+    "node": "^4.2.0",
+    "npm": "2.14.7"
+  },
   "license": "MIT",
   "main": "app/index.js",
   "repository": "git@bitbucket.org:oturner/tech-radar.git",
