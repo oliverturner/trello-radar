@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Segment = ({horizonId, onHover, ...props}) => {
+const Segment = ({quadrantId, horizonId, onHover, ...props}) => {
   return <path {...props}
-               onMouseEnter={() => onHover(horizonId)}
+               onMouseEnter={() => onHover(quadrantId, horizonId)}
                onMouseLeave={() => onHover()}/>
 }
 

@@ -39,6 +39,5 @@ store.dispatch(loadData())
     )
   })
   .catch((err) => {
-    console.log(err)
-    throw new Error(err)
+    throw err
   })

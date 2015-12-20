@@ -124,15 +124,19 @@ const reducer = (state, action) => {
       }))
 
     case 'HORIZON_HOVER':
-      return state.set('horizonSelected', action.horizonId)
+      return state.merge({
+        quadrantSelected: action.payload.quadrantId,
+        horizonSelected:  action.payload.horizonId
+      })
 
     case 'CARD_SELECT':
       return state.set('cardSelected', state.get('cardSelected') === action.cardId ? null : action.cardId)
 
     case 'CARD_HOVER':
       return state.merge({
-        cardHovered:     action.cardId,
-        horizonSelected: action.horizonId
+        cardHovered:      action.cardId,
+        quadrantSelected: action.quadrantId,
+        horizonSelected:  action.horizonId
       })
 
     case 'CARDS_FILTER_RESET':

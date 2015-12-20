@@ -20,8 +20,8 @@ class Application extends Component {
   }
 
   render () {
-    if (this.props.cardHovered) {
-      window.location.hash = this.props.cardHovered
+    if (this.props.quadrantSelected) {
+      window.location.hash = this.props.quadrantSelected
     }
 
     return (
@@ -37,10 +37,11 @@ class Application extends Component {
 }
 
 Application.propTypes = {
-  dispatch:    PropTypes.func.isRequired,
-  quadrants:   PropTypes.array.isRequired,
-  cards:       PropTypes.array.isRequired,
-  cardHovered: PropTypes.string
+  dispatch:         PropTypes.func.isRequired,
+  quadrants:        PropTypes.array.isRequired,
+  cards:            PropTypes.array.isRequired,
+  cardHovered:      PropTypes.string,
+  quadrantSelected: PropTypes.string
 }
 
 // TODO: split out into more granular reqs: don't simply convert to JS
@@ -54,6 +55,7 @@ const select = (state) => {
     cards:        state.get('cards').toArray(),
 
     textPathSupported: state.get('textPathSupported'),
+    quadrantSelected:  state.get('quadrantSelected'),
     horizonSelected:   state.get('horizonSelected'),
     cardHovered:       state.get('cardHovered')
   }

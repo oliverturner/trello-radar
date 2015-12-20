@@ -16,7 +16,7 @@ class Nav extends Component {
 
     return (
       <li key={q.get('id')} id={q.get('id')} className={styles['quadrant']}>
-          <p className={styles['quadrant__label']}>{q.get('name')}</p>
+        <p className={styles['quadrant__label']}>{q.get('name')}</p>
         <ul className={styles['quadrant__cards']}>
           {qCards.map((c) => {
             const cardId    = c.get('id')
@@ -27,7 +27,7 @@ class Nav extends Component {
               ? <Card key={cardId}
                       onClick={this.toggleOpen}
                       isOpened={isOpened} isHovered={isHovered}
-                {...c.toObject()} />
+                  {...c.toObject()} />
               : false
           })}
         </ul>

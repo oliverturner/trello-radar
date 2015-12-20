@@ -11,8 +11,8 @@ import HorizonLabel from './horizon-label'
 import styles from './style.scss'
 
 class Chart extends Component {
-  segmentHover = (horizonId) => {
-    this.props.dispatch({type: 'HORIZON_HOVER', horizonId})
+  segmentHover = (quadrantId, horizonId) => {
+    this.props.dispatch({type: 'HORIZON_HOVER', payload: {quadrantId, horizonId}})
   }
 
   blipClick = (cardId) => {

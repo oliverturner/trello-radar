@@ -9,6 +9,7 @@ const getDescription = (desc = '', isOpened = false) => {
   if (desc.length === 0) return
 
   desc = markdown.toHTML(desc)
+
   return (
     <Collapse isOpened={isOpened}>
       <div className={styles['card__desc']} dangerouslySetInnerHTML={{__html: desc }}/>
