@@ -47,7 +47,7 @@ class Metrics {
   getSegmentFill (qIndex, hIndex) {
     const rgb = color.rgb(this.colourScale[qIndex])
 
-    return rgb.brighter(hIndex / this.horizonNum * 3)
+    return rgb.brighter(hIndex / this.horizonNum * 3).toString()
   }
 
   getSegmentArc (qIndex, hIndex) {

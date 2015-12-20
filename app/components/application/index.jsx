@@ -28,7 +28,7 @@ class Application extends Component {
       <div className="radar">
         <Chart {...this.props} />
         <div className="radar__nav">
-          <Search onChange={this.onSearchChange} onReset={this.onSearchReset} />
+          <Search onChange={this.onSearchChange} onReset={this.onSearchReset}/>
           <Nav quadrants={this.props.quadrants} cards={this.props.cards}/>
         </div>
       </div>
@@ -43,6 +43,20 @@ Application.propTypes = {
   cardHovered: PropTypes.string
 }
 
-const select = (state) => state
+// TODO: split out into more granular reqs: don't simply convert to JS
+// see https://github.com/rackt/react-redux/issues/60
+const select = (state) => {
+  return {
+    segments:     state.get('segments').toObject(),
+    segmentCards: state.get('segmentCards').toArray(),
+    quadrants:    state.get('quadrants').toArray(),
+    horizons:     state.get('horizons').toArray(),
+    cards:        state.get('cards').toArray(),
+
+    textPathSupported: state.get('textPathSupported'),
+    horizonSelected:   state.get('horizonSelected'),
+    cardHovered:       state.get('cardHovered')
+  }
+}
 
 export default connect(select)(Application)

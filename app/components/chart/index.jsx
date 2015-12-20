@@ -34,19 +34,19 @@ class Chart extends Component {
     const horizonLines = arr.map((h, i) => <HorizonLine index={i}/>)
 
     const horizonLabels = this.props.horizons.map((h, i) =>
-      <HorizonLabel index={i} name={h.name} selected={h.id === this.props.horizonSelected}/>
+      <HorizonLabel index={i} name={h.get('name')} selected={h.get('id') === this.props.horizonSelected}/>
     )
 
-    const segments = Object.keys(this.props.segments).map((key) =>
-      <Segment {...this.props.segments[key]} onHover={this.segmentHover}/>
-    )
+    const segments = Object.keys(this.props.segments).map((key) => {
+      return <Segment {...this.props.segments[key].toObject()} onHover={this.segmentHover}/>
+    })
 
-    const blips = this.props.segmentCards.map((c) =>
-      <Blip {...c} blipClick={this.blipClick} blipHover={this.blipHover}/>
-    )
+    const blips = this.props.segmentCards.map((c) => {
+      return <Blip {...c.toObject()} blipClick={this.blipClick} blipHover={this.blipHover}/>
+    })
 
     const quadrantLabels = this.props.textPathSupported
-      ? this.props.quadrants.map((q, i) => <QuadrantLabel name={q.name} arcId={q.labelArcId}/>)
+      ? this.props.quadrants.map((q, i) => <QuadrantLabel name={q.get('name')} arcId={q.get('labelArcId')}/>)
       : []
 
     return (
