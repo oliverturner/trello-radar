@@ -1,5 +1,3 @@
-import Immutable from 'immutable'
-
 import metrics from '../utils/metrics'
 
 // Helpers
@@ -124,6 +122,10 @@ const reducer = (state, action) => {
       }))
 
     case 'HORIZON_HOVER':
+      if (action.payload.quadrantId) {
+        window.location.hash = action.payload.quadrantId
+      }
+
       return state.merge({
         quadrantSelected: action.payload.quadrantId,
         horizonSelected:  action.payload.horizonId

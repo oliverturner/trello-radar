@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
+import debounce from 'debounce'
 
 import {searchCards} from '../../actions/trello'
 
@@ -13,9 +14,15 @@ import metrics from '../../utils/metrics'
 
 import '../../styles/base.scss'
 
+// TODO: implement "submit a description; badge items missing a description"
+// TODO: implement "customise view by discipline (DevOps, Front End, Perf, etc)"
+// TODO: implement "Filter nav by tabs" [maybe]
+// TODO: create read-only user account to access API
+
 class Application extends Component {
+  // TODO: move these into Search component
   onSearchChange = (event) => {
-    const query = event.currentTarget.query.value
+    const query = event.target.value
     this.props.dispatch(searchCards(query))
   }
 
@@ -24,10 +31,6 @@ class Application extends Component {
   }
 
   render () {
-    if (this.props.quadrantSelected) {
-      window.location.hash = this.props.quadrantSelected
-    }
-
     const {width, height} = metrics
     const cx = width / 2
     const cy = height / 2
@@ -36,13 +39,13 @@ class Application extends Component {
       <div className="radar">
         <svg className="radar__chart" viewBox={`0 0 ${width} ${height}`}>
           <g transform={`translate(${cx}, ${cy})`}>
-            <HorizonLabels horizons={this.props.horizons} horizonSelected={this.props.horizonSelected} />
+            <HorizonLabels horizons={this.props.horizons} horizonSelected={this.props.horizonSelected}/>
             <Chart />
             <ChartBlips />
           </g>
         </svg>
         <div className="radar__nav">
-          <Search onChange={this.onSearchChange} onReset={this.onSearchReset}/>
+          <Search onChange={debounce(this.onSearchChange, 250)} onReset={this.onSearchReset}/>
           <Nav />
         </div>
       </div>
@@ -53,18 +56,14 @@ class Application extends Component {
 Application.propTypes = {
   dispatch: PropTypes.func.isRequired,
 
-  horizons: PropTypes.object.isRequired,
-
-  quadrantSelected: PropTypes.string,
-  horizonSelected:  PropTypes.string
+  horizons:        PropTypes.object.isRequired,
+  horizonSelected: PropTypes.string
 }
 
 const select = (state) => {
   return {
-    horizons: state.get('horizons'),
-
-    quadrantSelected: state.get('quadrantSelected'),
-    horizonSelected:  state.get('horizonSelected')
+    horizons:        state.get('horizons'),
+    horizonSelected: state.get('horizonSelected')
   }
 }
 

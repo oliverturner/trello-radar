@@ -18,7 +18,7 @@ class HorizonLabels extends Component {
   }
 }
 
-HorizonLabels.PropTypes = {
+HorizonLabels.propTypes = {
   horizons:        PropTypes.object.isRequired,
   horizonSelected: PropTypes.string
 }
