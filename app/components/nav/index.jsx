@@ -19,15 +19,15 @@ class Nav extends Component {
         <p className={styles['quadrant__label']}>{q.get('name')}</p>
         <ul className={styles['quadrant__cards']}>
           {qCards.map((c) => {
-            const cardId    = c.get('id')
+            const data      = c.toObject()
+            const cardId    = data.id
             const isOpened  = this.props.cardSelected === cardId
             const isHovered = this.props.cardHovered === cardId
 
-            return c.get('displayed')
+            return data.displayed
               ? <Card key={cardId}
                       onClick={this.toggleOpen}
-                      isOpened={isOpened} isHovered={isHovered}
-                  {...c.toObject()} />
+                      isOpened={isOpened} isHovered={isHovered} {...data} />
               : false
           })}
         </ul>
@@ -51,16 +51,18 @@ class Nav extends Component {
 
 Nav.propTypes = {
   dispatch:     PropTypes.func.isRequired,
-  quadrants:    PropTypes.array.isRequired,
-  cards:        PropTypes.array.isRequired,
+  quadrants:    PropTypes.object.isRequired,
+  cards:        PropTypes.object.isRequired,
   cardHovered:  PropTypes.string,
   cardSelected: PropTypes.string
 }
 
 function select (state) {
   return {
-    cardSelected: state.get('cardSelected'),
-    cardHovered:  state.get('cardHovered')
+    quadrants:    state.get('quadrants'),
+    cards:        state.get('cards'),
+    cardHovered:  state.get('cardHovered'),
+    cardSelected: state.get('cardSelected')
   }
 }
 

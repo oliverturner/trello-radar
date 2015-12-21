@@ -4,8 +4,12 @@ import {connect} from 'react-redux'
 import {searchCards} from '../../actions/trello'
 
 import Chart from '../chart'
+import HorizonLabels from '../chart/horizon-labels'
+import ChartBlips from '../chart/blips'
 import Search from '../search'
 import Nav from '../nav'
+
+import metrics from '../../utils/metrics'
 
 import '../../styles/base.scss'
 
@@ -24,12 +28,22 @@ class Application extends Component {
       window.location.hash = this.props.quadrantSelected
     }
 
+    const {width, height} = metrics
+    const cx = width / 2
+    const cy = height / 2
+
     return (
       <div className="radar">
-        <Chart {...this.props} />
+        <svg className="radar__chart" viewBox={`0 0 ${width} ${height}`}>
+          <g transform={`translate(${cx}, ${cy})`}>
+            <HorizonLabels horizons={this.props.horizons} horizonSelected={this.props.horizonSelected} />
+            <Chart />
+            <ChartBlips />
+          </g>
+        </svg>
         <div className="radar__nav">
           <Search onChange={this.onSearchChange} onReset={this.onSearchReset}/>
-          <Nav quadrants={this.props.quadrants} cards={this.props.cards}/>
+          <Nav />
         </div>
       </div>
     )
@@ -37,27 +51,20 @@ class Application extends Component {
 }
 
 Application.propTypes = {
-  dispatch:         PropTypes.func.isRequired,
-  quadrants:        PropTypes.array.isRequired,
-  cards:            PropTypes.array.isRequired,
-  cardHovered:      PropTypes.string,
-  quadrantSelected: PropTypes.string
+  dispatch: PropTypes.func.isRequired,
+
+  horizons: PropTypes.object.isRequired,
+
+  quadrantSelected: PropTypes.string,
+  horizonSelected:  PropTypes.string
 }
 
-// TODO: split out into more granular reqs: don't simply convert to JS
-// see https://github.com/rackt/react-redux/issues/60
 const select = (state) => {
   return {
-    segments:     state.get('segments').toObject(),
-    segmentCards: state.get('segmentCards').toArray(),
-    quadrants:    state.get('quadrants').toArray(),
-    horizons:     state.get('horizons').toArray(),
-    cards:        state.get('cards').toArray(),
+    horizons: state.get('horizons'),
 
-    textPathSupported: state.get('textPathSupported'),
-    quadrantSelected:  state.get('quadrantSelected'),
-    horizonSelected:   state.get('horizonSelected'),
-    cardHovered:       state.get('cardHovered')
+    quadrantSelected: state.get('quadrantSelected'),
+    horizonSelected:  state.get('horizonSelected')
   }
 }
 

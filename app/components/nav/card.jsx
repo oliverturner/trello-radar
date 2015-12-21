@@ -1,36 +1,58 @@
 import React, {Component, PropTypes} from 'react'
 import Collapse from 'react-collapse'
-import {connect} from 'react-redux'
 import {markdown} from 'markdown'
 
 import styles from './style.scss'
 
-const getDescription = (desc = '', isOpened = false) => {
-  if (desc.length === 0) return
+class Card extends Component {
+  static getDescription (desc) {
+    if (desc.length === 0) return false
 
-  desc = markdown.toHTML(desc)
+    return (<div className={styles['card__desc']} dangerouslySetInnerHTML={{__html: markdown.toHTML(desc) }}/>)
+  }
 
-  return (
-    <Collapse isOpened={isOpened}>
-      <div className={styles['card__desc']} dangerouslySetInnerHTML={{__html: desc }}/>
-    </Collapse>
-  )
+  constructor (props) {
+    super(props)
+
+    this.content = Card.getDescription(this.props.desc)
+  }
+
+  shouldComponentUpdate (nextProps) {
+    return (
+      this.props.isHovered !== nextProps.isHovered ||
+      this.props.isOpened !== nextProps.isOpened
+    )
+  }
+
+  render () {
+    const style = {background: this.props.fill || '#ccc'}
+
+    if (this.props.isOpened || this.props.isHovered) style.width = '100%'
+
+    return (
+      <li className={styles['card']}>
+        <p className={styles['card__label']} onClick={() => this.props.onClick(this.props.id)}>
+          <span className={styles['card__label__prompt']} style={style}/>
+          <span className={styles['card__label__text']}>{this.props.name}</span>
+        </p>
+        {this.content
+          ? <Collapse isOpened={this.props.isOpened}>{this.content}</Collapse>
+          : false
+        }
+      </li>
+    )
+  }
 }
 
-const Card = ({id, name, fill, desc, isOpened, isHovered, onClick}) => {
-  const style = {background: fill || '#ccc'}
+Card.propTypes = {
+  id:      PropTypes.string.isRequired,
+  name:    PropTypes.string.isRequired,
+  fill:    PropTypes.string,
+  desc:    PropTypes.string,
+  onClick: PropTypes.func.isRequired,
 
-  if (isOpened || isHovered) style.width = '100%'
-
-  return (
-    <li className={styles['card']}>
-      <p className={styles['card__label']} onClick={() => onClick(id)}>
-        <span className={styles['card__label__prompt']} style={style}/>
-        <span className={styles['card__label__text']}>{name}</span>
-      </p>
-      {getDescription(desc, isOpened)}
-    </li>
-  )
+  isHovered: PropTypes.bool.isRequired,
+  isOpened:  PropTypes.bool.isRequired
 }
 
 export default Card
