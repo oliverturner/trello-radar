@@ -20,6 +20,7 @@ import Application from './components/application'
 const createAsyncStore = applyMiddleware(thunk)(createStore)
 
 const store = createAsyncStore(reducer, Map({
+  query:             '',
   horizonSelected:   null,
   cardSelected:      null,
   cardHovered:       null,

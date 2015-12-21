@@ -143,9 +143,13 @@ const reducer = (state, action) => {
 
     case 'CARDS_FILTER_RESET':
       return state.merge({
+        query:        '',
         cards:        state.get('cards').map((c) => c.set('displayed', true)),
         segmentCards: state.get('segmentCards').map((c) => c.set('displayed', true))
       })
+
+    case 'CARDS_FILTER_UPDATE':
+      return state.set('query', action.payload.query)
 
     case 'CARDS_FILTER_APPLY':
       const res         = action.payload.cards.map((r) => r.id)

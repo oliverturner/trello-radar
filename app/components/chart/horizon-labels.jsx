@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import {connect} from 'react-redux'
 
 import HorizonLabel from './horizon-label'
 
@@ -23,4 +24,11 @@ HorizonLabels.propTypes = {
   horizonSelected: PropTypes.string
 }
 
-export default HorizonLabels
+const select = (state) => {
+  return {
+    horizons:        state.get('horizons'),
+    horizonSelected: state.get('horizonSelected')
+  }
+}
+
+export default connect(select)(HorizonLabels)
