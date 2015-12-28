@@ -26,8 +26,9 @@ HorizonLabels.propTypes = {
 
 const select = (state) => {
   return {
-    horizons:        state.chart.get('horizons'),
-    horizonSelected: state.chart.get('horizonSelected')
+    horizons: state.chart.get('horizons'),
+
+    horizonSelected: state.interactions.get('horizonSelected')
   }
 }
 
