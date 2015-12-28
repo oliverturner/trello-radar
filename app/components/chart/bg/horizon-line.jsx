@@ -1,6 +1,6 @@
 import React from 'react'
 
-import metrics from '../../utils/metrics'
+import metrics from '../../../utils/metrics'
 
 const HorizonLine = ({index}) => {
   const y = metrics.getHorizonRad(index) * -1

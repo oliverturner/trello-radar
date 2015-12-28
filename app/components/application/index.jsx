@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react'
-import {connect} from 'react-redux'
 
 import Chart from '../chart'
 import HorizonLabels from '../chart/horizon-labels'
@@ -18,7 +17,6 @@ import '../../styles/base.scss'
 
 class Application extends Component {
   render () {
-    console.log('render')
     const {width, height} = metrics
     const cx = width / 2
     const cy = height / 2

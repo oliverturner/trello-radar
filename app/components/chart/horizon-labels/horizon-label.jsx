@@ -1,8 +1,8 @@
 import React from 'react'
 
-import metrics from '../../utils/metrics'
+import metrics from '../../../utils/metrics'
 
-import styles from './style.scss'
+import styles from '../style.scss'
 
 const HorizonLabel = ({index, name, selected}) => {
   const y   = metrics.getHorizonRad(index) * -1

@@ -1,8 +1,8 @@
 import React from 'react'
 
-import metrics from '../../utils/metrics'
+import metrics from '../../../utils/metrics'
 
-import styles from './style.scss'
+import styles from '../style.scss'
 
 const Blip = ({id, sCount, sIndex, quadrantId, horizonId, qIndex, hIndex, name, blipClick, blipHover, displayed = true}) => {
   if (!displayed) return false

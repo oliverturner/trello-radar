@@ -1,8 +1,8 @@
 import React from 'react'
 
-import metrics from '../../utils/metrics'
+import metrics from '../../../utils/metrics'
 
-import styles from './style.scss'
+import styles from '../style.scss'
 
 export default ({name, arcId}) => {
   // Crashes Firefox! @see https://bugzilla.mozilla.org/show_bug.cgi?id=1067695

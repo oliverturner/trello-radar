@@ -3,10 +3,9 @@ import {connect} from 'react-redux'
 
 import metrics from '../../utils/metrics'
 
-import Segment from './segment'
-import QuadrantLabel from './quadrant-label'
-import HorizonLine from './horizon-line'
-import HorizonLabel from './horizon-label'
+import Segment from './bg/segment'
+import QuadrantLabel from './bg/quadrant-label'
+import HorizonLine from './bg/horizon-line'
 
 import styles from './style.scss'
 
@@ -48,10 +47,9 @@ Chart.propTypes = {
 
 const select = (state) => {
   return {
-    segments:  state.get('segments'),
-    quadrants: state.get('quadrants'),
-
-    textPathSupported: state.get('textPathSupported')
+    segments:          state.chart.get('segments'),
+    quadrants:         state.chart.get('quadrants'),
+    textPathSupported: state.chart.get('textPathSupported')
   }
 }
 

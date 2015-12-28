@@ -7,7 +7,6 @@ import {render} from 'react-dom'
 import {createStore, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
 import {Provider} from 'react-redux'
-import {Map} from 'immutable'
 
 import reducer from './reducers'
 import {loadData} from './actions/trello'
@@ -19,14 +18,7 @@ import Application from './components/application'
 // create a store that has redux-thunk middleware enabled
 const createAsyncStore = applyMiddleware(thunk)(createStore)
 
-const store = createAsyncStore(reducer, Map({
-  query:             '',
-  horizonSelected:   null,
-  cardSelected:      null,
-  cardHovered:       null,
-  cardsFiltered:     [],
-  textPathSupported: navigator.userAgent.toLowerCase().indexOf('firefox') === -1
-}))
+const store = createAsyncStore(reducer)
 
 // Let's go disco!
 //-----------------------------------------------

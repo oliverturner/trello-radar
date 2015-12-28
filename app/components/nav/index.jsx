@@ -59,10 +59,11 @@ Nav.propTypes = {
 
 function select (state) {
   return {
-    quadrants:    state.get('quadrants'),
-    cards:        state.get('cards'),
-    cardHovered:  state.get('cardHovered'),
-    cardSelected: state.get('cardSelected')
+    quadrants: state.chart.get('quadrants'),
+    cards:     state.chart.get('cards'),
+
+    cardHovered:  state.interactions.get('cardHovered'),
+    cardSelected: state.interactions.get('cardSelected')
   }
 }
 

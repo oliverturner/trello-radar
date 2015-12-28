@@ -35,7 +35,7 @@ Blips.propTypes = {
 
 function select (state) {
   return {
-    segmentCards: state.get('segmentCards')
+    segmentCards: state.chart.get('segmentCards')
   }
 }
 

@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch'
-import {Promise} from 'es6-promise'
+import {Promise} from 'bluebird'
 import qs from 'query-string'
 
 const endPoint = 'https://api.trello.com/1/'
@@ -26,18 +26,18 @@ const getSearchQS = (query) => {
   return `${endPoint}/search?${str}`
 }
 
+const parseInitial = (data) =>
+  data.reduce((ret, val, index) => {
+    ret[types[index]] = val
+    return ret
+  }, {})
+
 // Exports
 //-----------------------------------------------
 export const loadData = () => (dispatch) =>
   Promise
     .all(srcs.map((src) => fetch(src).then((res) => res.json())))
-    .then((values) =>
-      values.reduce((ret, val, index) => {
-        ret[types[index]] = val
-        return ret
-      }, {})
-    )
-    .then((data) => dispatch({type: 'DATA_LOADED', payload: data}))
+    .then((json) => dispatch({type: 'DATA_LOADED', payload: parseInitial(json)}))
     .then(() => dispatch({type: 'DATA_DERIVED'}))
 
 export const searchCards = (query) => (dispatch) =>
