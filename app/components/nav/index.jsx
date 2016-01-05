@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import Collapse from 'react-collapse'
 
 import Card from './card'
 

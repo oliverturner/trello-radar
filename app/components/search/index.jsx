@@ -37,7 +37,10 @@ class Search extends Component {
     this.recognition.lang           = 'en-GB'
 
     this.recognition.onresult = (event) => {
-      console.log('this.recognition.onresult', event.results[0][0]['transcript'], event.results[0][0]['confidence'])
+      console.log('this.recognition.onresult', event.results.map((res) => {
+        return res[0]['transcript'] + ': ' + res[0]['confidence']
+      }))
+
       const query = event.results[0][0]['transcript']
       this.onInputChange(query)
       this.onFormChange(query)

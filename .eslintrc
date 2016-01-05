@@ -45,6 +45,7 @@
     "beforeEach": true,
     "afterEach": true,
     "describe": true,
-    "it": true
+    "it": true,
+    "webkitSpeechRecognition": true
   }
 }

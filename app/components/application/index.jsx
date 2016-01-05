@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
 
 import Chart from '../chart'
 import HorizonLabels from '../chart/horizon-labels'
