@@ -8,7 +8,8 @@ module.exports = {
   entry:   './app/index.jsx',
   debug:   true,
   devtool: 'eval',
-  output:  {
+
+  output: {
     path:       './build',
     publicPath: '/',
     filename:   'app.js'

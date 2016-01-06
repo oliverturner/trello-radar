@@ -20,13 +20,7 @@ module.exports = {
   },
 
   module: {
-    preLoaders: [
-      {
-        test:    /\.jsx?$/,
-        exclude: /node_modules/,
-        loader:  'eslint'
-      }
-    ],
+    preLoaders: [],
 
     loaders: [
       {
@@ -74,9 +68,9 @@ module.exports = {
     }),
     new Webpack.optimize.DedupePlugin(),
     new Webpack.optimize.UglifyJsPlugin({
-      //compress: {
-      //  warnings: false
-      //}
+      compress: {
+        warnings: false
+      }
     }),
     new ExtractTextPlugin('app.[hash].css'),
     new HtmlWebpackPlugin({

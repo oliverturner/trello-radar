@@ -5,7 +5,7 @@ import {markdown} from 'markdown'
 import styles from './style.scss'
 
 class Card extends Component {
-  static getDescription (desc) {
+  static getDescription  = (desc) => {
     if (desc.length === 0) return false
 
     return (<div className={styles['card__desc']} dangerouslySetInnerHTML={{__html: markdown.toHTML(desc) }}/>)
@@ -14,7 +14,7 @@ class Card extends Component {
   constructor (props) {
     super(props)
 
-    this.content = Card.getDescription(this.props.desc)
+    this.content = Card.getDescription(props.desc)
   }
 
   shouldComponentUpdate (nextProps) {
