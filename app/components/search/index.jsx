@@ -31,19 +31,26 @@ class Search extends Component {
   // Lifecycle methods
   //-----------------------------------------------
   componentDidMount () {
+    if (!('webkitSpeechRecognition' in window)) {
+      this.recognition = {
+        start: Function.prototype,
+        stop:  Function.prototype
+      }
+
+      return
+    }
+
     this.recognition                = new webkitSpeechRecognition()
     this.recognition.continuous     = false
     this.recognition.interimResults = false
     this.recognition.lang           = 'en-GB'
 
     this.recognition.onresult = (event) => {
-      console.log('this.recognition.onresult', event.results.map((res) => {
-        return res[0]['transcript'] + ': ' + res[0]['confidence']
-      }))
-
-      const query = event.results[0][0]['transcript']
-      this.onInputChange(query)
-      this.onFormChange(query)
+      if (event.results) {
+        const query = event.results[0][0]['transcript']
+        this.onInputChange(query)
+        this.onFormChange(query)
+      }
     }
   }
 

@@ -44,4 +44,3 @@ export const searchCards = (query) => (dispatch) =>
   fetch(getSearchQS(query))
     .then((res) => res.json())
     .then((json) => dispatch({type: 'CARDS_FILTER_APPLY', payload: json}))
-

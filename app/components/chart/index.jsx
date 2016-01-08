@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import {Range} from 'immutable'
 import {connect} from 'react-redux'
 
 import metrics from '../../utils/metrics'
@@ -15,22 +16,21 @@ class Chart extends Component {
   }
 
   render () {
-    const arr = Array(metrics.horizonNum + 1).fill()
-
-    const circles      = arr.map((h, i) => <circle className="proto" r={metrics.getHorizonRad(i)}/>)
-    const horizonLines = arr.map((h, i) => <HorizonLine index={i}/>)
+    const range        = Range(0, metrics.horizonNum + 1)
+    const circles      = range.map((h, i) => <circle className="proto" r={metrics.getHorizonRad(i)}/>)
+    const horizonLines = range.map((h, i) => <HorizonLine index={i}/>)
 
     const quadrantLabels = this.props.textPathSupported
-      ? this.props.quadrants.map((q) => <QuadrantLabel name={q.get('name')} arcId={q.get('labelArcId')}/>)
+      ? this.props.quadrants.map((q) => <QuadrantLabel name={q.get('name')} arcId={q.get('labelArcId')}/>).toArray()
       : []
 
-    const segments = this.props.segments.map((s) => <Segment {...s.toObject()} onHover={this.segmentHover}/>)
+    const segments = this.props.segments.map((s) => <Segment {...s.toObject()} onHover={this.segmentHover}/>).toArray()
 
     return (
       <g>
         {[circles, horizonLines]}
         <g className={styles['container']}>
-          {[quadrantLabels, segments].map((o) => o.toArray())}
+          {[quadrantLabels, segments]}
         </g>
       </g>
     )
