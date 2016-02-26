@@ -10,7 +10,7 @@ const parseData = (results) => {
   const data = {
     quadrants: results.labels.map(({id, name}) => ({id, name})),
     horizons:  results.lists.slice(0, -1).map(({id, name}) => ({id, name: name.split(' ')[0]})),
-    cards:     results.cards.map(c => {
+    cards:     results.cards.map((c) => {
       const quadrantId = c.idLabels[0]
       const horizonId  = c.idList
 
@@ -99,7 +99,7 @@ const deriveData = (data) => {
 
   // store a reference to the outermost section: used to apply curved quadrantLabel
   const hOuter    = data.horizons.last()
-  const quadrants = data.quadrants.map(q => q.set('labelArcId', deriveKey(q, hOuter)))
+  const quadrants = data.quadrants.map((q) => q.set('labelArcId', deriveKey(q, hOuter)))
 
   return {
     segments:     segments,

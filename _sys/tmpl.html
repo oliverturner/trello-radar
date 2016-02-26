@@ -4,22 +4,18 @@
     <meta charset="UTF-8">
     <title>EA Tech Radar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    {% if (o.htmlWebpackPlugin.options.production) { %}
-    <link rel="stylesheet" href="app.{%=o.webpack.hash%}.css" media="all">
-    {% } %}
   </head>
   <body>
     <div id="app">
       <div class="radar" style="display: flex; height: 100vh">
-        <svg class="radar__chart" viewbox="0 0 800 600" style="flex: 2">
+        <svg class="radar__chart" viewBox="0 0 800 600" style="flex: 2">
           <g transform="translate(400, 300)">
-          {% for (var i = 0; i < 5; i++) { %}
-            <circle class="proto proto--horizon" r="{%=300 - (i * 60)%}" fill="transparent"></circle>
-          {% } %}
-          {% for (var j = 0; j < 5; j++) { var y = (j + 1) * -60; %}
-            <line class="proto proto--line" x1="0" x2="400" y1="{%= y %}" y2="{%= y %}"></line>
-          {% } %}
+          <% for (var i = 0; i < 5; i++) { %>
+            <circle class="proto proto--horizon" r="<%=300 - (i * 60)%>" fill="transparent"></circle>
+          <% } %>
+          <% for (var j = 0; j < 5; j++) { var y = (j + 1) * -60; %>
+            <line class="proto proto--line" x1="0" x2="400" y1="<%= y %>" y2="<%= y %>"></line>
+          <% } %>
           </g>
         </svg>
         <div class="radar__nav" style="flex-basis: 22.5%; background: #333;">
@@ -27,9 +23,5 @@
         </div>
       </div>
     </div>
-
-    {% for (var chunk in o.htmlWebpackPlugin.files.chunks) { %}
-    <script async src="{%=o.htmlWebpackPlugin.files.chunks[chunk].entry %}"></script>
-    {% } %}
   </body>
 </html>
