@@ -1,5 +1,4 @@
 import React, {Component, PropTypes} from 'react'
-import Collapse from 'react-collapse'
 import {markdown} from 'markdown'
 
 import styles from './style.scss'
@@ -26,17 +25,18 @@ class Card extends Component {
 
   render () {
     const style = {background: this.props.fill || '#ccc'}
+    const cardCls = this.props.isOpened ? 'card__content--open' : 'card__content'
 
     if (this.props.isOpened || this.props.isHovered) style.width = '100%'
 
     return (
       <li className={styles['card']}>
-        <p className={styles['card__label']} onClick={() => this.props.onClick(this.props.id)}>
+        <button className={styles['card__label']} onClick={this.props.onClick}>
           <span className={styles['card__label__prompt']} style={style}/>
           <span className={styles['card__label__text']}>{this.props.name}</span>
-        </p>
+        </button>
         {this.content
-          ? <Collapse isOpened={this.props.isOpened}>{this.content}</Collapse>
+          ? <div className={styles[cardCls]}>{this.content}</div>
           : false
         }
       </li>

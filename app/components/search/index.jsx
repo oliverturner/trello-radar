@@ -7,65 +7,42 @@ import {searchCards} from '../../actions/trello'
 import styles from './style.scss'
 
 class Search extends Component {
-  onFormChange = (query) => {
-    if (query.length > 2) this.props.dispatch(searchCards(query))
-  }
+  constructor (props) {
+    super(props)
 
-  onInputChange = (query) => {
-    const type = (query.length === 0) ? 'CARDS_FILTER_RESET' : 'CARDS_FILTER_UPDATE'
-    this.props.dispatch({type, payload: {query}})
-  }
+    const {dispatch} = this.props
 
-  onFocusChange = (listen) => {
-    listen ? this.recognition.start() : this.recognition.stop()
-  }
-
-  onReset = () => {
-    this.props.dispatch({type: 'CARDS_FILTER_RESET'})
-  }
-
-  onSubmit = (event) => {
-    event.preventDefault()
-  }
-
-  // Lifecycle methods
-  //-----------------------------------------------
-  componentDidMount () {
-    if (!('webkitSpeechRecognition' in window)) {
-      this.recognition = {
-        start: Function.prototype,
-        stop:  Function.prototype
-      }
-
-      return
+    this.onFormReset = function () {
+      dispatch({type: 'CARDS_FILTER_RESET'})
     }
 
-    this.recognition                = new webkitSpeechRecognition()
-    this.recognition.continuous     = false
-    this.recognition.interimResults = false
-    this.recognition.lang           = 'en-GB'
+    this.onFormSubmit = function (e) {
+      e.preventDefault()
+    }
 
-    this.recognition.onresult = (event) => {
-      if (event.results) {
-        const query = event.results[0][0]['transcript']
-        this.onInputChange(query)
-        this.onFormChange(query)
-      }
+    this.onInputTextChange = function (e) {
+      const query = e.nativeEvent.target.value
+      const type  = query.length ? 'CARDS_FILTER_UPDATE' : 'CARDS_FILTER_RESET'
+
+      dispatch({type, payload: {query}})
+
+      if (query.length > 2) dispatch(searchCards(query))
     }
   }
 
   render () {
     return (
       <form className={styles['search']}
-            onChange={debounce((event) => this.onFormChange(event.target.value), 250)}
-            onReset={this.onReset}
-            onSubmit={this.onSubmit}>
+        onReset={this.onFormReset}
+        onSubmit={this.onFormSubmit}>
+
         <input className={styles['search__input']}
-               name="query" value={this.props.query} placeholder="Search for a technology"
-               onFocus={() => this.onFocusChange(true)}
-               onBlur={() => this.onFocusChange(false)}
-               onChange={(event) => this.onInputChange(event.target.value)}/>
+          value={this.props.query}
+          placeholder="Search for a technology"
+          onChange={this.onInputTextChange} />
+
         <button className={styles['search__btn']} type="reset">clear</button>
+
       </form>
     )
   }

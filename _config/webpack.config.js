@@ -10,7 +10,7 @@ module.exports = {
   devtool: 'eval',
 
   output: {
-    path:       './build',
+    path:       './public',
     publicPath: '/',
     filename:   'app.js'
   },
@@ -57,7 +57,7 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: './_sys/tmpl.html'
+      template: './_config/tmpl.html'
     })
   ]
 };

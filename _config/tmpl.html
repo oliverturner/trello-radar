@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>EA Tech Radar</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
     <div id="app">
@@ -23,5 +23,10 @@
         </div>
       </div>
     </div>
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js');
+      }
+    </script>
   </body>
 </html>

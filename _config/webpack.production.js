@@ -74,7 +74,7 @@ module.exports = {
     }),
     new ExtractTextPlugin('app.[hash].css'),
     new HtmlWebpackPlugin({
-      template:   './_sys/tmpl.html',
+      template:   './_config/tmpl.html',
       production: true
     })
   ]

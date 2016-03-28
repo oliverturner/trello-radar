@@ -1,4 +1,4 @@
-# EA Tech Radar
+# Trello Tech Radar
 
 ## Installation
 
@@ -29,6 +29,7 @@ Assets will be compiled to `/dist`
 ## TODO
 
 - Implement ServiceWorker
+- Improve tests
 - Implement [Normalizr](https://github.com/gaearon/normalizr)
 - Switch to pure PostCSS, including...
     - [sanitize.css](https://github.com/10up/sanitize.css)

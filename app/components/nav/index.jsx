@@ -6,8 +6,22 @@ import Card from './card'
 import styles from './style.scss'
 
 class Nav extends Component {
-  toggleOpen = (cardId) => {
+  toggleCard = (cardId) => () => {
     this.props.dispatch({type: 'CARD_SELECT', cardId: cardId})
+  }
+
+  getCard (data) {
+    if (!data.displayed) return false
+
+    const cardId    = data.id
+    const isOpened  = this.props.cardSelected === cardId
+    const isHovered = this.props.cardHovered === cardId
+
+    return (
+      <Card key={cardId}
+        onClick={this.toggleCard(cardId)}
+        isOpened={isOpened} isHovered={isHovered} {...data} />
+    )
   }
 
   getQuadrant (opened, q, qCards) {
@@ -17,18 +31,7 @@ class Nav extends Component {
       <li key={q.get('id')} id={q.get('id')} className={styles['quadrant']}>
         <p className={styles['quadrant__label']}>{q.get('name')}</p>
         <ul className={styles['quadrant__cards']}>
-          {qCards.map((c) => {
-            const data      = c.toObject()
-            const cardId    = data.id
-            const isOpened  = this.props.cardSelected === cardId
-            const isHovered = this.props.cardHovered === cardId
-
-            return data.displayed
-              ? <Card key={cardId}
-                      onClick={this.toggleOpen}
-                      isOpened={isOpened} isHovered={isHovered} {...data} />
-              : false
-          })}
+          {qCards.map((c) => this.getCard(c.toObject()))}
         </ul>
       </li>
     )
