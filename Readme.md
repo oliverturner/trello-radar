@@ -8,13 +8,15 @@ Run `npm i`
 
 Run `npm start` then open a browser to [localhost:4000](http://localhost:4000)
  
-## Deploy
+## Build
 
-Nix-based: `NODE_ENV=production npm run build`
-
-Win-based: `set NODE_ENV=production npm run build`
+`npm run build`
 
 Assets will be compiled to `/dist`
+
+## Deploy
+
+
 
 ## Features
 
@@ -27,4 +29,7 @@ Assets will be compiled to `/dist`
 ## TODO
 
 - Implement ServiceWorker
-- Use Redux Immutable
+- Implement [Normalizr](https://github.com/gaearon/normalizr)
+- Switch to pure PostCSS, including...
+    - [sanitize.css](https://github.com/10up/sanitize.css)
+    - [Stylelint](https://github.com/stylelint/stylelint)
