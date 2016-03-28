@@ -28,7 +28,7 @@ class Chart extends Component {
 
   getCircles (n) {
     return n.map((h, i) =>
-      <circle className="proto" r={metrics.getHorizonRad(i)}/>
+      <circle className={styles['proto']} r={metrics.getHorizonRad(i)}/>
     )
   }
 

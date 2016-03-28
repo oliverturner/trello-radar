@@ -1,6 +1,4 @@
-@import '../../styles/mixins';
-
-:local(.search) {
+.search {
   flex-shrink: 0;
 
   display:     flex;
@@ -8,7 +6,7 @@
   padding:     10px;
 }
 
-:local(.search__input) {
+.search__input {
   flex:       1;
 
   transition: 0.25s background;
@@ -23,9 +21,7 @@
   }
 }
 
-:local(.search__btn) {
-  @include btn;
-
+.search__btn {
   transition:     0.25s background, 0.25s color;
 
   text-transform: lowercase;

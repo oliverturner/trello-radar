@@ -1,17 +1,76 @@
-:local(.container) {
+.proto-anim {
+  animation: dash $animTimeCirc linear forwards;
+}
+
+.proto {
+  stroke:       #666;
+  stroke-width: 0.5;
+  fill:         transparent;
+}
+
+.proto--horizon {
+  composes: proto;
+  composes: proto-anim;
+
+  /*
+  $pi: 3.141592653589793;
+  $radius: 300;
+  $horizons: 5;
+  $horizonWidth: $radius/$horizons;
+
+  composes: proto;
+  composes: proto-anim;
+
+  transform: rotate(-90deg);
+
+  @for $i from 1 to --horizons {
+    $diameter: (($radius + $horizonWidth) - ($i * $horizonWidth)) * 2;
+    $circumference: $pi * $diameter;
+
+    &:nth-child($i) {
+      stroke-dasharray:  $circumference;
+      stroke-dashoffset: $circumference;
+    }
+  }
+  */
+}
+
+.proto--line {
+  composes: proto;
+  composes: proto-anim;
+
+  stroke-dasharray:          400;
+  stroke-dashoffset:         400;
+  animation-delay:           $animTimeCirc;
+  animation-duration:        $animTimeLine;
+  animation-timing-function: ease-out;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fadeup {
+  to {
+    opacity: 1;
+  }
+}
+
+.container {
   opacity:   0;
 
   animation: fadeup 0.5s linear forwards;
 }
 
-:local(.horizon) {
+.horizon {
   stroke:         #999;
   stroke-width:   2px;
   stroke-opacity: 0;
 }
 
-%horizonlabel,
-:local(.horizonlabel) {
+.horizonlabel {
   transition:        fill 0.5s;
   text-transform:    lowercase;
   font-variant:      small-caps;
@@ -20,20 +79,20 @@
   text-anchor:       end;
 }
 
-:local(.horizonlabel--active) {
-  @extend %horizonlabel;
+.horizonlabel--active {
+  composes: horizonlabel;
 
   fill: #eee;
 }
 
-:local(.quadrantlabel) {
+.quadrantlabel {
   font-size:   18px;
   font-weight: 200;
   text-anchor: middle;
   opacity:     0.5;
 }
 
-:local(.blip) {
+.blip {
   cursor:     pointer;
   background: red;
 
@@ -41,13 +100,13 @@
     fill: rgba(black, 1);
   }
 
-  &:hover :local(.blip__name) {
+  &:hover .blip__name {
     opacity:   1;
     font-size: 12px;
   }
 }
 
-:local(.blip__name) {
+.blip__name {
   transition:        0.25s opacity, 0.25s font-size;
 
   text-anchor:       middle;

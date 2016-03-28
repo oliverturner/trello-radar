@@ -2,10 +2,12 @@ import React, {PropTypes} from 'react'
 
 import metrics from '../../../utils/metrics'
 
+import styles from '../style.scss'
+
 const HorizonLine = ({index}) => {
   const y = metrics.getHorizonRad(index) * -1
 
-  return <line className="proto" x1="0" x2="400" y1={y} y2={y} />
+  return <line className={styles['proto']} x1="0" x2="400" y1={y} y2={y} />
 }
 
 HorizonLine.propTypes = {

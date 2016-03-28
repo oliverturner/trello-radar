@@ -1,0 +1,22 @@
+.radar {
+  display: flex;
+  height:  100vh;
+}
+
+.radar__chart {
+  flex:            2;
+
+  padding:         35px;
+  background:      url('../../images/tm.svg') center center no-repeat;
+  background-size: 60px;
+}
+
+.radar__nav {
+  flex-basis:     22.5%;
+
+  display:        flex;
+  flex-direction: column;
+
+  overflow:       hidden;
+  background:     #333;
+}

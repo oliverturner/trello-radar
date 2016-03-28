@@ -1,8 +1,9 @@
 var webpack           = require('webpack')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
+var precss            = require('precss')
+var autoprefixer      = require('autoprefixer')
 
-var cssLoaders  = 'style!css?localIdentName=[path]-[local]-[hash:base64:5]!autoprefixer?browsers=last 2 versions'
-var scssLoaders = cssLoaders + '!sass'
+var cssLoaders = 'style!css?modules&localIdentName=[path]-[local]-[hash:base64:5]!postcss'
 
 module.exports = {
   entry:   './app/index.jsx',
@@ -25,12 +26,8 @@ module.exports = {
         loaders: ['babel']
       },
       {
-        test:   /\.css$/,
+        test:   /\.s?css$/,
         loader: cssLoaders
-      },
-      {
-        test:   /\.scss$/,
-        loader: scssLoaders
       },
       {
         test:   /\.png$/,
@@ -59,6 +56,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './_config/tmpl.html'
     })
-  ]
-};
+  ],
+
+  postcss: function () {
+    return [precss, autoprefixer]
+  }
+}
 

@@ -1,9 +1,10 @@
 var Webpack           = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
+var precss            = require('precss')
+var autoprefixer      = require('autoprefixer')
 
-var cssLoaders  = 'style!css?localIdentName=[hash:base64]!autoprefixer?browsers=last 2 versions'
-var scssLoaders = cssLoaders + '!sass'
+var cssLoaders  = 'style!css?modules&localIdentName=[hash:base64]!postcss'
 
 function extractForProduction (loaders) {
   return ExtractTextPlugin.extract('style', loaders.substr(loaders.indexOf('!')))
@@ -29,12 +30,8 @@ module.exports = {
         loaders: ['babel']
       },
       {
-        test:   /\.css$/,
+        test:   /\.s?css$/,
         loader: extractForProduction(cssLoaders)
-      },
-      {
-        test:   /\.scss$/,
-        loader: extractForProduction(scssLoaders)
       },
       {
         test:   /\.png$/,
@@ -77,5 +74,9 @@ module.exports = {
       template:   './_config/tmpl.html',
       production: true
     })
-  ]
+  ],
+
+  postcss: function () {
+    return [precss, autoprefixer]
+  }
 }

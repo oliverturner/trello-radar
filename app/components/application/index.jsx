@@ -9,6 +9,7 @@ import Nav from '../nav'
 import metrics from '../../utils/metrics'
 
 import '../../styles/base.scss'
+import styles from './style.scss'
 
 // TODO: implement "submit a description; badge items missing a description"
 // TODO: implement "customise view by discipline (DevOps, Front End, Perf, etc)"
@@ -22,15 +23,15 @@ class Application extends Component {
     const cy = height / 2
 
     return (
-      <div className="radar">
-        <svg className="radar__chart" viewBox={`0 0 ${width} ${height}`}>
+      <div className={styles['radar']}>
+        <svg className={styles['radar__chart']} viewBox={`0 0 ${width} ${height}`}>
           <g transform={`translate(${cx}, ${cy})`}>
             <HorizonLabels />
             <Chart />
             <ChartBlips />
           </g>
         </svg>
-        <div className="radar__nav">
+        <div className={styles['radar__nav']}>
           <Search />
           <Nav />
         </div>
