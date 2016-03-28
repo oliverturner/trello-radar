@@ -5,38 +5,27 @@
     "brace-style": [2, "stroustrup", {"allowSingleLine": true}],
     "key-spacing": [2, {"align": "value"}],
     "indent": [2, 2, {"SwitchCase": 1}],
-    "no-multi-spaces": 0,
-    "spaced-comment": [2, "always", {"exceptions": ["-", "*"]}],
     "jsx-quotes": [2, "prefer-double"],
-    "standard/object-curly-even-spacing": 0,
+    "no-multi-spaces": 0,
+    "react/no-danger": 0,
     "react/sort-comp": [
       2, {
         "order": [
-          "displayName",
-          "propTypes",
-          "contextTypes",
-          "childContextTypes",
-          "mixins",
-          "statics",
-          "defaultProps",
-          "getDefaultProps",
-          "getInitialState",
-          "getChildContext",
-          "componentWillMount",
-          "componentDidMount",
-          "componentWillReceiveProps",
-          "shouldComponentUpdate",
-          "componentWillUpdate",
-          "componentDidUpdate",
-          "componentWillUnmount",
-          "/^on.+$/",
-          "/^get.+$/",
-          "/^render.+$/",
-          "/^.+$/", // All other methods go here
-          "render"
-        ]
+          "static-methods",
+          "lifecycle",
+          "everything-else",
+          "rendering"
+        ],
+        "groups": {
+          "rendering": [
+            "/^render.+$/",
+            "render"
+          ]
+        }
       }
-    ]
+    ],
+    "spaced-comment": [2, "always", {"exceptions": ["-", "*"]}],
+    "standard/object-curly-even-spacing": 0
   },
   "globals": {
     "define": true,
@@ -45,7 +34,6 @@
     "beforeEach": true,
     "afterEach": true,
     "describe": true,
-    "it": true,
-    "webkitSpeechRecognition": true
+    "it": true
   }
 }

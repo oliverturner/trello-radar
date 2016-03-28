@@ -40,7 +40,7 @@
   }
 }
 
-:local(.card__label) {
+:local(.card__btn) {
   position:   relative;
   display:    block;
   width:      100%;
@@ -51,12 +51,12 @@
   cursor:     pointer;
   background: #eee;
 
-  &:hover :local(.card__label__prompt) {
+  &:hover :local(.card__btn__prompt) {
     width: 100%;
   }
 }
 
-:local(.card__label__prompt) {
+:local(.card__btn__prompt) {
   transform:  translateZ(0);
   transition: 0.5s width;
 
@@ -67,7 +67,7 @@
   height:     100%;
 }
 
-:local(.card__label__text) {
+:local(.card__btn__text) {
   position: relative;
   display:  block;
   width:    100%;

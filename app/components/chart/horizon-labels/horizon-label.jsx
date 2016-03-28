@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {PropTypes} from 'react'
 
 import metrics from '../../../utils/metrics'
 
@@ -12,6 +12,12 @@ const HorizonLabel = ({index, name, selected}) => {
   return (
     <text className={styles[cls]} x="400" y={y} dy={dy}>{name}</text>
   )
+}
+
+HorizonLabel.propTypes = {
+  index:    PropTypes.number.isRequired,
+  name:     PropTypes.string.isRequired,
+  selected: PropTypes.bool.isRequired
 }
 
 export default HorizonLabel

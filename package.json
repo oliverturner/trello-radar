@@ -94,7 +94,7 @@
     "predeploy": "npm run build",
     "deploy": "npm run surge",
     "postdeploy": "npm run clean",
-    "lint:js": "eslint ./app",
+    "lint:js": "eslint ./app/**/*.{js,jsx}",
     "lint:css": "stylelint ./app",
     "start": "webpack-dev-server --config _config/webpack.config.js --no-info --hot --inline --content-base ./public --port 4000",
     "test": "npm run test:watch -- --single-run",

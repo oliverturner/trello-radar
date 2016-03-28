@@ -11,20 +11,58 @@ import HorizonLine from './bg/horizon-line'
 import styles from './style.scss'
 
 class Chart extends Component {
-  segmentHover = (quadrantId, horizonId) => {
-    this.props.dispatch({type: 'HORIZON_HOVER', payload: {quadrantId, horizonId}})
+  constructor (props) {
+    super(props)
+
+    this.onSegmentHover = (quadrantId, horizonId) => () => {
+      this.props.dispatch({
+        type:    'HORIZON_HOVER',
+        payload: {quadrantId, horizonId}
+      })
+    }
+
+    this.onSegmentLeave = () => () => {
+      this.props.dispatch({type: 'HORIZON_HOVER', payload: {}})
+    }
+  }
+
+  getCircles (n) {
+    return n.map((h, i) =>
+      <circle className="proto" r={metrics.getHorizonRad(i)}/>
+    )
+  }
+
+  getHorizonLines (n) {
+    return n.map((h, i) =>
+      <HorizonLine index={i}/>
+    )
+  }
+
+  getQuadrantLabels (labels, quadrants) {
+    if (labels) {
+      return quadrants.map((q) =>
+        <QuadrantLabel name={q.get('name')} arcId={q.get('labelArcId')}/>
+      ).toArray()
+    }
+
+    return []
+  }
+
+  getSegments (segments) {
+    return segments.map((s) =>
+      <Segment {...s.toObject()}
+        onSegmentHover={this.onSegmentHover(s.get('quadrantId'), s.get('horizonId'))}
+        onSegmentLeave={this.onSegmentLeave()}/>
+    ).toArray()
   }
 
   render () {
-    const range        = Range(0, metrics.horizonNum + 1)
-    const circles      = range.map((h, i) => <circle className="proto" r={metrics.getHorizonRad(i)}/>)
-    const horizonLines = range.map((h, i) => <HorizonLine index={i}/>)
+    const range = Range(0, metrics.horizonNum + 1)
 
-    const quadrantLabels = this.props.textPathSupported
-      ? this.props.quadrants.map((q) => <QuadrantLabel name={q.get('name')} arcId={q.get('labelArcId')}/>).toArray()
-      : []
-
-    const segments = this.props.segments.map((s) => <Segment {...s.toObject()} onHover={this.segmentHover}/>).toArray()
+    const circles        = this.getCircles(range)
+    const horizonLines   = this.getHorizonLines(range)
+    const quadrantLabels = this.getQuadrantLabels(this.props.textPathSupported, this.props.quadrants)
+    const segments       = this.getSegments(this.props.segments)
 
     return (
       <g>
@@ -45,12 +83,10 @@ Chart.propTypes = {
   textPathSupported: PropTypes.bool.isRequired
 }
 
-const select = (state) => {
-  return {
-    segments:          state.chart.get('segments'),
-    quadrants:         state.chart.get('quadrants'),
-    textPathSupported: state.chart.get('textPathSupported')
-  }
-}
+const select = (state) => ({
+  segments:          state.chart.get('segments'),
+  quadrants:         state.chart.get('quadrants'),
+  textPathSupported: state.chart.get('textPathSupported')
+})
 
 export default connect(select)(Chart)
