@@ -1,3 +1,15 @@
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fadeup {
+  to {
+    opacity: 1;
+  }
+}
+
 .proto-anim {
   animation: dash $animTimeCirc linear forwards;
 }
@@ -44,18 +56,6 @@
   animation-delay:           $animTimeCirc;
   animation-duration:        $animTimeLine;
   animation-timing-function: ease-out;
-}
-
-@keyframes dash {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes fadeup {
-  to {
-    opacity: 1;
-  }
 }
 
 .container {
