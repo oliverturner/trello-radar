@@ -40,10 +40,11 @@
 
 .quadrant__cards {
   flex: 1;
+}
 
-  li {
-    display: block;
-  }
+.card {
+  display:    block;
+  background: #eee;
 }
 
 .card__btn {
@@ -53,10 +54,9 @@
   margin:     1px 0 0 0;
   padding:    0;
   border:     none;
-  outline:     none;
+  outline:    none;
   text-align: left;
   cursor:     pointer;
-  background: #eee;
 }
 
 .card__btn__prompt {
@@ -85,13 +85,14 @@
   transition: 1s max-height;
 
   max-height: 0;
-  overflow-y: hidden;
+  overflow:   hidden;
 }
 
 .card__content--open {
   composes:   card__content;
 
-  max-height: 400px;
+  max-height: 500px;
+  overflow-y: scroll;
 
   .card__desc {
     display: block;
@@ -100,7 +101,16 @@
 
 .card__desc {
   margin:     0;
-  padding:    5px;
-  font-size:  85%;
+  padding:    5px 16px 10px 10px;
+  font-size:  12px;
   background: #fff;
+
+  h1, h2, h3 {
+    margin:    10px 0 0;
+    font-size: 16px;
+
+    &:first-child {
+      margin: 0;
+    }
+  }
 }

@@ -11,7 +11,7 @@ class Metrics {
     this.aMax         = getArea(this.horizonWidth)
   }
 
-  init (quadNum, horizonNum) {
+  init (quadNum = 1, horizonNum = 4) {
     this.quadNum    = quadNum
     this.horizonNum = horizonNum
 

@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 
 import {searchCards} from '../../actions/trello'
 
-import styles from './style.scss'
+import styles from './style.pcss'
 
 class Search extends Component {
   constructor (props) {

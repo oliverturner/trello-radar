@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {markdown} from 'markdown'
 
-import styles from './style.scss'
+import styles from './style.pcss'
 
 class Card extends Component {
   static getDescription = (desc) => {

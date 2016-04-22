@@ -8,7 +8,7 @@ import Segment from './bg/segment'
 import QuadrantLabel from './bg/quadrant-label'
 import HorizonLine from './bg/horizon-line'
 
-import styles from './style.scss'
+import styles from './style.pcss'
 
 class Chart extends Component {
   constructor (props) {
@@ -21,7 +21,7 @@ class Chart extends Component {
       })
     }
 
-    this.onSegmentLeave = () => () => {
+    this.onSegmentLeave = () => {
       this.props.dispatch({type: 'HORIZON_HOVER', payload: {}})
     }
   }
@@ -52,7 +52,7 @@ class Chart extends Component {
     return segments.map((s) =>
       <Segment {...s.toObject()}
         onSegmentHover={this.onSegmentHover(s.get('quadrantId'), s.get('horizonId'))}
-        onSegmentLeave={this.onSegmentLeave()}/>
+        onSegmentLeave={this.onSegmentLeave}/>
     ).toArray()
   }
 

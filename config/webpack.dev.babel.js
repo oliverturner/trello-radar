@@ -1,12 +1,16 @@
 var webpack           = require('webpack')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
-var precss            = require('precss')
-var autoprefixer      = require('autoprefixer')
+var cssnext           = require('postcss-cssnext')
+var nested            = require('postcss-nested')
 
 var cssLoaders = 'style!css?modules&localIdentName=[path]-[local]-[hash:base64:5]!postcss'
 
+var m = require('../src/utils/metrics').default
+
+m.init()
+
 module.exports = {
-  entry:   './app/index.jsx',
+  entry:   './src/index.jsx',
   debug:   true,
   devtool: 'eval',
 
@@ -26,7 +30,7 @@ module.exports = {
         loaders: ['babel']
       },
       {
-        test:   /\.s?css$/,
+        test:   /\.p?css$/,
         loader: cssLoaders
       },
       {
@@ -54,12 +58,18 @@ module.exports = {
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: './_config/tmpl.html'
+      template: './config/tmpl.html'
     })
   ],
 
   postcss: function () {
-    return [precss, autoprefixer]
+    return [cssnext, nested]
+  },
+
+  devServer: {
+    noInfo:      true,
+    port:        4000,
+    contentBase: './public'
   }
 }
 

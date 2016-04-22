@@ -2,7 +2,7 @@ import React from 'react'
 import TestUtils from 'react-addons-test-utils'
 
 import Application from '../index.jsx'
-import styles from '../style.scss'
+import styles from '../style.pcss'
 
 describe('Application', function () {
   it('displays the component', function () {

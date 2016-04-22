@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 
 import Card from './card'
 
-import styles from './style.scss'
+import styles from './style.pcss'
 
 class Nav extends Component {
   toggleCard = (cardId) => () => {

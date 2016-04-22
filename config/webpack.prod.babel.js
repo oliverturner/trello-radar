@@ -11,7 +11,7 @@ function extractForProduction (loaders) {
 }
 
 module.exports = {
-  entry: './app/index.jsx',
+  entry: './src/index.jsx',
   debug: false,
 
   output: {
@@ -71,7 +71,7 @@ module.exports = {
     }),
     new ExtractTextPlugin('app.[hash].css'),
     new HtmlWebpackPlugin({
-      template:   './_config/tmpl.html',
+      template:   './config/tmpl.html',
       production: true
     })
   ],

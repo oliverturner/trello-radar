@@ -6,12 +6,17 @@
   padding:     10px;
 }
 
+.search__el {
+  padding: 5px 10px;
+}
+
 .search__input {
+  composes:   search__el;
+
   flex:       1;
 
   transition: 0.25s background;
 
-  padding:    5px 10px;
   border:     none;
   outline:    none;
   background: #fff;
@@ -22,10 +27,12 @@
 }
 
 .search__btn {
+  composes:       search__el;
+
   transition:     0.25s background, 0.25s color;
 
-  text-transform: lowercase;
-  font-variant:   small-caps;
+  font-size:      80%;
+  text-transform: uppercase;
   outline:        none;
   background:     #ccc;
   color:          #666;

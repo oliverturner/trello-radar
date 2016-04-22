@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 
 import metrics from '../../../utils/metrics'
 
-import styles from '../style.scss'
+import styles from '../style.pcss'
 
 const Blip = ({id, sCount, sIndex, quadrantId, horizonId, qIndex, hIndex, name, blipClick, blipHover, blipLeave, displayed = true}) => {
   if (!displayed) return (<g/>)

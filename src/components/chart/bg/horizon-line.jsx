@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 
 import metrics from '../../../utils/metrics'
 
-import styles from '../style.scss'
+import styles from '../style.pcss'
 
 const HorizonLine = ({index}) => {
   const y = metrics.getHorizonRad(index) * -1
