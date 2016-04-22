@@ -1,22 +1,28 @@
 .radar {
-  display: flex;
-  height:  100vh;
+
+}
+
+.radar__el {
+  overflow: hidden;
+  float:    left;
+  height:   100vh;
 }
 
 .radar__chart {
-  flex:            2;
+  composes:        radar__el;
 
-  padding:         35px;
+  width:           75%;
+  padding:         1%;
   background:      url('../../images/tm.svg') center center no-repeat;
   background-size: 60px;
 }
 
 .radar__nav {
-  flex-basis:     22.5%;
+  composes:       radar__el;
 
   display:        flex;
   flex-direction: column;
 
-  overflow:       hidden;
+  width:          25%;
   background:     #333;
 }

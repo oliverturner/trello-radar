@@ -1,13 +1,10 @@
-var webpack           = require('webpack')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var cssnext           = require('postcss-cssnext')
-var nested            = require('postcss-nested')
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import cssnext           from 'postcss-cssnext'
+import nested            from 'postcss-nested'
+
+import m from '../src/utils/metrics'
 
 var cssLoaders = 'style!css?modules&localIdentName=[path]-[local]-[hash:base64:5]!postcss'
-
-var m = require('../src/utils/metrics').default
-
-m.init()
 
 module.exports = {
   entry:   './src/index.jsx',
