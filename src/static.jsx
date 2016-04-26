@@ -3,6 +3,8 @@ import {renderToString} from 'react-dom/server'
 
 import bg from './components/application/bg'
 
+// TODO: set BABEL_ENV to allow ignoring css imports
+
 function render (data) {
   const html = renderToString(
     <html lang="en">
