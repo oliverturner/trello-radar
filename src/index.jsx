@@ -1,6 +1,5 @@
 // IMPORTANT: This needs to be first (before any other components)
 // to get around CSS order randomness in webpack.
-import 'sanitize.css/lib/sanitize.css'
 import './styles/base.pcss'
 
 import React from 'react'

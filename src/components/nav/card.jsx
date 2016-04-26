@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {markdown} from 'markdown'
 
-import styles from './style.pcss'
+import styles from './styles.pcss'
 
 class Card extends Component {
   static getDescription = (desc) => {
@@ -33,7 +33,7 @@ class Card extends Component {
     if (this.props.isOpened || this.props.isHovered) style.width = '100%'
 
     return (
-      <li className={styles['card']}>
+      <li id={this.props.id} className={styles['card']}>
         <button className={styles['card__btn']} onClick={this.props.onClick}>
           <span className={styles['card__btn__prompt']} style={style}/>
           <span className={styles['card__btn__text']}>{this.props.name}</span>

@@ -8,7 +8,7 @@ import Segment from './bg/segment'
 import QuadrantLabel from './bg/quadrant-label'
 import HorizonLine from './bg/horizon-line'
 
-import styles from './style.pcss'
+import styles from './styles.pcss'
 
 class Chart extends Component {
   constructor (props) {
@@ -38,14 +38,10 @@ class Chart extends Component {
     )
   }
 
-  getQuadrantLabels (labels, quadrants) {
-    if (labels) {
-      return quadrants.map((q) =>
-        <QuadrantLabel name={q.get('name')} arcId={q.get('labelArcId')}/>
-      ).toArray()
-    }
-
-    return []
+  getQuadrantLabels (quadrants) {
+    return quadrants.map((q) =>
+      <QuadrantLabel name={q.get('name')} arcId={q.get('labelArcId')}/>
+    ).toArray()
   }
 
   getSegments (segments) {
@@ -61,8 +57,8 @@ class Chart extends Component {
 
     const circles        = this.getCircles(range)
     const horizonLines   = this.getHorizonLines(range)
-    const quadrantLabels = this.getQuadrantLabels(this.props.textPathSupported, this.props.quadrants)
     const segments       = this.getSegments(this.props.segments)
+    const quadrantLabels = this.getQuadrantLabels(this.props.quadrants)
 
     return (
       <g>
@@ -78,9 +74,8 @@ class Chart extends Component {
 Chart.propTypes = {
   dispatch: PropTypes.func.isRequired,
 
-  segments:          PropTypes.object.isRequired,
-  quadrants:         PropTypes.object.isRequired,
-  textPathSupported: PropTypes.bool.isRequired
+  segments:  PropTypes.object.isRequired,
+  quadrants: PropTypes.object.isRequired
 }
 
 const select = (state) => ({

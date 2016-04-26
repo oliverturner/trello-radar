@@ -10,10 +10,6 @@ const initialState = Map({
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'HORIZON_HOVER':
-      if (action.payload.quadrantId) {
-        window.location.hash = action.payload.quadrantId
-      }
-
       return state.merge({
         quadrantSelected: action.payload.quadrantId,
         horizonSelected:  action.payload.horizonId
@@ -27,7 +23,7 @@ const reducer = (state = initialState, action) => {
       })
 
     case 'CARD_SELECT':
-      return state.set('cardSelected', state.get('cardSelected') === action.cardId ? null : action.cardId)
+      return state.set('cardSelected', state.get('cardSelected') === action.payload.cardId ? null : action.payload.cardId)
 
     default:
       return state

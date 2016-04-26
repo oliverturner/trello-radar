@@ -7,12 +7,12 @@ class Blips extends Component {
   constructor (props) {
     super(props)
 
-    this.blipClick = ({id}) => () => {
-      this.props.dispatch({type: 'CARD_SELECT', cardId: id})
+    this.blipClick = ({id, quadrantId, horizonId}) => () => {
+      this.props.dispatch({type: 'CARD_SELECT', payload: {cardId: id, quadrantId, horizonId}})
     }
 
     this.blipHover = ({id, quadrantId, horizonId}) => () => {
-      this.props.dispatch({type: 'CARD_HOVER', cardId: id, quadrantId, horizonId})
+      this.props.dispatch({type: 'CARD_HOVER', payload: {cardId: id, quadrantId, horizonId}})
     }
 
     this.blipLeave = () => () => {

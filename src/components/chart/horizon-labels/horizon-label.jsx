@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 
 import metrics from '../../../utils/metrics'
 
-import styles from '../style.pcss'
+import styles from '../styles.pcss'
 
 const HorizonLabel = ({index, name, selected}) => {
   const y   = metrics.getHorizonRad(index) * -1

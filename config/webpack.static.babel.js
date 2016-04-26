@@ -1,10 +1,15 @@
+import Webpack           from 'webpack'
+import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
+
 import cssnext           from 'postcss-cssnext'
 import nested            from 'postcss-nested'
 
-// import m from '../src/utils/metrics'
+var cssLoaders = 'style!css?modules&localIdentName=[hash:base64]!postcss'
 
-var cssLoaders = 'style!css?modules&localIdentName=[path]-[local]-[hash:base64:5]!postcss'
+function extractForProduction (loaders) {
+  return ExtractTextPlugin.extract('style', loaders.substr(loaders.indexOf('!')))
+}
 
 module.exports = {
   entry: [
@@ -12,13 +17,12 @@ module.exports = {
     './src/index.jsx'
   ],
 
-  debug:   true,
-  devtool: 'eval',
+  debug: false,
 
   output: {
-    path:       './public',
-    publicPath: '/',
-    filename:   'app.js'
+    path:       './dist',
+    publicPath: '',
+    filename:   'app.[hash].js'
   },
 
   module: {
@@ -26,17 +30,13 @@ module.exports = {
 
     loaders: [
       {
-        test:   require.resolve('react-addons-perf'),
-        loader: 'expose?Perf'
-      },
-      {
         test:    /\.jsx?$/,
         exclude: /node_modules/,
-        loaders: ['babel']
+        loader:  'babel'
       },
       {
         test:   /\.p?css$/,
-        loader: cssLoaders
+        loader: extractForProduction(cssLoaders)
       },
       {
         test:   /\.png$/,
@@ -62,19 +62,25 @@ module.exports = {
   },
 
   plugins: [
+    // Important to keep React file size down
+    new Webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    }),
+    new Webpack.optimize.DedupePlugin(),
+    new Webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    }),
+    new ExtractTextPlugin('app.[hash].css'),
     new HtmlWebpackPlugin({
-      template: './config/tmpl.html'
+      template: './src/static.jsx'
     })
   ],
 
   postcss: function () {
     return [cssnext, nested]
-  },
-
-  devServer: {
-    noInfo:      true,
-    port:        4000,
-    contentBase: './public'
   }
 }
-

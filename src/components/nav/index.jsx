@@ -3,23 +3,24 @@ import {connect} from 'react-redux'
 
 import Card from './card'
 
-import styles from './style.pcss'
+import styles from './styles.pcss'
 
 class Nav extends Component {
-  toggleCard = (cardId) => () => {
-    this.props.dispatch({type: 'CARD_SELECT', cardId: cardId})
+  toggleCard = (payload) => () => {
+    this.props.dispatch({type: 'CARD_SELECT', payload})
   }
 
   getCard (data) {
     if (!data.displayed) return false
 
-    const cardId    = data.id
+    const {id: cardId, quadrantId, horizonId} = data
+
     const isOpened  = this.props.cardSelected === cardId
     const isHovered = this.props.cardHovered === cardId
 
     return (
       <Card key={cardId}
-        onClick={this.toggleCard(cardId)}
+        onClick={this.toggleCard({cardId, quadrantId, horizonId})}
         isOpened={isOpened} isHovered={isHovered} {...data} />
     )
   }
@@ -27,8 +28,10 @@ class Nav extends Component {
   getQuadrant (opened, q, qCards) {
     if (!opened) return false
 
+    const id = q.get('id')
+
     return (
-      <li key={q.get('id')} id={q.get('id')} className={styles['quadrant']}>
+      <li key={id} id={id} className={styles['quadrant']}>
         <p className={styles['quadrant__label']}>{q.get('name')}</p>
         <ul className={styles['quadrant__cards']}>
           {qCards.map((c) => this.getCard(c.toObject()))}
@@ -37,9 +40,26 @@ class Nav extends Component {
     )
   }
 
+  calcTop () {
+    if (!this.props.cardSelected) return
+
+    const el = document.getElementById(this.props.cardSelected)
+
+    console.group('el')
+    console.log('el:', el.offsetTop)
+    console.log('quadrant:', el.parentElement.offsetTop)
+    console.log('nav.offsetTop:', this.refs.nav.offsetTop)
+    console.log('nav.scrollTop:', this.refs.nav.scrollTop)
+    console.groupEnd()
+
+    return 0
+  }
+
   render () {
+    const offsetTop = this.calcTop()
+
     return (
-      <ul className={styles.quadrants}>
+      <ul ref="nav" className={styles.quadrants}>
         {this.props.quadrants.map((q) => {
           const qCards = this.props.cards.filter((c) => c.get('quadrantId') === q.get('id'))
           const opened = (qCards.every((c) => c.get('displayed') === false))

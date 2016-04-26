@@ -9,7 +9,10 @@ const deriveKey = (q, h) => `${q.get('id')}-${h.get('id')}`
 const parseData = (results) => {
   const data = {
     quadrants: results.labels.map(({id, name}) => ({id, name})),
-    horizons:  results.lists.slice(0, -1).map(({id, name}) => ({id, name: name.split(' ')[0]})),
+    horizons:  results.lists.slice(0, -1).map(({id, name}) => ({
+            id,
+      name: name.split(' ')[0]
+    })),
     cards:     results.cards.map((c) => {
       const quadrantId = c.idLabels[0]
       const horizonId  = c.idList
@@ -112,13 +115,12 @@ const deriveData = (data) => {
 // Reducers
 //-----------------------------------------------
 const initialState = Map({
-  query:             '',
-  quadrants:         [],
-  horizons:          [],
-  segments:          [],
-  cards:             [],
-  segmentCards:      [],
-  textPathSupported: navigator.userAgent.toLowerCase().indexOf('firefox') === -1
+  query:        '',
+  quadrants:    [],
+  horizons:     [],
+  segments:     [],
+  cards:        [],
+  segmentCards: []
 })
 
 const reducer = (state = initialState, action) => {

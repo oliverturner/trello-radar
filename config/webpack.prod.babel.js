@@ -1,17 +1,22 @@
-var Webpack           = require('webpack')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var HtmlWebpackPlugin = require('html-webpack-plugin')
-var precss            = require('precss')
-var autoprefixer      = require('autoprefixer')
+import Webpack           from 'webpack'
+import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 
-var cssLoaders  = 'style!css?modules&localIdentName=[hash:base64]!postcss'
+import cssnext           from 'postcss-cssnext'
+import nested            from 'postcss-nested'
+
+var cssLoaders = 'style!css?modules&localIdentName=[hash:base64]!postcss'
 
 function extractForProduction (loaders) {
   return ExtractTextPlugin.extract('style', loaders.substr(loaders.indexOf('!')))
 }
 
 module.exports = {
-  entry: './src/index.jsx',
+  entry: [
+    'sanitize.css/lib/sanitize.css',
+    './src/index.jsx'
+  ],
+
   debug: false,
 
   output: {
@@ -30,7 +35,7 @@ module.exports = {
         loaders: ['babel']
       },
       {
-        test:   /\.s?css$/,
+        test:   /\.p?css$/,
         loader: extractForProduction(cssLoaders)
       },
       {
@@ -77,6 +82,6 @@ module.exports = {
   ],
 
   postcss: function () {
-    return [precss, autoprefixer]
+    return [cssnext, nested]
   }
 }

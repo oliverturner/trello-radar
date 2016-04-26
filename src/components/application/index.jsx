@@ -9,7 +9,7 @@ import Nav from '../nav'
 import metrics from '../../utils/metrics'
 
 import '../../styles/base.pcss'
-import styles from './style.pcss'
+import styles from './styles.pcss'
 
 // TODO: implement "submit a description; badge items missing a description"
 // TODO: implement "customise view by discipline (DevOps, Front End, Perf, etc)"

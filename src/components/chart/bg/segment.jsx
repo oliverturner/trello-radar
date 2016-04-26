@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react'
 
-const Segment = ({fill, d, onSegmentHover, onSegmentLeave}) => {
+const Segment = ({id, fill, d, onSegmentHover, onSegmentLeave}) => {
   return (
-    <path fill={fill} d={d}
+    <path id={id} fill={fill} d={d}
       onMouseEnter={onSegmentHover}
       onMouseLeave={onSegmentLeave}/>
   )
