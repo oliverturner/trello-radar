@@ -37,6 +37,8 @@ class Card extends Component {
   }
 
   render () {
+    console.log('Card.rendering')
+
     const style   = {background: this.props.fill || '#ccc'}
     const cardCls = this.props.isOpened ? 'card__content--open' : 'card__content'
 

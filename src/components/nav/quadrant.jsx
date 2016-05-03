@@ -22,8 +22,12 @@ class Quadrant extends Component {
         cardId={cardId} quadrantId={quadrantId} horizonId={horizonId}
         onMounted={this.props.onCardMounted}
         onClick={this.toggleCard({cardId, quadrantId, horizonId})}
-        isOpened={isOpened} isHovered={isHovered} />
+        isOpened={isOpened} isHovered={isHovered}/>
     )
+  }
+
+  shouldComponentUpdate (nextProps) {
+    return nextProps.quadrantSelected === this.props.quadrantSelected
   }
 
   render () {
@@ -46,13 +50,14 @@ class Quadrant extends Component {
 }
 
 Quadrant.propTypes = {
-  id:             PropTypes.string.isRequired,
-  name:           PropTypes.string.isRequired,
-  cards:          PropTypes.object.isRequired,
-  cardSelected:   PropTypes.string,
-  cardHovered:    PropTypes.string,
-  onCardMounted:  PropTypes.func.isRequired,
-  onCardSelected: PropTypes.func.isRequired
+  id:               PropTypes.string.isRequired,
+  name:             PropTypes.string.isRequired,
+  cards:            PropTypes.object.isRequired,
+  quadrantSelected: PropTypes.string,
+  cardSelected:     PropTypes.string,
+  cardHovered:      PropTypes.string,
+  onCardMounted:    PropTypes.func.isRequired,
+  onCardSelected:   PropTypes.func.isRequired
 }
 
 export default Quadrant

@@ -39,6 +39,7 @@ class Nav extends Component {
                   return (
                     <Quadrant key={id} id={id} name={q.get('name')}
                       cards={cards}
+                      quadrantSelected={this.props.quadrantSelected}
                       cardSelected={this.props.cardSelected}
                       cardHovered={this.props.cardHovered}
                       onCardMounted={this.props.onCardMounted}
@@ -55,14 +56,15 @@ class Nav extends Component {
 }
 
 Nav.propTypes = {
-  quadrants:      PropTypes.object.isRequired,
-  cards:          PropTypes.object.isRequired,
-  cardHovered:    PropTypes.string,
-  cardSelected:   PropTypes.string,
-  navPosition:    PropTypes.number.isRequired,
-  onCardMounted:  PropTypes.func.isRequired,
-  onCardSelected: PropTypes.func.isRequired,
-  onNavWheeled:   PropTypes.func.isRequired
+  quadrants:        PropTypes.object.isRequired,
+  cards:            PropTypes.object.isRequired,
+  cardHovered:      PropTypes.string,
+  quadrantSelected: PropTypes.string,
+  cardSelected:     PropTypes.string,
+  navPosition:      PropTypes.number.isRequired,
+  onCardMounted:    PropTypes.func.isRequired,
+  onCardSelected:   PropTypes.func.isRequired,
+  onNavWheeled:     PropTypes.func.isRequired
 }
 
 function mapStateToProps (state) {
@@ -70,9 +72,10 @@ function mapStateToProps (state) {
     quadrants: state.chart.get('quadrants'),
     cards:     state.chart.get('cards'),
 
-    cardHovered:  state.interactions.get('cardHovered'),
-    cardSelected: state.interactions.get('cardSelected'),
-    navPosition:  state.interactions.get('navPosition')
+    cardHovered:      state.interactions.get('cardHovered'),
+    quadrantSelected: state.interactions.get('quadrantSelected'),
+    cardSelected:     state.interactions.get('cardSelected'),
+    navPosition:      state.interactions.get('navPosition')
   }
 }
 
