@@ -17,8 +17,7 @@ import Application from 'containers/application'
 //-----------------------------------------------
 // create a store that has redux-thunk middleware enabled
 const createAsyncStore = applyMiddleware(thunk)(createStore)
-
-const store = createAsyncStore(reducer)
+const store            = createAsyncStore(reducer)
 
 // Let's go disco!
 //-----------------------------------------------
