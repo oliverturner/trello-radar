@@ -5,7 +5,7 @@ import metrics from '../../../utils/metrics'
 import styles from '../styles.pcss'
 
 const Blip = ({id, sCount, sIndex, quadrantId, horizonId, qIndex, hIndex, name, blipClick, blipHover, blipLeave, displayed = true}) => {
-  if (!displayed) return (<g/>)
+  if (!displayed) return (<g />)
 
   const r     = metrics.getBlipRadius(sCount, sIndex, hIndex)
   const theta = metrics.getBlipTheta(sCount, sIndex, qIndex)
@@ -16,7 +16,7 @@ const Blip = ({id, sCount, sIndex, quadrantId, horizonId, qIndex, hIndex, name, 
       onMouseOver={blipHover}
       onMouseOut={blipLeave}
       onClick={blipClick}>
-      <circle r="2px"/>
+      <circle r="2px" />
       <text className={styles['blip__name']}>{
         name.split(' ').map((word, i) =>
           <tspan key={`${id}-${i}`} x="0" dy={10}>{word}</tspan>

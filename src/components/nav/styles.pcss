@@ -1,3 +1,7 @@
+.quadrants-wrap {
+  overflow-y: scroll;
+}
+
 .quadrant__cards,
 .quadrants {
   list-style: none;
@@ -7,9 +11,9 @@
 }
 
 .quadrants {
-  composes: fadeup from '../../styles/animation.pcss';
+  transition: 0.5s top ease-in-out;
 
-  overflow-y: scroll;
+  position:   relative;
 }
 
 .quadrant {
@@ -84,11 +88,13 @@
 .card__content--open {
   composes:   card__content;
 
-  max-height: 700px;
+  max-height: 750px;
 
+  /*
   .card__desc {
     display: block;
   }
+  */
 }
 
 .card__desc {

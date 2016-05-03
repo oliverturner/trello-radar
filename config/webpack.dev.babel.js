@@ -58,6 +58,7 @@ module.exports = {
   },
 
   resolve: {
+    modules:    ['src', 'node_modules'],
     extensions: ['', '.js', '.jsx']
   },
 
@@ -77,4 +78,3 @@ module.exports = {
     contentBase: './public'
   }
 }
-

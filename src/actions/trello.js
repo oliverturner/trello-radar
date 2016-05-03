@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-fetch'
-import {Promise} from 'bluebird'
+// import {Promise} from 'bluebird'
 import qs from 'query-string'
 
 import trello from '../../auth'
@@ -24,17 +24,16 @@ const getSearchUrl = (term) => {
   return `${trello.url}/search?${query}`
 }
 
+// Build up an object with keys from `types`
 const parseInitial = (data) =>
-  data.reduce((ret, val, index) => {
-    ret[types[index]] = val
-    return ret
-  }, {})
+  data.reduce((ret, val, index) =>
+    Object.assign(ret, {[types[index]]: val})
+  , {})
 
 // Exports
 //-----------------------------------------------
 export const loadData = () => (dispatch) =>
-  Promise
-    .all(srcs.map((src) => fetch(src).then((res) => res.json())))
+  Promise.all(srcs.map((src) => fetch(src).then((res) => res.json())))
     .then((json) => dispatch({
       type:    'DATA_LOADED',
       payload: parseInitial(json)

@@ -9,7 +9,7 @@ class Card extends Component {
 
     return (
       <div className={styles['card__desc']}
-        dangerouslySetInnerHTML={{__html: markdown.toHTML(desc) }}/>
+        dangerouslySetInnerHTML={{__html: markdown.toHTML(desc) }} />
     )
   }
 
@@ -17,6 +17,16 @@ class Card extends Component {
     super(props)
 
     this.content = Card.getDescription(props.desc)
+  }
+
+  componentDidMount () {
+    // Store the initial y position of this element:
+    // Used to handle scrolling the nav correctly no
+    // matter whether cards are open or their dimensions
+    this.props.onMounted({
+      cardId:    this.props.cardId,
+      offsetTop: this.refs.card.offsetTop
+    })
   }
 
   shouldComponentUpdate (nextProps) {
@@ -33,9 +43,9 @@ class Card extends Component {
     if (this.props.isOpened || this.props.isHovered) style.width = '100%'
 
     return (
-      <li id={this.props.id} className={styles['card']}>
+      <li ref="card" id={this.props.cardId} className={styles['card']}>
         <button className={styles['card__btn']} onClick={this.props.onClick}>
-          <span className={styles['card__btn__prompt']} style={style}/>
+          <span className={styles['card__btn__prompt']} style={style} />
           <span className={styles['card__btn__text']}>{this.props.name}</span>
         </button>
         {this.content
@@ -48,11 +58,12 @@ class Card extends Component {
 }
 
 Card.propTypes = {
-  id:      PropTypes.string.isRequired,
-  name:    PropTypes.string.isRequired,
-  fill:    PropTypes.string,
-  desc:    PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  cardId:    PropTypes.string.isRequired,
+  name:      PropTypes.string.isRequired,
+  fill:      PropTypes.string,
+  desc:      PropTypes.string,
+  onClick:   PropTypes.func.isRequired,
+  onMounted: PropTypes.func.isRequired,
 
   isHovered: PropTypes.bool.isRequired,
   isOpened:  PropTypes.bool.isRequired

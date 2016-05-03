@@ -12,7 +12,7 @@ class HorizonLabels extends Component {
     const labels = this.props.horizons.map((h, i) => {
       const {id, name} = h.toObject()
 
-      return <HorizonLabel key={id} index={i} name={name} selected={id === this.props.horizonSelected}/>
+      return <HorizonLabel key={id} index={i} name={name} selected={id === this.props.horizonSelected} />
     })
 
     return (<g>{labels.toArray()}</g>)

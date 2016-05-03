@@ -21,7 +21,7 @@ const QuadrantLabel = ({name, arcId}) => {
 
   return (
     <text className={styles['quadrantlabel']} dx={dx} dy={dy}
-      dangerouslySetInnerHTML={{__html: path }}/>
+      dangerouslySetInnerHTML={{__html: path }} />
   )
 }
 

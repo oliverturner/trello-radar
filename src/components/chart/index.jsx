@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {Range} from 'immutable'
 import {connect} from 'react-redux'
 
-import metrics from '../../utils/metrics'
+import metrics from 'utils/metrics'
 
 import Segment from './bg/segment'
 import QuadrantLabel from './bg/quadrant-label'
@@ -14,41 +14,34 @@ class Chart extends Component {
   constructor (props) {
     super(props)
 
-    this.onSegmentHover = (quadrantId, horizonId) => () => {
-      this.props.dispatch({
-        type:    'HORIZON_HOVER',
-        payload: {quadrantId, horizonId}
-      })
-    }
-
-    this.onSegmentLeave = () => {
-      this.props.dispatch({type: 'HORIZON_HOVER', payload: {}})
+    this.onSegmentHover = (payload = {}) => () => {
+      this.props.onSegmentHover(payload)
     }
   }
 
   getCircles (n) {
     return n.map((h, i) =>
-      <circle className={styles['proto']} r={metrics.getHorizonRad(i)}/>
+      <circle className={styles['proto']} r={metrics.getHorizonRad(i)} />
     )
   }
 
   getHorizonLines (n) {
     return n.map((h, i) =>
-      <HorizonLine index={i}/>
+      <HorizonLine index={i} />
     )
   }
 
   getQuadrantLabels (quadrants) {
     return quadrants.map((q) =>
-      <QuadrantLabel name={q.get('name')} arcId={q.get('labelArcId')}/>
+      <QuadrantLabel name={q.get('name')} arcId={q.get('labelArcId')} />
     ).toArray()
   }
 
   getSegments (segments) {
     return segments.map((s) =>
-      <Segment {...s.toObject()}
-        onSegmentHover={this.onSegmentHover(s.get('quadrantId'), s.get('horizonId'))}
-        onSegmentLeave={this.onSegmentLeave}/>
+      <Segment id={s.get('id')} fill={s.get('fill')} d={s.get('d')}
+        onSegmentHover={this.onSegmentHover({horizonId: s.get('horizonId')})}
+        onSegmentLeave={this.onSegmentHover()} />
     ).toArray()
   }
 
@@ -72,16 +65,18 @@ class Chart extends Component {
 }
 
 Chart.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-
-  segments:  PropTypes.object.isRequired,
-  quadrants: PropTypes.object.isRequired
+  segments:       PropTypes.object.isRequired,
+  quadrants:      PropTypes.object.isRequired,
+  onSegmentHover: PropTypes.func.isRequired
 }
 
-const select = (state) => ({
-  segments:          state.chart.get('segments'),
-  quadrants:         state.chart.get('quadrants'),
-  textPathSupported: state.chart.get('textPathSupported')
+const mapStateToProps = (state) => ({
+  segments:  state.chart.get('segments'),
+  quadrants: state.chart.get('quadrants')
 })
 
-export default connect(select)(Chart)
+const mapDispatchToProps = (dispatch) => ({
+  onSegmentHover: (payload) => dispatch({type: 'HORIZON_HOVER', payload})
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Chart)

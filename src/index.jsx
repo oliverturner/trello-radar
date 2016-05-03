@@ -11,7 +11,7 @@ import {Provider} from 'react-redux'
 import reducer from './reducers'
 import {loadData} from './actions/trello'
 
-import Application from './components/application'
+import Application from 'containers/application'
 
 // Initialise
 //-----------------------------------------------
@@ -26,7 +26,7 @@ store.dispatch(loadData())
   .then(() => {
     render(
       <Provider store={store}>
-        <Application/>
+        <Application />
       </Provider>,
       document.getElementById('app')
     )

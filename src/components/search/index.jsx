@@ -53,10 +53,8 @@ Search.propTypes = {
   query:    PropTypes.string.isRequired
 }
 
-const select = (state) => {
-  return {
-    query: state.chart.get('query')
-  }
-}
+const select = (state) => ({
+  query: state.chart.get('query')
+})
 
 export default connect(select)(Search)

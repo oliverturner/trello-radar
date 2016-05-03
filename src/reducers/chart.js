@@ -9,11 +9,13 @@ const deriveKey = (q, h) => `${q.get('id')}-${h.get('id')}`
 const parseData = (results) => {
   const data = {
     quadrants: results.labels.map(({id, name}) => ({id, name})),
-    horizons:  results.lists.slice(0, -1).map(({id, name}) => ({
-            id,
-      name: name.split(' ')[0]
-    })),
-    cards:     results.cards.map((c) => {
+
+    horizons: results.lists
+                .slice(0, -1) // drop the "deprecated" board
+                .map(({id, name}) =>
+                  ({id, name: name.split(' ')[0]})),
+
+    cards: results.cards.map((c) => {
       const quadrantId = c.idLabels[0]
       const horizonId  = c.idList
 

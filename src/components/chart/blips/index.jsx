@@ -16,7 +16,7 @@ class Blips extends Component {
     }
 
     this.blipLeave = () => () => {
-      this.props.dispatch({type: 'CARD_HOVER'})
+      this.props.dispatch({type: 'CARD_HOVER', payload: {}})
     }
   }
 
@@ -32,7 +32,7 @@ class Blips extends Component {
         <Blip key={data.id} {...data}
           blipClick={this.blipClick(data)}
           blipHover={this.blipHover(data)}
-          blipLeave={this.blipLeave()}/>
+          blipLeave={this.blipLeave()} />
       )
     }).toArray()
 

@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 
-import Chart from '../chart'
-import HorizonLabels from '../chart/horizon-labels'
-import ChartBlips from '../chart/blips'
-import Search from '../search'
-import Nav from '../nav'
+import Chart from 'components/chart'
+import ChartBlips from 'components/chart/blips'
+import HorizonLabels from 'components/chart/horizon-labels'
+import Search from 'components/search'
+import Nav from 'components/nav'
 
 import metrics from '../../utils/metrics'
 
