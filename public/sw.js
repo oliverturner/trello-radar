@@ -1,5 +1,5 @@
 (function () {
-  const cacheName = 'v1'
+  const cacheName = 'v2'
 
   this.addEventListener('install', (e) => {
     // once the SW is installed, go ahead and fetch the resources

@@ -6,9 +6,9 @@ import HorizonLabels from 'components/chart/horizon-labels'
 import Search from 'components/search'
 import Nav from 'components/nav'
 
-import metrics from '../../utils/metrics'
+import metrics from 'utils/metrics'
 
-import '../../styles/base.pcss'
+import 'styles/base.pcss'
 import styles from './styles.pcss'
 
 // TODO: implement "submit a description; badge items missing a description"

@@ -15,13 +15,7 @@
 }
 
 .quadrant {
-  //margin:     1px 0 0;
-  //border-top: 1px solid #333;
   background: #333;
-
-  &:first-child {
-    margin: 0;
-  }
 }
 
 .quadrant__label {
@@ -44,16 +38,14 @@
 }
 
 .card__btn {
+  composes: btn from 'styles/base.pcss';
+
   position:   relative;
   display:    block;
   width:      100%;
-  //margin:     1px 0 0 0;
   padding:    0;
-  border:     none;
   border-top: 1px solid #333;
-  outline:    none;
   text-align: left;
-  cursor:     pointer;
 }
 
 .card__btn__prompt {
