@@ -1,0 +1,22 @@
+.blip {
+  cursor:     pointer;
+  background: red;
+
+  circle {
+    fill: rgba(black, 1);
+  }
+
+  &:hover .blip__name {
+    opacity:   1;
+    font-size: 12px;
+  }
+}
+
+.blip__name {
+  transition:        0.25s opacity, 0.25s font-size;
+
+  text-anchor:       middle;
+  dominant-baseline: text-bottom;
+  font-size:         8px;
+  opacity:           0.4;
+}

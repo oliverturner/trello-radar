@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react'
 
 import metrics from '../../../utils/metrics'
 
-import styles from '../styles.pcss'
+import styles from './styles.pcss'
 
 const QuadrantLabel = ({name, arcId}) => {
   // NOTE: Attaching text to path has buggy behaviour in Firefox

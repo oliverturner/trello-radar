@@ -5,11 +5,6 @@ import metrics from '../utils/metrics'
 // Helpers
 //-----------------------------------------------
 const deriveKey = (q, h) => {
-  // console.group('deriveKey:')
-  // console.log(q.id)
-  // console.log(h.id)
-  // console.groupEnd()
-
   return `${q.id}-${h.id}`
 }
 
@@ -40,7 +35,7 @@ const parseData = (results) => {
 
   metrics.init(quadrants.length, horizons.length)
 
-  return {quadrants, horizons, cards}
+  return {loaded: true, quadrants, horizons, cards}
 }
 
 const deriveData = (data) => {
@@ -100,8 +95,6 @@ const createSegments = ({quadrants, horizons, cards}) => {
     return Object.assign(qRet, qh)
   }, {})
 
-  console.log('segments:', segments)
-
   return segments
 }
 
@@ -142,6 +135,7 @@ const filterSegmentCards = (cards, segments) =>
 // Reducers
 //-----------------------------------------------
 const initialState = fromJS({
+  loaded:       false,
   query:        '',
   quadrants:    [],
   horizons:     [],

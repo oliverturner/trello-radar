@@ -1,9 +1,11 @@
 import Webpack           from 'webpack'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import OfflinePlugin     from 'offline-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 import cssnext           from 'postcss-cssnext'
 import nested            from 'postcss-nested'
+import apply             from 'postcss-apply'
 
 var cssLoaders = 'style!css?modules&localIdentName=[hash:base64]!postcss'
 
@@ -58,8 +60,8 @@ module.exports = {
   },
 
   resolve: {
-    modulesDirectories: ['src', 'node_modules'],
-    extensions:         ['', '.js', '.jsx']
+    modules:    ['src', 'node_modules'],
+    extensions: ['', '.js', '.jsx']
   },
 
   plugins: [
@@ -76,6 +78,14 @@ module.exports = {
       }
     }),
     new ExtractTextPlugin('app.[hash].css'),
+    new OfflinePlugin({
+      scope:          '/',
+      caches:         'all',
+      updateStrategy: 'all',
+      version:        'v1',
+      ServiceWorker:  {output: 'sw.js'},
+      AppCache:       false
+    }),
     new HtmlWebpackPlugin({
       template:   './config/tmpl.html',
       production: true
@@ -83,6 +93,6 @@ module.exports = {
   ],
 
   postcss: function () {
-    return [cssnext, nested]
+    return [apply, cssnext, nested]
   }
 }

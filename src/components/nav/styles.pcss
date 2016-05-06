@@ -19,7 +19,7 @@
 }
 
 .quadrant__label {
-  padding:         5px 15px;
+  padding:        5px 15px;
   line-height:    1;
   font-size:      14px;
   font-weight:    100;
@@ -38,7 +38,7 @@
 }
 
 .card__btn {
-  composes: btn from 'styles/base.pcss';
+  composes:   btn from 'styles/base.pcss';
 
   position:   relative;
   display:    block;
@@ -71,21 +71,24 @@
 }
 
 .card__content {
-  transition: 1s max-height ease-in-out;
+  transition: 0.5s max-height ease-in-out;
 
   max-height: 0;
   overflow:   hidden;
 }
 
 .card__content--open {
-  composes:   card__content;
+  composes:         card__content;
 
-  max-height: 750px;
+  transition-delay: 0.5s;
+
+  max-height:       400px;
+  overflow-y:       auto;
 }
 
 .card__desc {
   margin:     0;
-  padding:    5px 16px 10px 10px;
+  padding:    5px 10px 10px;
   font-size:  12px;
   background: #fff;
 

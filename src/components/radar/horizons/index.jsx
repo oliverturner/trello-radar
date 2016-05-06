@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 
-import HorizonLabel from './horizon-label'
+import HorizonLabel from './label'
 
 class HorizonLabels extends Component {
   shouldComponentUpdate (nextProps) {

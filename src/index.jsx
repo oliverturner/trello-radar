@@ -8,6 +8,7 @@ import {createStore, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
 import {Provider} from 'react-redux'
 
+import metrics from 'utils/metrics'
 import reducer from './reducers'
 import {loadData} from './actions/trello'
 
@@ -19,17 +20,15 @@ import Application from 'containers/application'
 const createAsyncStore = applyMiddleware(thunk)(createStore)
 const store            = createAsyncStore(reducer)
 
+metrics.init()
+
+render(
+  <Provider store={store}>
+    <Application />
+  </Provider>,
+  document.getElementById('app')
+)
+
 // Let's go disco!
-//-----------------------------------------------
 store.dispatch(loadData())
-  .then(() => {
-    render(
-      <Provider store={store}>
-        <Application />
-      </Provider>,
-      document.getElementById('app')
-    )
-  })
-  .catch((err) => {
-    throw err
-  })
+

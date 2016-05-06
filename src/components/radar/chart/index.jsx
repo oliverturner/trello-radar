@@ -4,9 +4,9 @@ import {connect} from 'react-redux'
 
 import metrics from 'utils/metrics'
 
-import Segment from './bg/segment'
-import QuadrantLabel from './bg/quadrant-label'
-import HorizonLine from './bg/horizon-line'
+import Segment from './segment'
+import QuadrantLabel from './quadrant-label'
+import HorizonLine from './horizon-line'
 
 import styles from './styles.pcss'
 

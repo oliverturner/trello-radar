@@ -1,6 +1,9 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import cssnext           from 'postcss-cssnext'
 import nested            from 'postcss-nested'
+import apply             from 'postcss-apply'
+
+import pkg from '../package.json'
 
 // import m from '../src/utils/metrics'
 
@@ -58,8 +61,8 @@ module.exports = {
   },
 
   resolve: {
-    modulesDirectories: ['src', 'node_modules'],
-    extensions:         ['', '.js', '.jsx']
+    modules:    ['src', 'node_modules'],
+    extensions: ['', '.js', '.jsx']
   },
 
   plugins: [
@@ -69,7 +72,7 @@ module.exports = {
   ],
 
   postcss: function () {
-    return [cssnext, nested]
+    return [apply, cssnext, nested]
   },
 
   devServer: {

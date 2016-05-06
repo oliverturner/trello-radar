@@ -1,14 +1,14 @@
 import React, {PropTypes} from 'react'
 
-import metrics from '../../../utils/metrics'
+import metrics from 'utils/metrics'
 
-import styles from '../styles.pcss'
+import styles from './styles.pcss'
 
-const Blip = ({id, sCount, sIndex, quadrantId, horizonId, qIndex, hIndex, name, blipClick, blipHover, blipLeave, displayed = true}) => {
+const Blip = ({id, sCount, sIndex, qIndex, hIndex, name, blipClick, blipHover, blipLeave, displayed = true}) => {
   if (!displayed) return (<g />)
 
-  const r     = metrics.getBlipRadius(sCount, sIndex, hIndex)
-  const theta = metrics.getBlipTheta(sCount, sIndex, qIndex)
+  const r      = metrics.getBlipRadius(sCount, sIndex, hIndex)
+  const theta  = metrics.getBlipTheta(sCount, sIndex, qIndex)
   const [x, y] = metrics.polarToCartesian(r, theta)
 
   return (
@@ -30,8 +30,6 @@ Blip.propTypes = {
   id:         PropTypes.string.isRequired,
   sCount:     PropTypes.number.isRequired,
   sIndex:     PropTypes.number.isRequired,
-  quadrantId: PropTypes.string.isRequired,
-  horizonId:  PropTypes.string.isRequired,
   qIndex:     PropTypes.number.isRequired,
   hIndex:     PropTypes.number.isRequired,
   name:       PropTypes.string.isRequired,

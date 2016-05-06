@@ -1,15 +1,19 @@
+:root {
+  --radar__el: {
+    overflow: hidden;
+    float:    left;
+    height:   100vh;
+  };
+}
+
 .radar {
-  display: block;
+  composes: fadeup from '../../styles/animation.pcss';
+
+  display:  block;
 }
 
-.radar__el {
-  overflow: hidden;
-  float:    left;
-  height:   100vh;
-}
-
-.radar__chart {
-  composes:        radar__el;
+:global(.radar__chart) {
+  @apply --radar__el;
 
   width:           70%;
   padding:         35px;
@@ -17,8 +21,8 @@
   background-size: 60px;
 }
 
-.radar__nav {
-  composes:       radar__el;
+:global(.radar__nav) {
+  @apply --radar__el;
 
   display:        flex;
   flex-direction: column;

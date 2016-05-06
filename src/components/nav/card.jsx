@@ -20,6 +20,8 @@ class Card extends Component {
   }
 
   componentDidMount () {
+    console.log('Card.mounted')
+
     // Store the initial y position of this element:
     // Used to handle scrolling the nav correctly no
     // matter whether cards are open or their dimensions
@@ -37,7 +39,7 @@ class Card extends Component {
   }
 
   render () {
-    console.log('Card.rendering')
+    // console.log('Card.rendering')
 
     const style   = {background: this.props.fill || '#ccc'}
     const cardCls = this.props.isOpened ? 'card__content--open' : 'card__content'

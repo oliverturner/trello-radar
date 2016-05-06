@@ -26,9 +26,8 @@ Assets will be compiled to `/dist`
 - Fetch & Promises
 - Publish to Surge & Github Pages
 
-## TODO
-
-- Implement ServiceWorker
+## Roadmap
+- Offline-first with ServiceWorker
 - Improve tests
 - Implement [Normalizr](https://github.com/gaearon/normalizr)
 - Switch to pure PostCSS, including...

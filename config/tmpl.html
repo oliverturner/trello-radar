@@ -7,8 +7,8 @@
   </head>
   <body>
     <div id="app">
-      <div class="radar" style="display: flex; height: 100vh">
-        <svg class="radar__chart" viewBox="0 0 800 600" style="flex: 2">
+      <div class="radar">
+        <svg class="radar__chart" viewBox="0 0 800 600">
           <g transform="translate(400, 300)">
           <% for (var i = 0; i < 5; i++) { %>
             <circle class="proto proto--horizon" r="<%=300 - (i * 60)%>" fill="transparent"></circle>
@@ -18,7 +18,7 @@
           <% } %>
           </g>
         </svg>
-        <div class="radar__nav" style="flex-basis: 22.5%; background: #333;">
+        <div class="radar__nav">
           <p></p>
         </div>
       </div>
